@@ -5,6 +5,7 @@ import checker.CheckerConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import data.Library;
 import fileio.input.LibraryInput;
 
 import java.io.File;
@@ -74,6 +75,10 @@ public final class Main {
         ArrayNode outputs = objectMapper.createArrayNode();
 
         // TODO add your implementation
+        Library mainLibrary = new Library(library);
+
+        // TODO: need to parse filePathInput's contents into actual commands, process them, then assemble outputs
+        outputs.add("lel");
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

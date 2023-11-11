@@ -1,9 +1,11 @@
 package data;
 
 import fileio.input.SongInput;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public class Song extends AudioFile {
     private String album;
     private ArrayList<String> tags;

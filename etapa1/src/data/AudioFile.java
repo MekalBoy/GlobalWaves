@@ -1,5 +1,8 @@
 package data;
 
+import lombok.Getter;
+
+@Getter
 public class AudioFile {
     protected String name;
     protected int duration;

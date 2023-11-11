@@ -1,6 +1,7 @@
 package functionality;
 
-import data.*;
+import data.Filter;
+import data.Library;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +13,44 @@ public class SearchBar {
         PODCAST
     }
 
-    public class Filter {
-        public String name, album, lyrics, genre, artist, owner;
-        public int releaseYear;
-        public List<String> tags;
-    }
-
-    public List<ISearchable> Search(SearchType searchType, Filter filters) {
-        List<ISearchable> results = new ArrayList<>();
+    public List<Object> Search(String username, SearchType searchType, Filter filterer) {
+        List<Object> results = new ArrayList<Object>();
 
         switch(searchType) {
-            case SearchType.SONG:
-                for (Song song : Library.instance.getSongs()) {
-                    
-                }
+            case SONG:
+                results.addAll(Library.instance.getSongs().stream().filter((song) -> {
+                    List<String> commonTags = song.getTags();
+                    commonTags.retainAll(filterer.tags);
+                    boolean left = filterer.releaseYear.startsWith("<");
+                    int year = Integer.parseInt(filterer.releaseYear.substring(1));
+                    boolean yearCheck = left ? song.getReleaseYear() < year : song.getReleaseYear() > year;
+
+                    return song.getName().startsWith(filterer.name)
+                            && (filterer.album.isEmpty() || song.getAlbum().equals(filterer.album))
+                            && (filterer.tags.isEmpty() || !commonTags.isEmpty())
+                            && song.getLyrics().toUpperCase().contains(filterer.lyrics.toUpperCase())
+                            && song.getGenre().equals(filterer.genre)
+                            && yearCheck
+                            && (filterer.artist.isEmpty() || song.getArtist().equals(filterer.artist));
+                }).toList());
                 break;
-            case SearchType.PLAYLIST:
+            case PLAYLIST:
+                results.addAll(Library.instance.getPlaylists().stream().filter((playlist) -> {
+                    return playlist.getName().startsWith(filterer.name)
+                            && (filterer.owner.isEmpty() || playlist.getOwner().equals(filterer.owner))
+                            && (!playlist.isPrivate() || playlist.getOwner().equals(username));
+                }).toList());
                 break;
-            case SearchType.PODCAST:
+            case PODCAST:
+                results.addAll(Library.instance.getPodcasts().stream().filter((podcast) -> {
+                    return podcast.getName().startsWith(filterer.name)
+                            && (filterer.owner.isEmpty() || podcast.getOwner().equals(filterer.owner));
+                }).toList());
                 break;
             default:
-                System.out.print("How did we get here?");
-                break;
+                throw new IllegalArgumentException("Invalid searchType");
         }
 
-        return null;
+        return results;
     }
 }

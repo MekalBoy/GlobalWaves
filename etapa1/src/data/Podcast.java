@@ -2,10 +2,12 @@ package data;
 
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Podcast {
     private String name, owner;
     private List<Episode> episodes;
