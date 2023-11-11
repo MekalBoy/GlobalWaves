@@ -1,10 +1,19 @@
 package data;
 
 import fileio.input.UserInput;
+import functionality.ISelectable;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Getter @Setter
 public class User {
-    String username, city;
-    int age;
+    private String username, city;
+    private int age;
+
+    private ISelectable currentSelection;
+    private List<ISelectable> searchResults;
 
     public User() {}
 

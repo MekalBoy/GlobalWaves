@@ -47,4 +47,12 @@ public class Library {
     public void addPodcasts(Podcast podcast) {
         podcasts.add(podcast);
     }
+
+    public User seekUser(String username) {
+        for (User user : this.users) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
 }

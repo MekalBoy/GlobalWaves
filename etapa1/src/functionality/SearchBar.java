@@ -1,6 +1,6 @@
 package functionality;
 
-import data.Filter;
+import data.SearchFilter;
 import data.Library;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class SearchBar {
         PODCAST
     }
 
-    public List<Object> Search(String username, SearchType searchType, Filter filterer) {
+    public static List<Object> Search(String username, SearchType searchType, SearchFilter filterer) {
         List<Object> results = new ArrayList<Object>();
 
         switch(searchType) {

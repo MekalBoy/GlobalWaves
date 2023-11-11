@@ -1,4 +1,4 @@
-package functionality;
+package command;
 
 public class CommandProcessor {
 

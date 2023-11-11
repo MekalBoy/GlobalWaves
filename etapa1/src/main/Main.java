@@ -78,6 +78,9 @@ public final class Main {
         Library mainLibrary = new Library(library);
 
         // TODO: need to parse filePathInput's contents into actual commands, process them, then assemble outputs
+        //Filter lel = new Filter();
+        //System.out.println(lel);
+
         outputs.add("lel");
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
