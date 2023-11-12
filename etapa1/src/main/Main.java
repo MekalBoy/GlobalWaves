@@ -5,6 +5,7 @@ import checker.CheckerConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import command.Command;
 import data.Library;
 import fileio.input.LibraryInput;
 
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -76,12 +79,21 @@ public final class Main {
 
         // TODO add your implementation
         Library mainLibrary = new Library(library);
+        Command[] commands;
 
         // TODO: need to parse filePathInput's contents into actual commands, process them, then assemble outputs
-        //Filter lel = new Filter();
-        //System.out.println(lel);
-
-        outputs.add("lel");
+        if (filePathInput.contains("test01")) {
+            commands = objectMapper.readValue(new File("input/" + filePathInput), Command[].class);
+            List<Command> commandsList = Arrays.stream(commands).toList();
+            //System.out.println(Arrays.toString(commands));
+            //System.out.println(commands[0]);
+            for (Command com : commands) {
+                outputs.add(objectMapper.valueToTree(com.processCommand()));
+            }
+            //outputs.addAll(commandsList.stream().map(Command::processCommand).toList());
+            //System.out.println(Library.instance.getSongs().get(0));
+            System.out.println(Library.instance.seekUser("alice22"));
+        }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

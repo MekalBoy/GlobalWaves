@@ -3,7 +3,7 @@ package data;
 import lombok.Getter;
 
 @Getter
-public class AudioFile {
+public class AudioFile implements ISelectable {
     protected String name;
     protected int duration;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Podcast {
+public class Podcast implements ISelectable {
     private String name, owner;
     private List<Episode> episodes;
 

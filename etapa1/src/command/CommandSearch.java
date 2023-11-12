@@ -1,64 +1,53 @@
 package command;
 
-import data.*;
+import data.ISelectable;
+import data.Library;
+import data.SearchFilter;
+import data.User;
 import functionality.SearchBar;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class CommandSearch extends Command {
     private String type;
-    private SearchFilter filter;
+    private SearchFilter filters;
 
-    public CommandSearch(String command, String username, int timestamp, String type, SearchFilter filter) {
+    public CommandSearch() {}
+
+    public CommandSearch(String command, String username, int timestamp, String type, SearchFilter filters) {
         super(command, username, timestamp);
         this.type = type;
-        this.filter = filter;
+        this.filters = filters;
     }
 
     @Override
-    public ResponseMsgSearch processCommand() {
-        String message;
-        List<String> results;
+    public Response processCommand() {
+        SearchBar.SearchType searchType = SearchBar.SearchType.valueOf(this.type.toUpperCase());
 
-        SearchBar.SearchType searchType = SearchBar.SearchType.valueOf(this.type);
-
-        List<Object> searchResults = SearchBar.Search(this.username, searchType, filter);
-        switch(searchType) {
-            case SONG:
-                List<Song> songs = new ArrayList<>();
-                for (Object obj : searchResults) {
-                    songs.add((Song) obj);
-                }
-                results = songs.stream().map(Song::getName).collect(Collectors.toList());
-                break;
-            case PLAYLIST:
-                List<Playlist> playlists = new ArrayList<>();
-                for (Object obj : searchResults) {
-                    playlists.add((Playlist) obj);
-                }
-                results = playlists.stream().map(Playlist::getName).collect(Collectors.toList());
-                break;
-            case PODCAST:
-                List<Podcast> podcasts = new ArrayList<>();
-                for (Object obj : searchResults) {
-                    podcasts.add((Podcast) obj);
-                }
-                results = podcasts.stream().map(Podcast::getName).collect(Collectors.toList());
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid searchType");
-        }
+        List<ISelectable> searchResults = SearchBar.Search(this.username, searchType, filters);
+        List<String> results = searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
         User user = Library.instance.seekUser(this.username);
+        user.setSearchResults(searchResults);
 
-        // TODO: set user's search results
-        //List<ISelectable> userResults = new ArrayList<ISelectable>();
-        //user.setSearchResults(results);
-
-        message = "Search returned " + results.size() + " results";
+        String message = "Search returned " + results.size() + " results";
 
         return new ResponseMsgSearch(this.command, this.username, this.timestamp, message, results);
+    }
+
+    @Override
+    public String toString() {
+        return "CommandSearch{" +
+                "type='" + type + '\'' +
+                ", filters=" + filters +
+                ", command='" + command + '\'' +
+                ", username='" + username + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

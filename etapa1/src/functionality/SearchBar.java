@@ -1,5 +1,6 @@
 package functionality;
 
+import data.ISelectable;
 import data.SearchFilter;
 import data.Library;
 
@@ -13,24 +14,27 @@ public class SearchBar {
         PODCAST
     }
 
-    public static List<Object> Search(String username, SearchType searchType, SearchFilter filterer) {
-        List<Object> results = new ArrayList<Object>();
+    public static List<ISelectable> Search(String username, SearchType searchType, SearchFilter filterer) {
+        List<ISelectable> results = new ArrayList<ISelectable>();
 
         switch(searchType) {
             case SONG:
                 results.addAll(Library.instance.getSongs().stream().filter((song) -> {
-                    List<String> commonTags = song.getTags();
-                    commonTags.retainAll(filterer.tags);
+                    List<String> commonTags = new ArrayList<String>(song.getTags());
+                    boolean chkTags = commonTags.stream().anyMatch(s1 -> filterer.tags.stream().anyMatch(s2 -> s1.contains(s2)));
+
                     boolean left = filterer.releaseYear.startsWith("<");
-                    int year = Integer.parseInt(filterer.releaseYear.substring(1));
+                    int year = 0;
+                    if (!filterer.releaseYear.isEmpty())
+                        year = Integer.parseInt(filterer.releaseYear.substring(1));
                     boolean yearCheck = left ? song.getReleaseYear() < year : song.getReleaseYear() > year;
 
-                    return song.getName().startsWith(filterer.name)
+                    return (filterer.name.isEmpty() || song.getName().startsWith(filterer.name))
                             && (filterer.album.isEmpty() || song.getAlbum().equals(filterer.album))
-                            && (filterer.tags.isEmpty() || !commonTags.isEmpty())
+                            && (filterer.tags.isEmpty() || chkTags)
                             && song.getLyrics().toUpperCase().contains(filterer.lyrics.toUpperCase())
-                            && song.getGenre().equals(filterer.genre)
-                            && yearCheck
+                            && (filterer.genre.isEmpty() || song.getGenre().equals(filterer.genre))
+                            && (filterer.releaseYear.isEmpty() || yearCheck)
                             && (filterer.artist.isEmpty() || song.getArtist().equals(filterer.artist));
                 }).toList());
                 break;
@@ -43,7 +47,7 @@ public class SearchBar {
                 break;
             case PODCAST:
                 results.addAll(Library.instance.getPodcasts().stream().filter((podcast) -> {
-                    return podcast.getName().startsWith(filterer.name)
+                    return (filterer.name.isEmpty() || podcast.getName().startsWith(filterer.name))
                             && (filterer.owner.isEmpty() || podcast.getOwner().equals(filterer.owner));
                 }).toList());
                 break;

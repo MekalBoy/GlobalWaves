@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class Playlist {
+public class Playlist implements ISelectable {
     private String name, owner;
     private boolean isPrivate;
     private List<Song> songList;

@@ -1,13 +1,10 @@
 package data;
 
 import fileio.input.LibraryInput;
-import fileio.input.PodcastInput;
-import fileio.input.SongInput;
-import fileio.input.UserInput;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class Library {
@@ -21,18 +18,9 @@ public class Library {
     private Library() {}
 
     public Library(LibraryInput input) {
-        this.users = new ArrayList<User>();
-        for (UserInput userInput : input.getUsers()) {
-            this.users.add(new User(userInput));
-        }
-        this.songs = new ArrayList<Song>();
-        for (SongInput songInput : input.getSongs()) {
-            this.songs.add(new Song(songInput));
-        }
-        this.podcasts = new ArrayList<Podcast>();
-        for (PodcastInput podcastInput : input.getPodcasts()) {
-            this.podcasts.add(new Podcast(podcastInput));
-        }
+        this.users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
+        this.songs = input.getSongs().stream().map(Song::new).collect(Collectors.toList());
+        this.podcasts = input.getPodcasts().stream().map(Podcast::new).collect(Collectors.toList());
         if (instance == null) instance = this;
     }
 

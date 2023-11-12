@@ -1,7 +1,6 @@
 package data;
 
 import fileio.input.UserInput;
-import functionality.ISelectable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +26,16 @@ public class User {
         this.username = input.getUsername();
         this.city = input.getCity();
         this.age = input.getAge();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", city='" + city + '\'' +
+                ", age=" + age +
+                ", currentSelection=" + currentSelection +
+                ", searchResults=" + searchResults +
+                '}';
     }
 }
