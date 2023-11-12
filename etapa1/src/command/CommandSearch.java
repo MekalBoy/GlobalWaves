@@ -3,7 +3,7 @@ package command;
 import data.ISelectable;
 import data.Library;
 import data.SearchFilter;
-import data.User;
+import functionality.MusicPlayer;
 import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,12 +32,12 @@ public class CommandSearch extends Command {
         List<ISelectable> searchResults = SearchBar.Search(this.username, searchType, filters);
         List<String> results = searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
-        User user = Library.instance.seekUser(this.username);
-        user.setSearchResults(searchResults);
+        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        player.setSearchResults(searchResults);
 
         String message = "Search returned " + results.size() + " results";
 
-        return new ResponseMsgSearch(this.command, this.username, this.timestamp, message, results);
+        return new ResponseMsgSearch(this, message, results);
     }
 
     @Override

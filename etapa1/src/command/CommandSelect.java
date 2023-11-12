@@ -1,9 +1,12 @@
 package command;
 
+import data.ISelectable;
 import data.Library;
-import data.User;
+import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,18 +23,20 @@ public class CommandSelect extends Command {
     public Response processCommand() {
         String message;
 
-        // find user, find their latest search results, set the selected thing based on results and provided index
-        User user = Library.instance.seekUser(this.username);
-        if (user.getSearchResults().isEmpty()) {
+        // find user's player, find their latest search results, set the selected thing based on results and provided index
+        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        List<ISelectable> searchResults = player.getSearchResults();
+
+        if (searchResults.isEmpty()) {
             message = "Please conduct a search before making a selection.";
-        } else if (user.getSearchResults().size() < this.itemNumber) {
+        } else if (searchResults.size() < this.itemNumber) {
             message = "The selected ID is too high.";
         } else {
-            String trackName = user.getSearchResults().get(this.itemNumber - 1).getName();
-            user.setCurrentSelection(user.getSearchResults().get(this.itemNumber - 1));
+            String trackName = searchResults.get(this.itemNumber - 1).getName();
+            player.setCurrentSelection(searchResults.get(this.itemNumber - 1));
             message = "Successfully selected " + trackName + ".";
         }
 
-        return new ResponseMsg(this.command, this.username, this.timestamp, message);
+        return new ResponseMsg(this, message);
     }
 }

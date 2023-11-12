@@ -14,4 +14,9 @@ public class ResponseMsgSearch extends ResponseMsg {
         super(command, user, timestamp, message);
         this.results = results;
     }
+
+    public ResponseMsgSearch(Command command, String message, List<String> results) {
+        super(command, message);
+        this.results = results;
+    }
 }

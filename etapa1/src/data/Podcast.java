@@ -2,6 +2,7 @@ package data;
 
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
+import functionality.SearchBar;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -25,5 +26,15 @@ public class Podcast implements ISelectable {
         for (EpisodeInput episodeInput : input.getEpisodes()) {
             this.episodes.add(new Episode(episodeInput));
         }
+    }
+
+    @Override
+    public SearchBar.SearchType getType() {
+        return SearchBar.SearchType.PODCAST;
+    }
+
+    @Override
+    public boolean isCollection() {
+        return true;
     }
 }

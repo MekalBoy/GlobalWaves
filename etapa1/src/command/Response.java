@@ -16,4 +16,10 @@ public class Response {
         this.user = user;
         this.timestamp = timestamp;
     }
+
+    public Response(Command command) {
+        this.command = command.getCommand();
+        this.user = command.getUsername();
+        this.timestamp = command.getTimestamp();
+    }
 }

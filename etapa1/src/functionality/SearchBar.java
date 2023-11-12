@@ -30,7 +30,10 @@ public class SearchBar {
                                 doesntContain = false;
                                 break;
                             }
-                        if (doesntContain) chkTags = false;
+                        if (doesntContain) {
+                            chkTags = false;
+                            break;
+                        }
                     }
 
                     boolean left = filterer.releaseYear.startsWith("<");

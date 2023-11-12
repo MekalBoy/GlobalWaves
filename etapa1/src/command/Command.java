@@ -6,11 +6,26 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "command", include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
-        visible=true, defaultImpl = Class.class)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "command",
+        include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
+        visible=true,
+        defaultImpl = Command.class
+)
 @JsonSubTypes(value = {
         @JsonSubTypes.Type(value = CommandSearch.class, name = "search"),
-        @JsonSubTypes.Type(value = CommandSelect.class, name = "select")
+        @JsonSubTypes.Type(value = CommandSelect.class, name = "select"),
+        @JsonSubTypes.Type(value = CommandLoad.class, name = "load"),
+        @JsonSubTypes.Type(value = CommandPlayPause.class, name = "playPause"),
+        @JsonSubTypes.Type(value = CommandRepeat.class, name = "repeat"),
+//        @JsonSubTypes.Type(value = CommandForward.class, name = "forward"),
+//        @JsonSubTypes.Type(value = CommandBackward.class, name = "backward"),
+//        @JsonSubTypes.Type(value = CommandLike.class, name = "like"),
+//        @JsonSubTypes.Type(value = CommandNext.class, name = "next"),
+//        @JsonSubTypes.Type(value = CommandPrev.class, name = "prev"),
+//        @JsonSubTypes.Type(value = CommandModify.class, name = "addRemoveInPlaylist"),
+        @JsonSubTypes.Type(value = CommandStatus.class, name = "status")
 })
 @Getter
 @Setter

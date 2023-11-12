@@ -1,6 +1,7 @@
 package data;
 
 import fileio.input.SongInput;
+import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,5 +51,10 @@ public class Song extends AudioFile {
                 ", name='" + name + '\'' +
                 ", duration=" + duration +
                 '}';
+    }
+
+    @Override
+    public SearchBar.SearchType getType() {
+        return SearchBar.SearchType.SONG;
     }
 }

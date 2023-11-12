@@ -13,6 +13,11 @@ public class ResponseMsg extends Response {
         this.message = message;
     }
 
+    public ResponseMsg(Command command, String message) {
+        super(command);
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "{" +

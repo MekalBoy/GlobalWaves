@@ -1,5 +1,6 @@
 package data;
 
+import functionality.SearchBar;
 import lombok.Getter;
 
 import java.util.List;
@@ -18,5 +19,15 @@ public class Playlist implements ISelectable {
 
     public void SwitchVisibility() {
         isPrivate = !isPrivate;
+    }
+
+    @Override
+    public SearchBar.SearchType getType() {
+        return SearchBar.SearchType.PLAYLIST;
+    }
+
+    @Override
+    public boolean isCollection() {
+        return true;
     }
 }

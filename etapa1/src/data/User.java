@@ -1,18 +1,16 @@
 package data;
 
 import fileio.input.UserInput;
+import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter @Setter
 public class User {
     private String username, city;
     private int age;
 
-    private ISelectable currentSelection;
-    private List<ISelectable> searchResults;
+    private MusicPlayer player = new MusicPlayer();
 
     public User() {}
 
@@ -34,8 +32,6 @@ public class User {
                 "username='" + username + '\'' +
                 ", city='" + city + '\'' +
                 ", age=" + age +
-                ", currentSelection=" + currentSelection +
-                ", searchResults=" + searchResults +
                 '}';
     }
 }
