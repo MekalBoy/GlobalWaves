@@ -1,8 +1,8 @@
 package functionality;
 
 import data.ISelectable;
-import data.SearchFilter;
 import data.Library;
+import data.SearchFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,17 @@ public class SearchBar {
             case SONG:
                 results.addAll(Library.instance.getSongs().stream().filter((song) -> {
                     List<String> commonTags = new ArrayList<String>(song.getTags());
-                    boolean chkTags = commonTags.stream().anyMatch(s1 -> filterer.tags.stream().anyMatch(s2 -> s1.contains(s2)));
+                    //boolean chkTags = commonTags.stream().anyMatch(s1 -> filterer.tags.stream().anyMatch(s1::contains));
+                    boolean chkTags = true;
+                    for (String ftag : filterer.tags) {
+                        boolean doesntContain = true;
+                        for (String tag : commonTags)
+                            if (tag.contains(ftag)) {
+                                doesntContain = false;
+                                break;
+                            }
+                        if (doesntContain) chkTags = false;
+                    }
 
                     boolean left = filterer.releaseYear.startsWith("<");
                     int year = 0;
@@ -33,7 +43,7 @@ public class SearchBar {
                             && (filterer.album.isEmpty() || song.getAlbum().equals(filterer.album))
                             && (filterer.tags.isEmpty() || chkTags)
                             && song.getLyrics().toUpperCase().contains(filterer.lyrics.toUpperCase())
-                            && (filterer.genre.isEmpty() || song.getGenre().equals(filterer.genre))
+                            && (filterer.genre.isEmpty() || song.getGenre().toLowerCase().equals(filterer.genre))
                             && (filterer.releaseYear.isEmpty() || yearCheck)
                             && (filterer.artist.isEmpty() || song.getArtist().equals(filterer.artist));
                 }).toList());
@@ -54,6 +64,10 @@ public class SearchBar {
             default:
                 throw new IllegalArgumentException("Invalid searchType");
         }
+
+        // Truncate results to first 5
+        if (results.size() > 5)
+            results = results.subList(0, 5);
 
         return results;
     }
