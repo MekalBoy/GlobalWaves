@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter @Setter
 public class MusicPlayer {
@@ -29,9 +31,37 @@ public class MusicPlayer {
 
     private List<Song> likedSongs = new ArrayList<Song>();
 
+    private Map<Podcast, Episode> resumePodcasts = new HashMap<Podcast, Episode>();
+    private Map<Episode, Integer> resumeEpisodes = new HashMap<Episode, Integer>();
+
     public MusicPlayer() {}
 
-    public void LoadAudio(int timestamp) {
+    public void flushPlayer(int timestamp) {
+        UpdatePlaying(timestamp);
+
+        if (currentlyLoaded != null && currentlyLoaded.getType() == SearchBar.SearchType.PODCAST) {
+            Podcast podcast = (Podcast) currentSelection;
+            Episode episode = (Episode) audioPlaying;
+            if (resumePodcasts.containsKey(podcast)) { // we've played this podcast before
+                if (resumeEpisodes.containsKey(episode)) { // this is where we left off
+                    resumeEpisodes.replace(episode, remainedTime);
+                } else { // first time we stop this episode
+                    resumeEpisodes.put(episode, remainedTime);
+                }
+            } else { // we haven't played this podcast before
+                resumePodcasts.put(podcast, episode);
+                resumeEpisodes.put(episode, remainedTime);
+            }
+        }
+
+        //if (audioPlaying != null) isPlaying = !isPlaying;
+        audioPlaying = null;
+        currentlyLoaded = null;
+        currentSelection = null;
+        searchResults = null;
+    }
+
+    public boolean LoadAudio(int timestamp) {
         this.setCurrentlyLoaded(this.getCurrentSelection());
 
         switch (currentlyLoaded.getType()) {
@@ -40,18 +70,34 @@ public class MusicPlayer {
                 this.remainedTime = audioPlaying.getDuration();
                 break;
             case PLAYLIST:
+                if (((Playlist)this.getCurrentSelection()).getSongList().isEmpty()) return false;
                 this.audioPlaying = ((Playlist)this.getCurrentSelection()).getSongList().get(0);
                 this.remainedTime = audioPlaying.getDuration();
                 break;
             case PODCAST:
-                this.audioPlaying = ((Podcast)this.getCurrentSelection()).getEpisodes().get(0);
-                this.remainedTime = audioPlaying.getDuration();
+                Podcast podcast = ((Podcast)this.getCurrentSelection());
+
+                if (podcast.getEpisodes().isEmpty()) return false;
+
+                if (resumePodcasts.containsKey(podcast)) { // we've played this podcast before
+                    Episode episode = resumePodcasts.get(podcast);
+                    this.audioPlaying = episode;
+                    if (resumeEpisodes.containsKey(episode)) { // this is where we left off
+                        this.remainedTime = resumeEpisodes.get(episode);
+                    } else { // first time we play this episode
+                        this.remainedTime = episode.getDuration();
+                    }
+                } else { // we haven't played this podcast before
+                    this.audioPlaying = ((Podcast)this.getCurrentSelection()).getEpisodes().get(0);
+                    this.remainedTime = audioPlaying.getDuration();
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid loadType");
         }
 
         this.lastUpdateTime = timestamp;
+        return true;
     }
 
     public void PlayAudio(AudioFile audioFile) {
@@ -71,12 +117,12 @@ public class MusicPlayer {
             audioPlaying = null;
             remainedTime = 0;
             TogglePlayPause(timestamp);
-            if (currentlyLoaded instanceof AudioFile) {  // It was a single song, remove it.
+            if (!currentlyLoaded.isCollection()) {  // It was a single song, remove it.
                 currentlyLoaded = null;
             } /*else {  // Podcast or Playlist (collection), so try and get the next song/episode
                 AudioFile nextThing =
                 PlayAudio();
-            }*/
+            }*/  // TODO HERE PROBABLY FOR TEST05
         }
     }
 
@@ -86,5 +132,15 @@ public class MusicPlayer {
         }
         lastUpdateTime = timestamp;
         isPlaying = !isPlaying;
+    }
+
+    public boolean LikeUnlike(Song song) {
+        if (likedSongs.contains(song)) {
+            likedSongs.remove(song);
+            return false;
+        } else {
+            likedSongs.add(song);
+            return true;
+        }
     }
 }

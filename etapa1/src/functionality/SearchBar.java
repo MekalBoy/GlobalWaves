@@ -23,10 +23,10 @@ public class SearchBar {
                     List<String> commonTags = new ArrayList<String>(song.getTags());
                     //boolean chkTags = commonTags.stream().anyMatch(s1 -> filterer.tags.stream().anyMatch(s1::contains));
                     boolean chkTags = true;
-                    for (String ftag : filterer.tags) {
+                    for (String filterTag : filterer.tags) {
                         boolean doesntContain = true;
                         for (String tag : commonTags)
-                            if (tag.contains(ftag)) {
+                            if (tag.contains(filterTag)) {
                                 doesntContain = false;
                                 break;
                             }
@@ -46,7 +46,7 @@ public class SearchBar {
                             && (filterer.album.isEmpty() || song.getAlbum().equals(filterer.album))
                             && (filterer.tags.isEmpty() || chkTags)
                             && song.getLyrics().toUpperCase().contains(filterer.lyrics.toUpperCase())
-                            && (filterer.genre.isEmpty() || song.getGenre().toLowerCase().equals(filterer.genre))
+                            && (filterer.genre.isEmpty() || song.getGenre().equalsIgnoreCase(filterer.genre))
                             && (filterer.releaseYear.isEmpty() || yearCheck)
                             && (filterer.artist.isEmpty() || song.getArtist().equals(filterer.artist));
                 }).toList());

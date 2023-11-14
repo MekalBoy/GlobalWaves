@@ -10,7 +10,7 @@ import lombok.Setter;
         use = JsonTypeInfo.Id.NAME,
         property = "command",
         include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
-        visible=true,
+        visible = true,
         defaultImpl = Command.class
 )
 @JsonSubTypes(value = {
@@ -24,13 +24,13 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = CommandLike.class, name = "like"),
 //        @JsonSubTypes.Type(value = CommandNext.class, name = "next"),
 //        @JsonSubTypes.Type(value = CommandPrev.class, name = "prev"),
-//        @JsonSubTypes.Type(value = CommandModify.class, name = "addRemoveInPlaylist"),
+        @JsonSubTypes.Type(value = CommandModify.class, name = "addRemoveInPlaylist"),
         @JsonSubTypes.Type(value = CommandStatus.class, name = "status"),
-        @JsonSubTypes.Type(value = CommandCreatePlaylist.class, name = "createPlaylist")
-//        @JsonSubTypes.Type(value = CommandSwitchVisbility.class, name = "switchVisibility"),
+        @JsonSubTypes.Type(value = CommandCreatePlaylist.class, name = "createPlaylist"),
+        @JsonSubTypes.Type(value = CommandSwitchVisibility.class, name = "switchVisibility"),
 //        @JsonSubTypes.Type(value = CommandFollowPlaylist.class, name = "followPlaylist"),
-//        @JsonSubTypes.Type(value = ShowPlaylists.class, name = "showPlaylists"),
-//        @JsonSubTypes.Type(value = CommandShowPreferredSongs.class, name = "showPreferredSongs"),
+        @JsonSubTypes.Type(value = CommandShowPlaylists.class, name = "showPlaylists"),
+        @JsonSubTypes.Type(value = CommandShowPreferredSongs.class, name = "showPreferredSongs")
 //        @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs"),
 //        @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists")
 })

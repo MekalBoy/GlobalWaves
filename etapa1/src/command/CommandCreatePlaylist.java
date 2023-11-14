@@ -1,5 +1,7 @@
 package command;
 
+import data.Library;
+import data.Playlist;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +18,14 @@ public class CommandCreatePlaylist extends Command {
 
     @Override
     public ResponseMsg processCommand() {
-        String message = "";
+        String message;
+
+        if (Library.instance.seekPlaylist(this.playlistName) != null) {
+            message = "A playlist with the same name already exists.";
+        } else {
+            Library.instance.addPlaylist(new Playlist(this.playlistName, this.username));
+            message = "Playlist created successfully.";
+        }
 
         return new ResponseMsg(this, message);
     }

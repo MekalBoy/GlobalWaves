@@ -33,6 +33,8 @@ public class CommandSearch extends Command {
         List<String> results = searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        player.flushPlayer(this.timestamp);
+
         player.setSearchResults(searchResults);
 
         String message = "Search returned " + results.size() + " results";

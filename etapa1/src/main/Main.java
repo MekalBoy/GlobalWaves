@@ -82,7 +82,8 @@ public final class Main {
         Command[] commands;
 
         // TODO: need to parse filePathInput's contents into actual commands, process them, then assemble outputs
-        if (filePathInput.contains("test01") || filePathInput.contains("test02")/* || filePathInput.contains("test03")*/) {
+        if (filePathInput.contains("test01") || filePathInput.contains("test02") || filePathInput.contains("test03")
+        || filePathInput.contains("test04") || filePathInput.contains("test05")) {
             commands = objectMapper.readValue(new File("input/" + filePathInput), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();
             //System.out.println(Arrays.toString(commands));
