@@ -21,11 +21,18 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = CommandRepeat.class, name = "repeat"),
 //        @JsonSubTypes.Type(value = CommandForward.class, name = "forward"),
 //        @JsonSubTypes.Type(value = CommandBackward.class, name = "backward"),
-//        @JsonSubTypes.Type(value = CommandLike.class, name = "like"),
+        @JsonSubTypes.Type(value = CommandLike.class, name = "like"),
 //        @JsonSubTypes.Type(value = CommandNext.class, name = "next"),
 //        @JsonSubTypes.Type(value = CommandPrev.class, name = "prev"),
 //        @JsonSubTypes.Type(value = CommandModify.class, name = "addRemoveInPlaylist"),
-        @JsonSubTypes.Type(value = CommandStatus.class, name = "status")
+        @JsonSubTypes.Type(value = CommandStatus.class, name = "status"),
+        @JsonSubTypes.Type(value = CommandCreatePlaylist.class, name = "createPlaylist")
+//        @JsonSubTypes.Type(value = CommandSwitchVisbility.class, name = "switchVisibility"),
+//        @JsonSubTypes.Type(value = CommandFollowPlaylist.class, name = "followPlaylist"),
+//        @JsonSubTypes.Type(value = ShowPlaylists.class, name = "showPlaylists"),
+//        @JsonSubTypes.Type(value = CommandShowPreferredSongs.class, name = "showPreferredSongs"),
+//        @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs"),
+//        @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists")
 })
 @Getter
 @Setter

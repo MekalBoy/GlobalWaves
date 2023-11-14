@@ -15,7 +15,7 @@ public class MusicPlayerStatus {
     public MusicPlayerStatus() {}
 
     public MusicPlayerStatus(MusicPlayer player) {
-        this.name = player.getAudioPlaying().getName();
+        this.name = player.getAudioPlaying() != null ? player.getAudioPlaying().getName() : "";
         switch(player.getRepeatType()) {
             case NO:
                 this.repeat = "No Repeat";

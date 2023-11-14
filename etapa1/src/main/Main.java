@@ -82,7 +82,7 @@ public final class Main {
         Command[] commands;
 
         // TODO: need to parse filePathInput's contents into actual commands, process them, then assemble outputs
-        if (filePathInput.contains("test01") || filePathInput.contains("test02")) {
+        if (filePathInput.contains("test01") || filePathInput.contains("test02")/* || filePathInput.contains("test03")*/) {
             commands = objectMapper.readValue(new File("input/" + filePathInput), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();
             //System.out.println(Arrays.toString(commands));
@@ -92,7 +92,7 @@ public final class Main {
             }
             //outputs.addAll(commandsList.stream().map(Command::processCommand).toList());
             //System.out.println(Library.instance.getSongs().get(0));
-            System.out.println(Library.instance.seekUser("alice22"));
+            //System.out.println(Library.instance.seekUser("alice22"));
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

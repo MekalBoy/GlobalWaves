@@ -17,7 +17,7 @@ public class CommandLoad extends Command {
             message = "Please select a source before attempting to load.";
         } else {
             //player.setCurrentlyLoaded(player.getCurrentSelection());
-            player.LoadAudio();
+            player.LoadAudio(this.timestamp);
             message = "Playback loaded successfully.";
         }
 

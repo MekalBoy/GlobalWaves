@@ -13,7 +13,7 @@ public class CommandPlayPause extends Command {
         if (player.getCurrentlyLoaded() == null) {
             message = "Please load a source before attempting to pause or resume playback.";
         } else {
-            player.setPlaying(!player.isPlaying());
+            player.TogglePlayPause(this.timestamp);
             message = player.isPlaying() ? "Playback resumed successfully." : "Playback paused successfully.";
         }
 
