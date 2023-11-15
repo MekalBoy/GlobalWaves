@@ -19,7 +19,7 @@ public class CommandRepeat extends Command {
         if (currentlyLoaded == null) {
             message = "Please load a source before setting the repeat status.";
         } else {
-            MusicPlayer.RepeatType newType = player.switchRepeat();
+            MusicPlayer.RepeatType newType = player.switchRepeat(this.timestamp);
 
             message += switch (newType) {
                 case NO -> "no repeat.";

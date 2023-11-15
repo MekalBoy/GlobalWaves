@@ -238,7 +238,8 @@ public class MusicPlayer {
         }
     }
 
-    public RepeatType switchRepeat() {
+    public RepeatType switchRepeat(int timestamp) {
+        UpdatePlaying(timestamp);
         this.repeatType = switch(this.repeatType) {
             case NO -> RepeatType.ALL;
             case ALL -> RepeatType.CURRENT;
