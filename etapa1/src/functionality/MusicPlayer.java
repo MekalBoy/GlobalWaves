@@ -4,10 +4,7 @@ import data.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter @Setter
 public class MusicPlayer {
@@ -30,6 +27,10 @@ public class MusicPlayer {
     private List<ISelectable> searchResults;
 
     private List<Song> likedSongs = new ArrayList<Song>();
+    private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
+    private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
+    //private List<Integer> shuffleOrder = null; // used for shuffle
+    private ISelectable backupPlaylist = null; // used for shuffle
 
     private Map<Podcast, Episode> resumePodcasts = new HashMap<Podcast, Episode>();
     private Map<Episode, Integer> resumeEpisodes = new HashMap<Episode, Integer>();
@@ -61,6 +62,7 @@ public class MusicPlayer {
         searchResults = null;
         remainedTime = 0;
         repeatType = RepeatType.NO;
+        shuffle = false;
     }
 
     public boolean LoadAudio(int timestamp) {
@@ -129,6 +131,7 @@ public class MusicPlayer {
                         remainedTime = 0;
 
                         isPlaying = false;
+                        shuffle = false;
                         return;
                     case ALL: // repeat once
                         repeatType = RepeatType.NO;
@@ -212,8 +215,6 @@ public class MusicPlayer {
                     return;
                 }
 
-                // NEED TO ITERATE THROUGH EACH PLAYLIST SONG TO GET REMAINEDTIME OFF FROM EACH SONG DURATION
-
                 PlayAudio(nextThing);
                 remainedTime -= leftover % audioPlaying.getDuration();
             }
@@ -228,12 +229,67 @@ public class MusicPlayer {
         isPlaying = !isPlaying;
     }
 
+    public boolean ToggleShuffle(int timestamp, int seed) {
+        shuffle = !shuffle;
+
+        if (shuffle) {
+            Playlist shuffledPlaylist = new Playlist((Playlist) currentlyLoaded);
+            List<Song> shuffledSongs = shuffledPlaylist.getSongList();
+//            List<Integer> shuffledInts = new ArrayList<Integer>(IntStream
+//                    .rangeClosed(0, shuffledSongs.size() - 1).boxed().toList());
+//            Collections.shuffle(shuffledInts, new Random(seed));
+            Collections.shuffle(shuffledSongs, new Random(seed));
+            shuffledPlaylist.setSongList(shuffledSongs);
+
+            //shuffleOrder = shuffledInts;
+            backupPlaylist = currentlyLoaded;
+            currentlyLoaded = shuffledPlaylist;
+        } else {
+            currentlyLoaded = backupPlaylist;
+            backupPlaylist = null;
+            //shuffleOrder = null;
+        }
+        UpdatePlaying(timestamp);
+
+        return shuffle;
+    }
+
+/*    public Song GetNextShuffled(Song song) {
+        Playlist playlist = (Playlist) currentlyLoaded;
+        Integer k = playlist.getSongList().indexOf(song);
+        int kInShuffle = shuffleOrder.indexOf(k);
+        return playlist.getSongList().get(shuffleOrder.get(kInShuffle + 1));
+    }*/
+
     public boolean LikeUnlike(Song song) {
         if (likedSongs.contains(song)) {
+            song.setNrLikes(song.getNrLikes() - 1);
             likedSongs.remove(song);
             return false;
         } else {
+            song.setNrLikes(song.getNrLikes() + 1);
             likedSongs.add(song);
+            return true;
+        }
+    }
+
+    public void AddToCreatedPlaylists(Playlist playlist) {
+        createdPlaylists.add(playlist);
+    }
+
+    public boolean AddRemoveInPlaylist(int id, Song song) {
+        Playlist playlist = createdPlaylists.get(id);
+        return playlist.AddRemove(song);
+    }
+
+    public boolean FollowUnfollow(Playlist playlist) {
+        if (followedPlaylists.contains(playlist)) {
+            playlist.setFollowers(playlist.getFollowers() - 1);
+            followedPlaylists.remove(playlist);
+            return false;
+        } else {
+            playlist.setFollowers(playlist.getFollowers() + 1);
+            followedPlaylists.add(playlist);
             return true;
         }
     }
@@ -246,5 +302,34 @@ public class MusicPlayer {
             case CURRENT -> RepeatType.NO;
         };
         return this.repeatType;
+    }
+
+/*    public void ForwardBackward(int timestamp, int timeToSkip) {
+        UpdatePlaying(timestamp);
+        if (audioPlaying.getDuration() - remainedTime < 90) {
+            remainedTime = audioPlaying.getDuration();
+        } else if (remainedTime - 90 < 0) {
+            PlayAudio(currentlyLoaded.getNextAfter(audioPlaying));
+        } else {
+            remainedTime += 90;
+        }
+    }*/
+
+    public void Forward(int timestamp) {
+        UpdatePlaying(timestamp);
+        if (remainedTime - 90 < 0) {
+            PlayAudio(currentlyLoaded.getNextAfter(audioPlaying));
+        } else {
+            remainedTime -= 90;
+        }
+    }
+
+    public void Backward(int timestamp) {
+        UpdatePlaying(timestamp);
+        if (audioPlaying.getDuration() - remainedTime < 90) {
+            remainedTime = audioPlaying.getDuration();
+        } else {
+            remainedTime += 90;
+        }
     }
 }

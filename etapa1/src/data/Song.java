@@ -16,6 +16,8 @@ public class Song extends AudioFile {
     private int releaseYear;
     private String artist;
 
+    int nrLikes = 0;
+
     public Song() {}
 
     public Song(SongInput input) {

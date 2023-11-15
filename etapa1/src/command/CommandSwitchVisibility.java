@@ -2,6 +2,7 @@ package command;
 
 import data.Library;
 import data.Playlist;
+import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,12 +21,16 @@ public class CommandSwitchVisibility extends Command {
     public ResponseMsg processCommand() {
         String message = "Visibility status updated successfully to ";
 
-        if (Library.instance.getPlaylists().size() > playlistId - 1) {
+        MusicPlayer player = Library.instance.seekUser(username).getPlayer();
+
+        if (player.getCreatedPlaylists().size() <= playlistId - 1) {
             message = "The specified playlist ID is too high.";
         } else {
-            Playlist playlist = Library.instance.getPlaylists().get(playlistId - 1);
+            Playlist playlist = player.getCreatedPlaylists().get(playlistId - 1);
 
-            message += playlist.isPrivate() ? "false." : "true.";
+            playlist.SwitchVisibility();
+
+            message += playlist.isPrivate() ? "private." : "public.";
         }
 
         return new ResponseMsg(this, message);

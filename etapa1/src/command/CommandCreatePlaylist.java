@@ -23,7 +23,9 @@ public class CommandCreatePlaylist extends Command {
         if (Library.instance.seekPlaylist(this.playlistName) != null) {
             message = "A playlist with the same name already exists.";
         } else {
-            Library.instance.addPlaylist(new Playlist(this.playlistName, this.username));
+            Playlist newPlaylist = new Playlist(this.playlistName, this.username);
+            Library.instance.seekUser(this.username).getPlayer().AddToCreatedPlaylists(newPlaylist);
+            Library.instance.addPlaylist(newPlaylist);
             message = "Playlist created successfully.";
         }
 

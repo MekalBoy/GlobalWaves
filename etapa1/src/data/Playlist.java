@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 public class Playlist implements ISelectable {
     private String name, owner;
     private boolean isPrivate;
@@ -18,6 +18,14 @@ public class Playlist implements ISelectable {
         this.name = name;
         this.owner = owner;
         this.isPrivate = false;  // playlist is public when created
+    }
+
+    public Playlist(Playlist original) {
+        this.name = original.getName();
+        this.owner = original.getOwner();
+        this.isPrivate = original.isPrivate();
+        this.songList = new ArrayList<Song>(original.getSongList());
+        this.followers = original.getFollowers();
     }
 
     @Getter @Setter
