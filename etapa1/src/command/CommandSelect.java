@@ -27,7 +27,7 @@ public class CommandSelect extends Command {
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
         List<ISelectable> searchResults = player.getSearchResults();
 
-        if (searchResults == null || searchResults.isEmpty()) {
+        if (searchResults == null) {
             message = "Please conduct a search before making a selection.";
         } else if (searchResults.size() < this.itemNumber) {
             message = "The selected ID is too high.";
