@@ -24,4 +24,9 @@ public class AudioFile implements ISelectable {
     public boolean isCollection() {
         return false;
     }
+
+    @Override
+    public AudioFile getNextAfter(AudioFile file) {
+        return null;
+    }
 }

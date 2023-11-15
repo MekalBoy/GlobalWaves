@@ -54,7 +54,7 @@ public class MusicPlayer {
             }
         }
 
-        //if (audioPlaying != null) isPlaying = !isPlaying;
+        if (audioPlaying != null) isPlaying = !isPlaying;
         audioPlaying = null;
         currentlyLoaded = null;
         currentSelection = null;
@@ -114,15 +114,47 @@ public class MusicPlayer {
         lastUpdateTime = timestamp;
 
         if (remainedTime <= 0) {
-            audioPlaying = null;
-            remainedTime = 0;
-            TogglePlayPause(timestamp);
+            int leftover = -remainedTime;
+
             if (!currentlyLoaded.isCollection()) {  // It was a single song, remove it.
                 currentlyLoaded = null;
-            } /*else {  // Podcast or Playlist (collection), so try and get the next song/episode
-                AudioFile nextThing =
-                PlayAudio();
-            }*/  // TODO HERE PROBABLY FOR TEST05
+                audioPlaying = null;
+                remainedTime = 0;
+
+                isPlaying = false;
+            } else { // Podcast or Playlist (collection), so try and get the next song/episode
+                AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
+
+                if (nextThing == null) { // nothing left in collection, check for repeat type
+                    switch (repeatType) {
+                        case NO: // no repeat, yeet
+                            audioPlaying = null;
+                            currentlyLoaded = null;
+                            remainedTime = 0;
+
+                            isPlaying = false;
+                            return;
+                        case ALL:
+                            if (currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST) // replay from first song
+                                PlayAudio(((Playlist)currentlyLoaded).getSongList().get(0));
+                            else // repeat current episode for podcast
+                                //repeatType = RepeatType.NO; // only run again once
+                                PlayAudio(audioPlaying);
+                            break;
+                        case CURRENT:
+                            PlayAudio(audioPlaying);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Invalid repeatType");
+                    }
+                    remainedTime -= leftover;
+                    return;
+                }
+
+                // if we got to here there still is something to play next
+                PlayAudio(nextThing);
+                remainedTime -= leftover;
+            }  // TODO HERE PROBABLY FOR TEST05
         }
     }
 

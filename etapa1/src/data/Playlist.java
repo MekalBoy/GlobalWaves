@@ -51,6 +51,13 @@ public class Playlist implements ISelectable {
         }
     }
 
+    public Song getNextAfter(AudioFile file) {
+        Song song = (Song) file;
+        int index = songList.indexOf(song);
+        if (index == -1 || index == songList.size() - 1) return null;
+        return songList.get(index + 1);
+    }
+
     @Override
     public SearchBar.SearchType getType() {
         return SearchBar.SearchType.PLAYLIST;
