@@ -191,6 +191,27 @@ public class MusicPlayer {
                     return;
                 }
 
+                if (repeatType == RepeatType.NO) {
+                    leftover -= nextThing.getDuration();
+                    while (leftover > 0) {
+                        nextThing = currentlyLoaded.getNextAfter(nextThing);
+                        if (nextThing == null) {
+                            isPlaying = false;
+                            audioPlaying = null;
+                            currentlyLoaded = null;
+                            currentSelection = null;
+                            searchResults = null;
+                            remainedTime = 0;
+                            return;
+                        }
+                        leftover -= nextThing.getDuration();
+                    }
+
+                    PlayAudio(nextThing);
+                    remainedTime -= nextThing.getDuration() % -leftover;
+                    return;
+                }
+
                 // NEED TO ITERATE THROUGH EACH PLAYLIST SONG TO GET REMAINEDTIME OFF FROM EACH SONG DURATION
 
                 PlayAudio(nextThing);
