@@ -32,8 +32,8 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = CommandFollowPlaylist.class, name = "follow"),
         @JsonSubTypes.Type(value = CommandShowPlaylists.class, name = "showPlaylists"),
         @JsonSubTypes.Type(value = CommandShowPreferredSongs.class, name = "showPreferredSongs"),
-        @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs")
-//        @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists")
+        @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs"),
+        @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists")
 })
 @Getter
 @Setter

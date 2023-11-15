@@ -1,5 +1,6 @@
 package command;
 
+import data.AudioFile;
 import data.Library;
 import functionality.MusicPlayer;
 import lombok.Getter;
@@ -18,8 +19,8 @@ public class CommandShowPreferredSongs extends Command {
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
 
-        //result.addAll(player.getLikedSongs().stream().map(Song::getName).toList());
-        result.add(player.getLikedSongs().get(0).getName());
+        result.addAll(player.getLikedSongs().stream().map(AudioFile::getName).toList());
+        //result.add(player.getLikedSongs().get(0).getName());
 
         return new ResponseResultString(this, result);
     }

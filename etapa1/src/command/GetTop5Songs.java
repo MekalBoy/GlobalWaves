@@ -20,10 +20,12 @@ public class GetTop5Songs extends Command {
     public ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        PriorityQueue<Song> maxHeap = new PriorityQueue<>(Comparator.comparing(Song::getNrLikes));
+        // TODO: fix
+
+        PriorityQueue<Song> maxHeap = new PriorityQueue<>(Comparator.comparing(Song::getNrLikes).reversed());
         maxHeap.addAll(Library.instance.getSongs());
         for (int i = 0; i < 5; i++) {
-            result.add(maxHeap.remove().toString());
+            result.add(maxHeap.remove().getName());
         }
 
         return new ResponseResultString(this.command, this.username, this.timestamp, result);
