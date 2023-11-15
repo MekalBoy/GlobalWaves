@@ -60,6 +60,7 @@ public class MusicPlayer {
         currentSelection = null;
         searchResults = null;
         remainedTime = 0;
+        repeatType = RepeatType.NO;
     }
 
     public boolean LoadAudio(int timestamp) {
@@ -120,30 +121,43 @@ public class MusicPlayer {
         if (remainedTime <= 0) {
             int leftover = -remainedTime;
 
-            if (!currentlyLoaded.isCollection()) {  // It was a single song, remove it.
-                currentlyLoaded = null;
-                audioPlaying = null;
-                remainedTime = 0;
+            if (!currentlyLoaded.isCollection()) {  // It was a single song, check for repeat type
+                switch (repeatType) {
+                    case NO:
+                        currentlyLoaded = null;
+                        audioPlaying = null;
+                        remainedTime = 0;
 
-                isPlaying = false;
+                        isPlaying = false;
+                        return;
+                    case ALL: // repeat once
+                        repeatType = RepeatType.NO;
+                        break;
+                    case CURRENT: // repeat infinitely
+                        break;
+                }
+                PlayAudio(audioPlaying);
+                remainedTime -= leftover % audioPlaying.getDuration();
             } else { // Podcast or Playlist (collection), so try and get the next song/episode
                 AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
 
                 if (nextThing == null) { // nothing left in collection, check for repeat type
                     switch (repeatType) {
                         case NO: // no repeat, yeet
+                            if (audioPlaying != null) isPlaying = !isPlaying;
                             audioPlaying = null;
                             currentlyLoaded = null;
+                            currentSelection = null;
+                            searchResults = null;
                             remainedTime = 0;
-
-                            isPlaying = false;
                             return;
                         case ALL:
                             if (currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST) // replay from first song
                                 PlayAudio(((Playlist)currentlyLoaded).getSongList().get(0));
-                            else // repeat current episode for podcast
-                                //repeatType = RepeatType.NO; // only run again once
+                            else { // repeat current episode for podcast
+                                repeatType = RepeatType.NO; // only run again once
                                 PlayAudio(audioPlaying);
+                            }
                             break;
                         case CURRENT:
                             PlayAudio(audioPlaying);
@@ -151,14 +165,37 @@ public class MusicPlayer {
                         default:
                             throw new IllegalArgumentException("Invalid repeatType");
                     }
-                    remainedTime -= leftover;
+                    remainedTime -= leftover % audioPlaying.getDuration();
                     return;
                 }
 
                 // if we got to here there still is something to play next
+                // but we still need to check for repeat
+                if (repeatType == RepeatType.CURRENT) { // repeat current thing infinitely
+                    PlayAudio(audioPlaying);
+                    remainedTime -= leftover % audioPlaying.getDuration();
+                    return;
+                }
+
+                if (repeatType == RepeatType.ALL) {
+                    leftover -= nextThing.getDuration();
+                    while (leftover > 0) {
+                        nextThing = currentlyLoaded.getNextAfter(nextThing);
+                        if (nextThing == null)
+                            nextThing = ((Playlist)currentlyLoaded).getSongList().get(0);
+                        leftover -= nextThing.getDuration();
+                    }
+
+                    PlayAudio(nextThing);
+                    remainedTime -= nextThing.getDuration() % -leftover;
+                    return;
+                }
+
+                // NEED TO ITERATE THROUGH EACH PLAYLIST SONG TO GET REMAINEDTIME OFF FROM EACH SONG DURATION
+
                 PlayAudio(nextThing);
-                remainedTime -= leftover;
-            }  // TODO HERE PROBABLY FOR TEST07
+                remainedTime -= leftover % audioPlaying.getDuration();
+            }
         }
     }
 
@@ -178,5 +215,14 @@ public class MusicPlayer {
             likedSongs.add(song);
             return true;
         }
+    }
+
+    public RepeatType switchRepeat() {
+        this.repeatType = switch(this.repeatType) {
+            case NO -> RepeatType.ALL;
+            case ALL -> RepeatType.CURRENT;
+            case CURRENT -> RepeatType.NO;
+        };
+        return this.repeatType;
     }
 }

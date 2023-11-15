@@ -1,5 +1,6 @@
 package functionality;
 
+import data.ISelectable;
 import data.Playlist;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,19 +17,20 @@ public class MusicPlayerStatus {
 
     public MusicPlayerStatus(MusicPlayer player) {
         this.name = player.getAudioPlaying() != null ? player.getAudioPlaying().getName() : "";
+        ISelectable currentlyLoaded = player.getCurrentlyLoaded();
         switch(player.getRepeatType()) {
             case NO:
                 this.repeat = "No Repeat";
                 break;
             case ALL:
-                if (player.getCurrentlyLoaded().getClass().equals(Playlist.class)) {
+                if (currentlyLoaded != null && currentlyLoaded.getClass().equals(Playlist.class)) {
                     this.repeat = "Repeat All";
                 } else {
                     this.repeat = "Repeat Once";
                 }
                 break;
             case CURRENT:
-                if (player.getCurrentlyLoaded().getClass().equals(Playlist.class)) {
+                if (currentlyLoaded != null && currentlyLoaded.getClass().equals(Playlist.class)) {
                     this.repeat = "Repeat Current Song";
                 } else {
                     this.repeat = "Repeat Infinite";
