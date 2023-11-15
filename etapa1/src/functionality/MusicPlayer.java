@@ -40,7 +40,7 @@ public class MusicPlayer {
         UpdatePlaying(timestamp);
 
         if (currentlyLoaded != null && currentlyLoaded.getType() == SearchBar.SearchType.PODCAST) {
-            Podcast podcast = (Podcast) currentSelection;
+            Podcast podcast = (Podcast) currentlyLoaded;
             Episode episode = (Episode) audioPlaying;
             if (resumePodcasts.containsKey(podcast)) { // we've played this podcast before
                 if (resumeEpisodes.containsKey(episode)) { // this is where we left off
@@ -59,6 +59,7 @@ public class MusicPlayer {
         currentlyLoaded = null;
         currentSelection = null;
         searchResults = null;
+        remainedTime = 0;
     }
 
     public boolean LoadAudio(int timestamp) {
@@ -95,6 +96,9 @@ public class MusicPlayer {
             default:
                 throw new IllegalArgumentException("Invalid loadType");
         }
+
+        currentSelection = null;
+        isPlaying = true;
 
         this.lastUpdateTime = timestamp;
         return true;
@@ -154,7 +158,7 @@ public class MusicPlayer {
                 // if we got to here there still is something to play next
                 PlayAudio(nextThing);
                 remainedTime -= leftover;
-            }  // TODO HERE PROBABLY FOR TEST05
+            }  // TODO HERE PROBABLY FOR TEST07
         }
     }
 
