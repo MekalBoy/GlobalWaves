@@ -13,15 +13,17 @@ import java.util.Objects;
 public class CommandShowPlaylists extends Command {
     List<Playlist.PlaylistInfo> result;
 
-    public CommandShowPlaylists() {}
+    public CommandShowPlaylists() {
+    }
 
-    public CommandShowPlaylists(String command, String username, int timestamp, List<Playlist.PlaylistInfo> result) {
+    public CommandShowPlaylists(final String command, final String username,
+                                final int timestamp, final List<Playlist.PlaylistInfo> result) {
         super(command, username, timestamp);
         this.result = result;
     }
 
     @Override
-    public ResponseResultPlaylists processCommand() {
+    public final ResponseResultPlaylists processCommand() {
         result = new ArrayList<Playlist.PlaylistInfo>();
 
         for (Playlist playlist : Library.instance.getPlaylists()) {

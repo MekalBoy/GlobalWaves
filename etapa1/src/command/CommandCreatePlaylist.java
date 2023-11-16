@@ -9,15 +9,8 @@ import lombok.Setter;
 public class CommandCreatePlaylist extends Command {
     private String playlistName;
 
-    public CommandCreatePlaylist() {}
-
-    public CommandCreatePlaylist(String command, String username, int timestamp, String playlistName) {
-        super(command, username, timestamp);
-        this.playlistName = playlistName;
-    }
-
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         if (Library.instance.seekPlaylist(this.playlistName) != null) {

@@ -8,30 +8,27 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 @Getter @Setter
 public class GetTop5Playlists extends Command {
+    private final int playlistLimit = 5;
 
-    public GetTop5Playlists() {}
+    public GetTop5Playlists() {
+    }
 
-    public GetTop5Playlists(String command, String username, int timestamp) {
+    public GetTop5Playlists(final String command, final String username, final int timestamp) {
         super(command, username, timestamp);
     }
 
     @Override
-    public ResponseResultString processCommand() {
+    public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        // TODO: fix
+        List<Playlist> sortedPlaylists = new ArrayList<Playlist>(Library.instance.getPlaylists());
+        sortedPlaylists.sort(Comparator.comparingInt(Playlist::getFollowers).reversed());
 
-        PriorityQueue<Playlist> maxHeap = new PriorityQueue<>(Comparator.comparing(Playlist::getFollowers));
-        maxHeap.addAll(Library.instance.getPlaylists());
-        for (int i = 0; i < 5; i++) {
-            Playlist playlist = maxHeap.peek();
-            assert playlist != null;
-            if (playlist != null && playlist.getFollowers() > 0)
-                result.add(playlist.getName());
+        for (int i = 0; i < sortedPlaylists.size() && i < playlistLimit; i++) {
+            result.add(sortedPlaylists.get(i).getName());
         }
 
         return new ResponseResultString(this.command, this.username, this.timestamp, result);

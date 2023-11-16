@@ -10,9 +10,10 @@ public class CommandsProcessor {
 
     public List<Command> commandsList;
 
-    public CommandsProcessor() {}
+    public CommandsProcessor() {
+    }
 
-    public CommandsProcessor(List<Command> commandsList) {
+    public CommandsProcessor(final List<Command> commandsList) {
         this.commandsList = commandsList;
     }
 }

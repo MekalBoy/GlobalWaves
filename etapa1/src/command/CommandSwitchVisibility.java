@@ -10,15 +10,17 @@ import lombok.Setter;
 public class CommandSwitchVisibility extends Command {
     int playlistId;
 
-    public CommandSwitchVisibility() {}
+    public CommandSwitchVisibility() {
+    }
 
-    public CommandSwitchVisibility(String command, String username, int timestamp, int playlistId) {
+    public CommandSwitchVisibility(final String command, final String username,
+                                   final int timestamp, final int playlistId) {
         super(command, username, timestamp);
         this.playlistId = playlistId;
     }
 
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message = "Visibility status updated successfully to ";
 
         MusicPlayer player = Library.instance.seekUser(username).getPlayer();

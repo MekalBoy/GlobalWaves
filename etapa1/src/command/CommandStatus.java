@@ -10,7 +10,7 @@ import lombok.Setter;
 public class CommandStatus extends Command {
 
     @Override
-    public ResponseStats processCommand() {
+    public final ResponseStats processCommand() {
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
         player.UpdatePlaying(this.timestamp);
         

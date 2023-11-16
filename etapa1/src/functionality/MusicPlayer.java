@@ -11,7 +11,7 @@ public class MusicPlayer {
     public enum RepeatType {
         NO,
         ALL,
-        CURRENT;
+        CURRENT
     }
 
     private boolean isPlaying = true;

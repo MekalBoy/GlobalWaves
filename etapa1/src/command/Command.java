@@ -45,13 +45,20 @@ public abstract class Command {
     @JsonProperty("username")
     protected String username = null;
 
-    public Command() {}
+    public Command() {
+    }
 
-    public Command(String command, String username, int timestamp) {
+    public Command(final String command, final String username, final int timestamp) {
         this.command = command;
         this.username = username;
         this.timestamp = timestamp;
     }
+
+
+    /**
+     * processCommand is the primary method which should be overwritten by all subclasses
+     * and handles the input of any Command subclass according to its form.
+     */
 
     public abstract Response processCommand();
 }

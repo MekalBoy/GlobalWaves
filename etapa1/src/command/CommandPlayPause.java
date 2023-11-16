@@ -6,7 +6,7 @@ import functionality.MusicPlayer;
 public class CommandPlayPause extends Command {
 
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
 

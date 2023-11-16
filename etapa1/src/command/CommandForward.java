@@ -10,14 +10,8 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandForward extends Command {
 
-    public CommandForward() {}
-
-    public CommandForward(String command, String username, int timestamp) {
-        super(command, username, timestamp);
-    }
-
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();

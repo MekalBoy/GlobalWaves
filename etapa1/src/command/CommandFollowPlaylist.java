@@ -13,14 +13,8 @@ import java.util.Objects;
 @Getter @Setter
 public class CommandFollowPlaylist extends Command {
 
-    public CommandFollowPlaylist() {}
-
-    public CommandFollowPlaylist(String command, String username, int timestamp) {
-        super(command, username, timestamp);
-    }
-
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         MusicPlayer player = Library.instance.seekUser(username).getPlayer();
@@ -33,7 +27,8 @@ public class CommandFollowPlaylist extends Command {
         } else if (Objects.equals(((Playlist) selection).getOwner(), username)) {
             message = "You cannot follow or unfollow your own playlist.";
         } else {
-            message = "Playlist " + (player.FollowUnfollow((Playlist) selection) ? "followed" : "unfollowed")
+            message = "Playlist "
+                    + (player.FollowUnfollow((Playlist) selection) ? "followed" : "unfollowed")
                     + " successfully.";
         }
 

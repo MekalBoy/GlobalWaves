@@ -11,15 +11,17 @@ import lombok.Setter;
 public class CommandShuffle extends Command {
     int seed;
 
-    public CommandShuffle() {}
+    public CommandShuffle() {
+    }
 
-    public CommandShuffle(String command, String username, int timestamp, int seed) {
+    public CommandShuffle(final String command,final  String username,
+                          final int timestamp, final int seed) {
         super(command, username, timestamp);
         this.seed = seed;
     }
 
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();

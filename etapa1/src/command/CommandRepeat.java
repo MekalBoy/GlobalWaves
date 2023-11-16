@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandRepeat extends Command {
     @Override
-    public ResponseMsg processCommand() {
+    public final  ResponseMsg processCommand() {
         String message = "Repeat mode changed to ";
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
