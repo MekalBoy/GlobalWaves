@@ -13,12 +13,13 @@ public class MusicPlayerStatus {
     private String repeat;
     private boolean shuffle, paused;
 
-    public MusicPlayerStatus() {}
+    public MusicPlayerStatus() {
+    }
 
-    public MusicPlayerStatus(MusicPlayer player) {
+    public MusicPlayerStatus(final MusicPlayer player) {
         this.name = player.getAudioPlaying() != null ? player.getAudioPlaying().getName() : "";
         ISelectable currentlyLoaded = player.getCurrentlyLoaded();
-        switch(player.getRepeatType()) {
+        switch (player.getRepeatType()) {
             case NO:
                 this.repeat = "No Repeat";
                 break;
@@ -39,6 +40,7 @@ public class MusicPlayerStatus {
             default:
                 throw new IllegalArgumentException("Invalid repeatType");
         }
+
         this.remainedTime = player.getRemainedTime();
         this.shuffle = player.isShuffle();
         this.paused = !player.isPlaying();

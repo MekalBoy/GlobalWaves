@@ -11,23 +11,16 @@ import java.util.Objects;
 
 @Getter @Setter
 public class CommandShowPlaylists extends Command {
-    List<Playlist.PlaylistInfo> result;
-
-    public CommandShowPlaylists() {
-    }
-
-    public CommandShowPlaylists(final String command, final String username,
-                                final int timestamp, final List<Playlist.PlaylistInfo> result) {
-        super(command, username, timestamp);
-        this.result = result;
-    }
+    private List<Playlist.PlaylistInfo> result;
 
     @Override
     public final ResponseResultPlaylists processCommand() {
         result = new ArrayList<Playlist.PlaylistInfo>();
 
         for (Playlist playlist : Library.instance.getPlaylists()) {
-            if (Objects.equals(playlist.getOwner(), this.username)) result.add(new Playlist.PlaylistInfo(playlist));
+            if (Objects.equals(playlist.getOwner(), this.username)) {
+                result.add(new Playlist.PlaylistInfo(playlist));
+            }
         }
 
         return new ResponseResultPlaylists(this, result);

@@ -8,16 +8,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class CommandSwitchVisibility extends Command {
-    int playlistId;
-
-    public CommandSwitchVisibility() {
-    }
-
-    public CommandSwitchVisibility(final String command, final String username,
-                                   final int timestamp, final int playlistId) {
-        super(command, username, timestamp);
-        this.playlistId = playlistId;
-    }
+    private int playlistId;
 
     @Override
     public final ResponseMsg processCommand() {
@@ -30,9 +21,11 @@ public class CommandSwitchVisibility extends Command {
         } else {
             Playlist playlist = player.getCreatedPlaylists().get(playlistId - 1);
 
-            playlist.SwitchVisibility();
+            playlist.switchVisibility();
 
-            message += playlist.isPrivate() ? "private." : "public.";
+            message += playlist.isPrivate()
+                    ? "private."
+                    : "public.";
         }
 
         return new ResponseMsg(this, message);

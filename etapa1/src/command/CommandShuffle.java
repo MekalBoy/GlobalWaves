@@ -9,16 +9,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class CommandShuffle extends Command {
-    int seed;
-
-    public CommandShuffle() {
-    }
-
-    public CommandShuffle(final String command,final  String username,
-                          final int timestamp, final int seed) {
-        super(command, username, timestamp);
-        this.seed = seed;
-    }
+    private int seed;
 
     @Override
     public final ResponseMsg processCommand() {
@@ -32,8 +23,9 @@ public class CommandShuffle extends Command {
         } else if (loaded.getType() != SearchBar.SearchType.PLAYLIST) {
             message = "The loaded source is not a playlist.";
         } else {
-            message = player.ToggleShuffle(this.timestamp, this.seed) ?
-                    "Shuffle function activated successfully." : "Shuffle function deactivated successfully.";
+            message = player.toggleShuffle(this.timestamp, this.seed)
+                    ? "Shuffle function activated successfully."
+                    : "Shuffle function deactivated successfully.";
         }
 
         return new ResponseMsg(this, message);

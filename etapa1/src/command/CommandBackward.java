@@ -10,14 +10,8 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandBackward extends Command {
 
-    public CommandBackward() {}
-
-    public CommandBackward(String command, String username, int timestamp) {
-        super(command, username, timestamp);
-    }
-
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
@@ -28,7 +22,7 @@ public class CommandBackward extends Command {
         } else if (selection.getType() != SearchBar.SearchType.PODCAST) {
             message = "The loaded source is not a podcast.";
         } else {
-            player.Backward(timestamp);
+            player.backward(timestamp);
             message = "Rewound successfully.";
         }
 

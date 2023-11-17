@@ -23,10 +23,13 @@ public class CommandRepeat extends Command {
 
             message += switch (newType) {
                 case NO -> "no repeat.";
-                case ALL -> currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST ?
-                        "repeat all." : "repeat once.";
-                case CURRENT -> currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST ?
-                        "repeat current song." : "repeat infinite.";
+                case ALL -> currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST
+                        ? "repeat all."
+                        : "repeat once.";
+                case CURRENT -> currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST
+                        ? "repeat current song."
+                        : "repeat infinite.";
+                default -> throw new IllegalArgumentException("Invalid repeatType");
             };
         }
 

@@ -22,7 +22,7 @@ public class CommandForward extends Command {
         } else if (selection.getType() != SearchBar.SearchType.PODCAST) {
             message = "The loaded source is not a podcast.";
         } else {
-            player.Forward(timestamp);
+            player.forward(timestamp);
             message = "Skipped forward successfully.";
         }
 

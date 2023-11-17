@@ -27,7 +27,7 @@ public class CommandModify extends Command {
         } else if (audio.getType() != SearchBar.SearchType.SONG) {
             message = "The loaded source is not a song.";
         } else {
-            boolean isAdded = player.AddRemoveInPlaylist(playlistId - 1, (Song) audio);
+            boolean isAdded = player.addRemoveInPlaylist(playlistId - 1, (Song) audio);
             message = isAdded
                     ? "Successfully added to playlist."
                     : "Successfully removed from playlist.";

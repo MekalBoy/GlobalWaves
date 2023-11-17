@@ -8,25 +8,32 @@ public class AudioFile implements ISelectable {
     protected String name;
     protected int duration;
 
-    public AudioFile() {}
+    public AudioFile() {
+    }
 
-    public AudioFile(String name, int duration) {
+    public AudioFile(final String name, final int duration) {
         this.name = name;
         this.duration = duration;
     }
 
+    /**
+     * Function is called for differentiating between SONG, PLAYLIST or PODCAST.
+     * This also means that in this current implementation there is no proper return for EPISODE
+     * except null.
+     * @return SearchBar.SearchType
+     */
     @Override
     public SearchBar.SearchType getType() {
         return null;
     }
 
     @Override
-    public boolean isCollection() {
+    public final boolean isCollection() {
         return false;
     }
 
     @Override
-    public AudioFile getNextAfter(AudioFile file) {
+    public final AudioFile getNextAfter(final AudioFile file) {
         return null;
     }
 }

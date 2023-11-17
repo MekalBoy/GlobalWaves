@@ -5,17 +5,13 @@ import data.Song;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Getter @Setter
 public class GetTop5Songs extends Command {
-
-    public GetTop5Songs() {
-    }
-
-    public GetTop5Songs(final String command, final String username, final int timestamp) {
-        super(command, username, timestamp);
-    }
+    private final int songLimit = 5;
 
     @Override
     public final ResponseResultString processCommand() {
@@ -24,7 +20,7 @@ public class GetTop5Songs extends Command {
         List<Song> sortedSongs = new ArrayList<Song>(Library.instance.getSongs());
         sortedSongs.sort(Comparator.comparingInt(Song::getNrLikes).reversed());
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < songLimit; i++) {
             result.add(sortedSongs.get(i).getName());
         }
 

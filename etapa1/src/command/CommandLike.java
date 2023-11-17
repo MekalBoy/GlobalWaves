@@ -23,7 +23,7 @@ public class CommandLike extends Command {
         } else if (audio.getType() != SearchBar.SearchType.SONG) {
             message = "Loaded source is not a song.";
         } else {
-            boolean isLiked = player.LikeUnlike((Song)audio);
+            boolean isLiked = player.likeUnlike((Song) audio);
             message = isLiked ? "Like registered successfully." : "Unlike registered successfully.";
         }
 

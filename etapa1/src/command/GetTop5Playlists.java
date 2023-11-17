@@ -13,13 +13,6 @@ import java.util.List;
 public class GetTop5Playlists extends Command {
     private final int playlistLimit = 5;
 
-    public GetTop5Playlists() {
-    }
-
-    public GetTop5Playlists(final String command, final String username, final int timestamp) {
-        super(command, username, timestamp);
-    }
-
     @Override
     public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();

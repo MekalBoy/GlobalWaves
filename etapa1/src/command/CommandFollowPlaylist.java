@@ -28,7 +28,7 @@ public class CommandFollowPlaylist extends Command {
             message = "You cannot follow or unfollow your own playlist.";
         } else {
             message = "Playlist "
-                    + (player.FollowUnfollow((Playlist) selection) ? "followed" : "unfollowed")
+                    + (player.followUnfollow((Playlist) selection) ? "followed" : "unfollowed")
                     + " successfully.";
         }
 

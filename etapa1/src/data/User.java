@@ -12,26 +12,18 @@ public class User {
 
     private MusicPlayer player = new MusicPlayer();
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String username, String city, int age) {
+    public User(final String username, final String city, final int age) {
         this.username = username;
         this.city = city;
         this.age = age;
     }
 
-    public User(UserInput input) {
+    public User(final UserInput input) {
         this.username = input.getUsername();
         this.city = input.getCity();
         this.age = input.getAge();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", city='" + city + '\'' +
-                ", age=" + age +
-                '}';
     }
 }

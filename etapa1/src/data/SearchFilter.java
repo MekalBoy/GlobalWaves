@@ -1,17 +1,23 @@
 package data;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter @Setter
 public class SearchFilter {
-    public String name = "", album = "", lyrics = "", genre = "", artist = "", owner = "";
-    public String releaseYear = "";
-    public List<String> tags = new ArrayList<String>();
+    private String name = "", album = "", lyrics = "", genre = "", artist = "", owner = "";
+    private String releaseYear = "";
+    private List<String> tags = new ArrayList<String>();
 
-    public SearchFilter() {}
+    public SearchFilter() {
+    }
 
-    public SearchFilter(String name, String album, String lyrics, String genre, String artist,
-                        String releaseYear, List<String> tags) {
+    public SearchFilter(final String name, final String album, final String lyrics,
+                        final String genre, final String artist, final String releaseYear,
+                        final List<String> tags) {
         this.name = name;
         this.album = album;
         this.lyrics = lyrics;
@@ -21,22 +27,8 @@ public class SearchFilter {
         this.tags = tags;
     }
 
-    public SearchFilter(String name, String owner) {
+    public SearchFilter(final String name, final String owner) {
         this.name = name;
         this.owner = owner;
-    }
-
-    @Override
-    public String toString() {
-        return "Filter{" +
-                "name='" + name + '\'' +
-                ", album='" + album + '\'' +
-                ", lyrics='" + lyrics + '\'' +
-                ", genre='" + genre + '\'' +
-                ", artist='" + artist + '\'' +
-                ", owner='" + owner + '\'' +
-                ", releaseYear='" + releaseYear + '\'' +
-                ", tags=" + tags +
-                '}';
     }
 }

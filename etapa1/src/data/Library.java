@@ -15,11 +15,11 @@ public class Library {
     private List<Playlist> playlists;
     private List<Podcast> podcasts;
 
-    public static Library instance;  // coded thinking this would be alright, but each test needs a new library
+    public static Library instance;
+    // each test needs a new library so the instance is remade each time
+    // probably useless then, might change it in future iterations
 
-    private Library() {}
-
-    public Library(LibraryInput input) {
+    public Library(final LibraryInput input) {
         this.users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
         this.songs = input.getSongs().stream().map(Song::new).collect(Collectors.toList());
         this.playlists = new ArrayList<Playlist>();
@@ -27,30 +27,51 @@ public class Library {
         instance = this;
     }
 
-    public void addSong(Song song) {
+    /**
+     * Adds the song to the library's database.
+     */
+    public final void addSong(final Song song) {
         songs.add(song);
     }
 
-    public void addPlaylist(Playlist playlist) {
+    /**
+     * Adds the playlist to the library's database.
+     */
+    public final void addPlaylist(final Playlist playlist) {
         this.playlists.add(playlist);
     }
 
-    public void addPodcasts(Podcast podcast) {
+    /**
+     * Adds the podcast to the library's database.
+     */
+    public final void addPodcasts(final Podcast podcast) {
         podcasts.add(podcast);
     }
 
-    public User seekUser(String username) {
+    /**
+     * Retrieves the User object from the library's database.
+     * @param username username of the seeked user
+     * @return User object
+     */
+    public final User seekUser(final String username) {
         for (User user : this.users) {
-            if (user.getUsername().equals(username))
+            if (user.getUsername().equals(username)) {
                 return user;
+            }
         }
         return null;
     }
 
-    public Playlist seekPlaylist(String playlistName) {
+    /**
+     * Retrieves the Playlist object from the library's database.
+     * @param playlistName name of the seeked playlist
+     * @return Playlist object
+     */
+    public final Playlist seekPlaylist(final String playlistName) {
         for (Playlist playlist : this.playlists) {
-            if (playlist.getName().equals(playlistName))
+            if (playlist.getName().equals(playlistName)) {
                 return playlist;
+            }
         }
         return null;
     }

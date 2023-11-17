@@ -11,13 +11,16 @@ public class CommandLoad extends Command {
     @Override
     public final ResponseMsg processCommand() {
         String message;
+
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
 
         if (player.getCurrentSelection() == null) {
             message = "Please select a source before attempting to load.";
         } else {
-            boolean succeeded = player.LoadAudio(this.timestamp);
-            message = succeeded ? "Playback loaded successfully." : "You can't load an empty audio collection!";
+            boolean succeeded = player.loadAudio(this.timestamp);
+            message = succeeded
+                    ? "Playback loaded successfully."
+                    : "You can't load an empty audio collection!";
         }
 
         return new ResponseMsg(this, message);

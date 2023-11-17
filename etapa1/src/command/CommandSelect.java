@@ -13,17 +13,10 @@ import java.util.List;
 public class CommandSelect extends Command {
     private int itemNumber;
 
-    public CommandSelect() {}
-
-    public CommandSelect(String command, String username, int timestamp, int itemNumber) {
-        super(command, username, timestamp);
-        this.itemNumber = itemNumber;
-    }
-
-    public Response processCommand() {
+    @Override
+    public final ResponseMsg processCommand() {
         String message;
 
-        // find user's player, find their latest search results, set the selected thing based on results and provided index
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
         List<ISelectable> searchResults = player.getSearchResults();
 

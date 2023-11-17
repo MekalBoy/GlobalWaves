@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter @Setter
 public class CommandShowPreferredSongs extends Command {
-    List<String> result;
+    private List<String> result;
 
     @Override
     public final ResponseResultString processCommand() {

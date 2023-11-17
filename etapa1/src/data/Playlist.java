@@ -14,13 +14,13 @@ public class Playlist implements ISelectable {
     private List<Song> songList = new ArrayList<Song>();
     private int followers;
 
-    public Playlist(String name, String owner) {
+    public Playlist(final String name, final String owner) {
         this.name = name;
         this.owner = owner;
         this.isPrivate = false;  // playlist is public when created
     }
 
-    public Playlist(Playlist original) {
+    public Playlist(final Playlist original) {
         this.name = original.getName();
         this.owner = original.getOwner();
         this.isPrivate = original.isPrivate();
@@ -30,14 +30,12 @@ public class Playlist implements ISelectable {
 
     @Getter @Setter
     public static class PlaylistInfo {
-        String name;
-        List<String> songs;
-        String visibility;
-        int followers;
+        private String name;
+        private List<String> songs;
+        private String visibility;
+        private int followers;
 
-        public PlaylistInfo() {}
-
-        public PlaylistInfo(Playlist playlist) {
+        public PlaylistInfo(final Playlist playlist) {
             this.name = playlist.getName();
             this.songs = playlist.getSongList().stream().map(Song::getName).toList();
             this.visibility = playlist.isPrivate() ? "private" : "public";
@@ -45,11 +43,18 @@ public class Playlist implements ISelectable {
         }
     }
 
-    public void SwitchVisibility() {
+    /**
+     * Toggles the playlist between public and private depending on its previous state.
+     */
+    public void switchVisibility() {
         isPrivate = !isPrivate;
     }
 
-    public boolean AddRemove(Song song) {
+    /**
+     * Adds or removes a song from the playlist and returns a confirmation boolean.
+     * @return true if the song was added; false if the song was removed.
+     */
+    public boolean addRemove(final Song song) {
         if (this.songList.contains(song)) {
             this.songList.remove(song);
             return false;
@@ -59,20 +64,23 @@ public class Playlist implements ISelectable {
         }
     }
 
-    public Song getNextAfter(AudioFile file) {
+    @Override
+    public final Song getNextAfter(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
-        if (index == -1 || index == songList.size() - 1) return null;
+        if (index == -1 || index == songList.size() - 1) {
+            return null;
+        }
         return songList.get(index + 1);
     }
 
     @Override
-    public SearchBar.SearchType getType() {
+    public final SearchBar.SearchType getType() {
         return SearchBar.SearchType.PLAYLIST;
     }
 
     @Override
-    public boolean isCollection() {
+    public final boolean isCollection() {
         return true;
     }
 }

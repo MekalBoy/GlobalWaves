@@ -16,11 +16,12 @@ public class Song extends AudioFile {
     private int releaseYear;
     private String artist;
 
-    int nrLikes = 0;
+    private int nrLikes = 0;
 
-    public Song() {}
+    public Song() {
+    }
 
-    public Song(SongInput input) {
+    public Song(final SongInput input) {
         this.name = input.getName();
         this.duration = input.getDuration();
         this.album = input.getAlbum();
@@ -31,7 +32,9 @@ public class Song extends AudioFile {
         this.artist = input.getArtist();
     }
 
-    public Song(String name, int duration, String album, ArrayList<String> tags, String lyrics, String genre, int releaseYear, String artist) {
+    public Song(final String name, final int duration, final String album,
+                final ArrayList<String> tags, final String lyrics, final String genre,
+                final int releaseYear, final String artist) {
         super(name, duration);
         this.album = album;
         this.tags = new ArrayList<String>(tags);
@@ -42,21 +45,7 @@ public class Song extends AudioFile {
     }
 
     @Override
-    public String toString() {
-        return "Song{" +
-                "album='" + album + '\'' +
-                ", tags=" + tags +
-                ", lyrics='" + lyrics + '\'' +
-                ", genre='" + genre + '\'' +
-                ", releaseYear=" + releaseYear +
-                ", artist='" + artist + '\'' +
-                ", name='" + name + '\'' +
-                ", duration=" + duration +
-                '}';
-    }
-
-    @Override
-    public SearchBar.SearchType getType() {
+    public final SearchBar.SearchType getType() {
         return SearchBar.SearchType.SONG;
     }
 }

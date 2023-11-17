@@ -4,22 +4,23 @@ import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import functionality.SearchBar;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 public class Podcast implements ISelectable {
     private String name, owner;
     private List<Episode> episodes;
 
-    public Podcast(String name, String owner, List<Episode> episodes) {
+    public Podcast(final String name, final String owner, final List<Episode> episodes) {
         this.name = name;
         this.owner = owner;
         this.episodes = episodes;
     }
 
-    public Podcast(PodcastInput input) {
+    public Podcast(final PodcastInput input) {
         this.name = input.getName();
         this.owner = input.getOwner();
         this.episodes = new ArrayList<Episode>();
@@ -28,20 +29,23 @@ public class Podcast implements ISelectable {
         }
     }
 
-    public Episode getNextAfter(AudioFile file) {
+    @Override
+    public final Episode getNextAfter(final AudioFile file) {
         Episode episode = (Episode) file;
         int index = episodes.indexOf(episode);
-        if (index == -1 || index == episodes.size() - 1) return null;
+        if (index == -1 || index == episodes.size() - 1) {
+            return null;
+        }
         return episodes.get(index + 1);
     }
 
     @Override
-    public SearchBar.SearchType getType() {
+    public final SearchBar.SearchType getType() {
         return SearchBar.SearchType.PODCAST;
     }
 
     @Override
-    public boolean isCollection() {
+    public final boolean isCollection() {
         return true;
     }
 }

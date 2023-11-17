@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class Response {
     protected String command;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected String user;
     protected int timestamp;
-
-    public Response() {
-    }
 
     public Response(final String command, final String user, final int timestamp) {
         this.command = command;

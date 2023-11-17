@@ -31,7 +31,7 @@ public class CommandSearch extends Command {
     public final Response processCommand() {
         SearchBar.SearchType searchType = SearchBar.SearchType.valueOf(this.type.toUpperCase());
 
-        List<ISelectable> searchResults = SearchBar.Search(this.username, searchType, filters);
+        List<ISelectable> searchResults = SearchBar.search(this.username, searchType, filters);
         List<String> results =
                 searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
