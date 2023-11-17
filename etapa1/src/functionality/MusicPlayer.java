@@ -43,10 +43,9 @@ public class MusicPlayer {
     /**
      * Flushes the player's contents (audio playing, load, select, search)
      * and resets the remainedTime, repeatType and shuffle values.
+     * Also updates the podcast last-left-at hashmap.
      */
-    public void flushPlayer(final int timestamp) {
-        updatePlaying(timestamp);
-
+    public void flushPlayer() {
         if (currentlyLoaded != null && currentlyLoaded.getType() == SearchBar.SearchType.PODCAST) {
             Podcast podcast = (Podcast) currentlyLoaded;
             Episode episode = (Episode) audioPlaying;
@@ -140,11 +139,8 @@ public class MusicPlayer {
      * @param timestamp command timestamp, probably
      */
     public void updatePlaying(final int timestamp) {
-        if (!isPlaying) {
-            return;  // when paused we don't need to update anything
-        }
-
-        if (audioPlaying == null) {
+        if (!isPlaying || audioPlaying == null) {
+            // when paused or without audio, no need to update anything
             return;
         }
 
@@ -154,15 +150,10 @@ public class MusicPlayer {
         if (remainedTime <= 0) {
             int leftover = -remainedTime;
 
-            if (!currentlyLoaded.isCollection()) {  // It was a single song, check for repeat type
+            if (!currentlyLoaded.isCollection()) { // It was a single song, check for repeat type
                 switch (repeatType) {
                     case NO:
-                        currentlyLoaded = null;
-                        audioPlaying = null;
-                        remainedTime = 0;
-
-                        isPlaying = false;
-                        shuffle = false;
+                        flushPlayer();
                         return;
                     case ALL: // repeat once
                         repeatType = RepeatType.NO;
@@ -177,83 +168,58 @@ public class MusicPlayer {
             } else { // Podcast or Playlist (collection), so try and get the next song/episode
                 AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
 
-                if (nextThing == null) { // nothing left in collection, check for repeat type
-                    switch (repeatType) {
-                        case NO: // no repeat, yeet
-                            if (audioPlaying != null) {
-                                isPlaying = !isPlaying;
-                            }
-                            audioPlaying = null;
-                            currentlyLoaded = null;
-                            currentSelection = null;
-                            searchResults = null;
-                            remainedTime = 0;
+                switch (repeatType) {
+                    case NO:
+                        if (nextThing == null) {
+                            flushPlayer();
                             return;
-                        case ALL:
+                        }
+
+                        leftover -= nextThing.getDuration();
+                        while (leftover > 0) {
+                            nextThing = currentlyLoaded.getNextAfter(nextThing);
+                            if (nextThing == null) {
+                                flushPlayer();
+                                return;
+                            }
+                            leftover -= nextThing.getDuration();
+                        }
+
+                        audioPlaying = nextThing;
+                        break;
+                    case ALL:
+                        if (nextThing == null) {
                             if (currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST) {
                                 // replay from first song
-                                playAudio(((Playlist) currentlyLoaded).getSongList().get(0));
-                            } else { // repeat current episode for podcast
+                                audioPlaying = ((Playlist) currentlyLoaded).getSongList().get(0);
+                            } else {
+                                // repeat current episode for podcast
                                 repeatType = RepeatType.NO; // only run again once
-                                playAudio(audioPlaying);
                             }
                             break;
-                        case CURRENT:
-                            playAudio(audioPlaying);
-                            break;
-                        default:
-                            throw new IllegalArgumentException("Invalid repeatType");
-                    }
-                    remainedTime -= leftover % audioPlaying.getDuration();
-                    return;
-                }
-
-                // if we got to here there still is something to play next
-                // but we still need to check for repeat
-                if (repeatType == RepeatType.CURRENT) { // repeat current thing infinitely
-                    playAudio(audioPlaying);
-                    remainedTime -= leftover % audioPlaying.getDuration();
-                    return;
-                }
-
-                if (repeatType == RepeatType.ALL) {
-                    leftover -= nextThing.getDuration();
-                    while (leftover > 0) {
-                        nextThing = currentlyLoaded.getNextAfter(nextThing);
-                        if (nextThing == null) {
-                            nextThing = ((Playlist) currentlyLoaded).getSongList().get(0);
                         }
+
                         leftover -= nextThing.getDuration();
-                    }
-
-                    playAudio(nextThing);
-                    remainedTime -= nextThing.getDuration() % -leftover;
-                    return;
-                }
-
-                if (repeatType == RepeatType.NO) {
-                    leftover -= nextThing.getDuration();
-                    while (leftover > 0) {
-                        nextThing = currentlyLoaded.getNextAfter(nextThing);
-                        if (nextThing == null) {
-                            isPlaying = false;
-                            audioPlaying = null;
-                            currentlyLoaded = null;
-                            currentSelection = null;
-                            searchResults = null;
-                            remainedTime = 0;
-                            return;
+                        while (leftover > 0) {
+                            nextThing = currentlyLoaded.getNextAfter(nextThing);
+                            if (nextThing == null) {
+                                nextThing = ((Playlist) currentlyLoaded).getSongList().get(0);
+                            }
+                            leftover -= nextThing.getDuration();
                         }
-                        leftover -= nextThing.getDuration();
-                    }
 
-                    playAudio(nextThing);
-                    remainedTime -= nextThing.getDuration() % -leftover;
-                    return;
+                        audioPlaying = nextThing;
+                        break;
+                    case CURRENT:
+                        leftover -= audioPlaying.getDuration();
+
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid repeatType");
                 }
 
-                playAudio(nextThing);
-                remainedTime -= leftover % audioPlaying.getDuration();
+                playAudio(audioPlaying);
+                remainedTime -= audioPlaying.getDuration() % -leftover;
             }
         }
     }

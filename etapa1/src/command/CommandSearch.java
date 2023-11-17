@@ -17,16 +17,6 @@ public class CommandSearch extends Command {
     private String type;
     private SearchFilter filters;
 
-    public CommandSearch() {
-    }
-
-    public CommandSearch(final String command, final String username, final int timestamp,
-                         final String type, final SearchFilter filters) {
-        super(command, username, timestamp);
-        this.type = type;
-        this.filters = filters;
-    }
-
     @Override
     public final Response processCommand() {
         SearchBar.SearchType searchType = SearchBar.SearchType.valueOf(this.type.toUpperCase());
@@ -36,7 +26,8 @@ public class CommandSearch extends Command {
                 searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-        player.flushPlayer(this.timestamp);
+        player.updatePlaying(this.timestamp);
+        player.flushPlayer();
 
         player.setSearchResults(searchResults);
 
