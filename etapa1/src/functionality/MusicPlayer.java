@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Getter @Setter
 public class MusicPlayer {
@@ -29,8 +30,7 @@ public class MusicPlayer {
     private List<Song> likedSongs = new ArrayList<Song>();
     private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
     private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
-    //private List<Integer> shuffleOrder = null; // used for shuffle
-    private ISelectable backupPlaylist = null; // used for shuffle
+    private List<Integer> shuffleOrder = null; // used for shuffle
 
     private Map<Podcast, Episode> resumePodcasts = new HashMap<Podcast, Episode>();
     private Map<Episode, Integer> resumeEpisodes = new HashMap<Episode, Integer>();
@@ -46,6 +46,21 @@ public class MusicPlayer {
      * Also updates the podcast last-left-at hashmap.
      */
     public void flushPlayer() {
+        updatePodcasts();
+
+        if (audioPlaying != null) {
+            isPlaying = !isPlaying;
+        }
+        audioPlaying = null;
+        currentlyLoaded = null;
+        currentSelection = null;
+        searchResults = null;
+        remainedTime = 0;
+        repeatType = RepeatType.NO;
+        shuffle = false;
+    }
+
+    private void updatePodcasts() {
         if (currentlyLoaded != null && currentlyLoaded.getType() == SearchBar.SearchType.PODCAST) {
             Podcast podcast = (Podcast) currentlyLoaded;
             Episode episode = (Episode) audioPlaying;
@@ -60,17 +75,6 @@ public class MusicPlayer {
                 resumeEpisodes.put(episode, remainedTime);
             }
         }
-
-        if (audioPlaying != null) {
-            isPlaying = !isPlaying;
-        }
-        audioPlaying = null;
-        currentlyLoaded = null;
-        currentSelection = null;
-        searchResults = null;
-        remainedTime = 0;
-        repeatType = RepeatType.NO;
-        shuffle = false;
     }
 
     /**
@@ -166,7 +170,9 @@ public class MusicPlayer {
                 playAudio(audioPlaying);
                 remainedTime -= leftover % audioPlaying.getDuration();
             } else { // Podcast or Playlist (collection), so try and get the next song/episode
-                AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
+                AudioFile nextThing = shuffle
+                        ? GetNextShuffled((Song) audioPlaying)
+                        : currentlyLoaded.getNextAfter(audioPlaying);
 
                 switch (repeatType) {
                     case NO:
@@ -177,7 +183,9 @@ public class MusicPlayer {
 
                         leftover -= nextThing.getDuration();
                         while (leftover > 0) {
-                            nextThing = currentlyLoaded.getNextAfter(nextThing);
+                            nextThing = shuffle
+                                    ? GetNextShuffled((Song) nextThing)
+                                    : currentlyLoaded.getNextAfter(nextThing);
                             if (nextThing == null) {
                                 flushPlayer();
                                 return;
@@ -201,7 +209,9 @@ public class MusicPlayer {
 
                         leftover -= nextThing.getDuration();
                         while (leftover > 0) {
-                            nextThing = currentlyLoaded.getNextAfter(nextThing);
+                            nextThing = shuffle
+                                    ? GetNextShuffled((Song) nextThing)
+                                    : currentlyLoaded.getNextAfter(nextThing);
                             if (nextThing == null) {
                                 nextThing = ((Playlist) currentlyLoaded).getSongList().get(0);
                             }
@@ -219,7 +229,7 @@ public class MusicPlayer {
                 }
 
                 playAudio(audioPlaying);
-                remainedTime -= audioPlaying.getDuration() % -leftover;
+                remainedTime = -leftover; // this line plagues my existence
             }
         }
     }
@@ -241,36 +251,30 @@ public class MusicPlayer {
      * @return true if shuffle was toggled on; false if shuffle was toggled off.
      */
     public boolean toggleShuffle(final int timestamp, final int seed) {
+        updatePlaying(timestamp);
         shuffle = !shuffle;
 
         if (shuffle) {
             Playlist shuffledPlaylist = new Playlist((Playlist) currentlyLoaded);
-            List<Song> shuffledSongs = shuffledPlaylist.getSongList();
-//            List<Integer> shuffledInts = new ArrayList<Integer>(IntStream
-//                    .rangeClosed(0, shuffledSongs.size() - 1).boxed().toList());
-//            Collections.shuffle(shuffledInts, new Random(seed));
-            Collections.shuffle(shuffledSongs, new Random(seed));
-            shuffledPlaylist.setSongList(shuffledSongs);
+            List<Integer> shuffledInts = new ArrayList<Integer>(IntStream
+                    .rangeClosed(0, shuffledPlaylist.getSongList().size() - 1).boxed().toList());
+            Collections.shuffle(shuffledInts, new Random(seed));
 
-            //shuffleOrder = shuffledInts;
-            backupPlaylist = currentlyLoaded;
-            currentlyLoaded = shuffledPlaylist;
+            shuffleOrder = shuffledInts;
         } else {
-            currentlyLoaded = backupPlaylist;
-            backupPlaylist = null;
-            //shuffleOrder = null;
+            shuffleOrder = null;
         }
-        updatePlaying(timestamp);
 
         return shuffle;
     }
 
-/*    public Song GetNextShuffled(Song song) {
+    public Song GetNextShuffled(Song song) {
         Playlist playlist = (Playlist) currentlyLoaded;
         Integer k = playlist.getSongList().indexOf(song);
         int kInShuffle = shuffleOrder.indexOf(k);
+        if (kInShuffle == shuffleOrder.size() - 1) return null;
         return playlist.getSongList().get(shuffleOrder.get(kInShuffle + 1));
-    }*/
+    }
 
     /**
      * Likes or unlikes the provided song.
@@ -377,5 +381,39 @@ public class MusicPlayer {
         } else {
             remainedTime += windingSpeed;
         }
+    }
+
+    public void next(final int timestamp) {
+        updatePlaying(timestamp);
+
+        if (!currentlyLoaded.isCollection()) { // only a single song
+            switch (repeatType) {
+                case NO:
+                    flushPlayer();
+                    return;
+                case ALL:
+                    repeatType = RepeatType.NO;
+                    playAudio(audioPlaying);
+                    return;
+                case CURRENT:
+                    playAudio(audioPlaying);
+                    return;
+            }
+        }
+
+        AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
+
+        switch (repeatType) {
+            case NO:
+                if (nextThing == null) {
+                    flushPlayer();
+                    return;
+                }
+
+                if (shuffle)
+                    return;
+        }
+
+
     }
 }
