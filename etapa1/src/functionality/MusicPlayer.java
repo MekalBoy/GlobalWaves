@@ -250,8 +250,7 @@ public class MusicPlayer {
      * @param seed Random object initialization seed
      * @return true if shuffle was toggled on; false if shuffle was toggled off.
      */
-    public boolean toggleShuffle(final int timestamp, final int seed) {
-        updatePlaying(timestamp);
+    public boolean toggleShuffle(final int seed) {
         shuffle = !shuffle;
 
         if (shuffle) {

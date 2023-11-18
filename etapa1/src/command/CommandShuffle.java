@@ -16,6 +16,7 @@ public class CommandShuffle extends Command {
         String message;
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        player.updatePlaying(timestamp);
         ISelectable loaded = player.getCurrentlyLoaded();
 
         if (loaded == null) {
@@ -23,7 +24,7 @@ public class CommandShuffle extends Command {
         } else if (loaded.getType() != SearchBar.SearchType.PLAYLIST) {
             message = "The loaded source is not a playlist.";
         } else {
-            message = player.toggleShuffle(this.timestamp, this.seed)
+            message = player.toggleShuffle(this.seed)
                     ? "Shuffle function activated successfully."
                     : "Shuffle function deactivated successfully.";
         }
