@@ -143,8 +143,9 @@ public class MusicPlayer {
      * @param timestamp command timestamp, probably
      */
     public void updatePlaying(final int timestamp) {
-        if (!isPlaying || audioPlaying == null) {
+        if (!isPlaying || audioPlaying == null || lastUpdateTime == timestamp) {
             // when paused or without audio, no need to update anything
+            lastUpdateTime = timestamp;
             return;
         }
 
@@ -267,12 +268,36 @@ public class MusicPlayer {
         return shuffle;
     }
 
-    public Song GetNextShuffled(Song song) {
+    /**
+     * Fetches the next shuffled song in a playlist according to
+     * a previously generated shuffle order.
+     * @param song Current song in the playlist.
+     * @return Next Song if shuffle still has stuff; null if shuffle ran out
+     */
+    private Song GetNextShuffled(Song song) {
         Playlist playlist = (Playlist) currentlyLoaded;
         Integer k = playlist.getSongList().indexOf(song);
         int kInShuffle = shuffleOrder.indexOf(k);
-        if (kInShuffle == shuffleOrder.size() - 1) return null;
+        if (kInShuffle == shuffleOrder.size() - 1) {
+            return null;
+        }
         return playlist.getSongList().get(shuffleOrder.get(kInShuffle + 1));
+    }
+
+    /**
+     * Fetches the previous shuffled song in a playlist according to
+     * a previously generated shuffle order.
+     * @param song Current song in the playlist.
+     * @return Prev Song if it's not the first in the shuffle list; null otherwise
+     */
+    private Song GetPrevShuffled(Song song) {
+        Playlist playlist = (Playlist) currentlyLoaded;
+        Integer k = playlist.getSongList().indexOf(song);
+        int kInShuffle = shuffleOrder.indexOf(k);
+        if (kInShuffle == 0) {
+            return null;
+        }
+        return playlist.getSongList().get(shuffleOrder.get(kInShuffle - 1));
     }
 
     /**
@@ -382,37 +407,45 @@ public class MusicPlayer {
         }
     }
 
-    public void next(final int timestamp) {
-        updatePlaying(timestamp);
+    public boolean next() {
+        AudioFile nextFile = shuffle
+                ? GetNextShuffled((Song) audioPlaying)
+                : currentlyLoaded.getNextAfter(audioPlaying);
 
-        if (!currentlyLoaded.isCollection()) { // only a single song
-            switch (repeatType) {
-                case NO:
-                    flushPlayer();
-                    return;
-                case ALL:
-                    repeatType = RepeatType.NO;
-                    playAudio(audioPlaying);
-                    return;
-                case CURRENT:
-                    playAudio(audioPlaying);
-                    return;
+        if (repeatType == RepeatType.CURRENT) {
+            playAudio(audioPlaying);
+            return true;
+        } else if (repeatType == RepeatType.ALL) {
+            audioPlaying = nextFile;
+
+            if (nextFile == null) {
+                playAudio(((Playlist) currentlyLoaded).getSongList().get(0));
+                return true;
             }
+
+            playAudio(audioPlaying);
+            return true;
         }
 
-        AudioFile nextThing = currentlyLoaded.getNextAfter(audioPlaying);
-
-        switch (repeatType) {
-            case NO:
-                if (nextThing == null) {
-                    flushPlayer();
-                    return;
-                }
-
-                if (shuffle)
-                    return;
+        if (nextFile == null) {
+            flushPlayer();
+            return false;
         }
 
+        playAudio(nextFile);
+        return true;
+    }
 
+    public void prev() {
+        AudioFile prevFile = shuffle
+                ? GetPrevShuffled((Song) audioPlaying)
+                : currentlyLoaded.getPrevBefore(audioPlaying);
+
+        if (prevFile == null || (audioPlaying != null && audioPlaying.getDuration() != remainedTime)) {
+            playAudio(audioPlaying);
+            return;
+        }
+
+        playAudio(prevFile);
     }
 }

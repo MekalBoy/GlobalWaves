@@ -18,7 +18,7 @@ public class CommandForward extends Command {
         ISelectable selection = player.getCurrentlyLoaded();
 
         if (selection == null) {
-            message = "Please load a source before skipping forward.";
+            message = "Please load a source before attempting to forward.";
         } else if (selection.getType() != SearchBar.SearchType.PODCAST) {
             message = "The loaded source is not a podcast.";
         } else {

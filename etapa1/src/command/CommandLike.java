@@ -16,6 +16,11 @@ public class CommandLike extends Command {
         String message = "";
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        player.updatePlaying(timestamp);
+
+        if (timestamp == 5700) {
+            System.out.println("lel");
+        }
         AudioFile audio = player.getAudioPlaying();
 
         if (audio == null) {

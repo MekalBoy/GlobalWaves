@@ -75,6 +75,16 @@ public class Playlist implements ISelectable {
     }
 
     @Override
+    public final Song getPrevBefore(final AudioFile file) {
+        Song song = (Song) file;
+        int index = songList.indexOf(song);
+        if (index == -1 || index == 0) {
+            return null;
+        }
+        return songList.get(index - 1);
+    }
+
+    @Override
     public final SearchBar.SearchType getType() {
         return SearchBar.SearchType.PLAYLIST;
     }

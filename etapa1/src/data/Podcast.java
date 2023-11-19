@@ -40,6 +40,16 @@ public class Podcast implements ISelectable {
     }
 
     @Override
+    public final Episode getPrevBefore(final AudioFile file) {
+        Episode episode = (Episode) file;
+        int index = episodes.indexOf(episode);
+        if (index == -1 || index == 0) {
+            return null;
+        }
+        return episodes.get(index - 1);
+    }
+
+    @Override
     public final SearchBar.SearchType getType() {
         return SearchBar.SearchType.PODCAST;
     }

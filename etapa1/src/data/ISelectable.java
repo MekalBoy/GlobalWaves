@@ -25,4 +25,10 @@ public interface ISelectable {
      * @return The next audio file if there's still other audio in the collection, or null.
      */
     AudioFile getNextAfter(AudioFile file);
+
+    /**
+     * @param file AudioFile present in the collection
+     * @return The previous audio file if the provided one isn't the first, or null.
+     */
+    AudioFile getPrevBefore(AudioFile file);
 }

@@ -36,4 +36,9 @@ public class AudioFile implements ISelectable {
     public final AudioFile getNextAfter(final AudioFile file) {
         return null;
     }
+
+    @Override
+    public final AudioFile getPrevBefore(final AudioFile file) {
+        return null;
+    }
 }
