@@ -1,7 +1,6 @@
 package data;
 
 import fileio.input.SongInput;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,7 +44,7 @@ public class Song extends AudioFile {
     }
 
     @Override
-    public final SearchBar.SearchType getType() {
-        return SearchBar.SearchType.SONG;
+    public final SearchType getType() {
+        return ISelectable.SearchType.SONG;
     }
 }

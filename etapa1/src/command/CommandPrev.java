@@ -8,15 +8,11 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandPrev extends Command {
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message = "";
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
         player.updatePlaying(timestamp);
-
-        if (timestamp == 6390) {
-            System.out.println("lel");
-        }
 
         if (player.getCurrentlyLoaded() == null) {
             message = "Please load a source before returning to the previous track.";

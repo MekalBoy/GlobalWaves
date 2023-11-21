@@ -1,6 +1,5 @@
 package data;
 
-import functionality.SearchBar;
 import lombok.Getter;
 
 @Getter
@@ -23,7 +22,7 @@ public class AudioFile implements ISelectable {
      * @return SearchBar.SearchType
      */
     @Override
-    public SearchBar.SearchType getType() {
+    public SearchType getType() {
         return null;
     }
 

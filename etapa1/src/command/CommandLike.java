@@ -1,10 +1,10 @@
 package command;
 
 import data.AudioFile;
+import data.ISelectable;
 import data.Library;
 import data.Song;
 import functionality.MusicPlayer;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,14 +18,11 @@ public class CommandLike extends Command {
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
         player.updatePlaying(timestamp);
 
-        if (timestamp == 5700) {
-            System.out.println("lel");
-        }
         AudioFile audio = player.getAudioPlaying();
 
         if (audio == null) {
             message = "Please load a source before liking or unliking.";
-        } else if (audio.getType() != SearchBar.SearchType.SONG) {
+        } else if (audio.getType() != ISelectable.SearchType.SONG) {
             message = "Loaded source is not a song.";
         } else {
             boolean isLiked = player.likeUnlike((Song) audio);

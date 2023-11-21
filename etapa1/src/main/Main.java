@@ -78,27 +78,13 @@ public final class Main {
         ArrayNode outputs = objectMapper.createArrayNode();
 
         Library mainLibrary = new Library(library);
-        Command[] commands;
 
-        // need to parse filePathInput's contents into actual commands, process them,
-        //  then assemble outputs
-        if (filePathInput.contains("test01")
-                || filePathInput.contains("test02")
-                || filePathInput.contains("test03") || filePathInput.contains("test04")
-                || filePathInput.contains("test05") || filePathInput.contains("test06")
-                || filePathInput.contains("test07") || filePathInput.contains("test08")
-                || filePathInput.contains("test09") || filePathInput.contains("test10")
-                || filePathInput.contains("test11") || filePathInput.contains("test12")
-                || filePathInput.contains("test13") || filePathInput.contains("test14")
-                || filePathInput.contains("test15")
-                || filePathInput.contains("test16")/* || filePathInput.contains("test17")*/) {
+        String inputPath = "input/" + filePathInput;
+        Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
+        List<Command> commandsList = Arrays.stream(commands).toList();
 
-            commands = objectMapper.readValue(new File("input/" + filePathInput), Command[].class);
-            List<Command> commandsList = Arrays.stream(commands).toList();
-
-            for (Command com : commands) {
-                outputs.add(objectMapper.valueToTree(com.processCommand()));
-            }
+        for (Command com : commands) {
+            outputs.add(objectMapper.valueToTree(com.processCommand()));
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

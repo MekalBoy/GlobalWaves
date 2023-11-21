@@ -1,13 +1,11 @@
 package data;
 
-import functionality.SearchBar;
-
 public interface ISelectable {
 
     /**
      * Method should return SONG, PLAYLIST, PODCAST or null.
      */
-    SearchBar.SearchType getType();
+    SearchType getType();
 
     /**
      * Method should return the name of the object.
@@ -31,4 +29,10 @@ public interface ISelectable {
      * @return The previous audio file if the provided one isn't the first, or null.
      */
     AudioFile getPrevBefore(AudioFile file);
+
+    enum SearchType {
+        SONG,
+        PLAYLIST,
+        PODCAST
+    }
 }

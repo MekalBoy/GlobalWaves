@@ -1,6 +1,5 @@
 package data;
 
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,8 +84,8 @@ public class Playlist implements ISelectable {
     }
 
     @Override
-    public final SearchBar.SearchType getType() {
-        return SearchBar.SearchType.PLAYLIST;
+    public final SearchType getType() {
+        return ISelectable.SearchType.PLAYLIST;
     }
 
     @Override

@@ -3,7 +3,6 @@ package command;
 import data.ISelectable;
 import data.Library;
 import functionality.MusicPlayer;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ public class CommandForward extends Command {
 
         if (selection == null) {
             message = "Please load a source before attempting to forward.";
-        } else if (selection.getType() != SearchBar.SearchType.PODCAST) {
+        } else if (selection.getType() != ISelectable.SearchType.PODCAST) {
             message = "The loaded source is not a podcast.";
         } else {
             player.forward(timestamp);

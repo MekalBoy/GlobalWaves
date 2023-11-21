@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandNext extends Command {
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message = "Please load a source before skipping to the next track.";
 
         MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();

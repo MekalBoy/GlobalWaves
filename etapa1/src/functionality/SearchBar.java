@@ -8,11 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBar {
-    public enum SearchType {
-        SONG,
-        PLAYLIST,
-        PODCAST
-    }
 
     /**
      * Uses the parameters to retrieve matching results from the Library's database.
@@ -22,7 +17,8 @@ public class SearchBar {
      * @param filterer filter object with wanted specs
      * @return first 5 results that match the requirements
      */
-    public static List<ISelectable> search(final String username, final SearchType searchType,
+    public static List<ISelectable> search(final String username,
+                                           final ISelectable.SearchType searchType,
                                            final SearchFilter filterer) {
         final int searchLimit = 5;
 

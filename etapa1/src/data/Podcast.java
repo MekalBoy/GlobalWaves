@@ -2,7 +2,6 @@ package data;
 
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,8 +49,8 @@ public class Podcast implements ISelectable {
     }
 
     @Override
-    public final SearchBar.SearchType getType() {
-        return SearchBar.SearchType.PODCAST;
+    public final SearchType getType() {
+        return ISelectable.SearchType.PODCAST;
     }
 
     @Override

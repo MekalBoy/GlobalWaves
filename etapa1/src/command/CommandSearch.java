@@ -19,7 +19,7 @@ public class CommandSearch extends Command {
 
     @Override
     public final Response processCommand() {
-        SearchBar.SearchType searchType = SearchBar.SearchType.valueOf(this.type.toUpperCase());
+        ISelectable.SearchType searchType = ISelectable.SearchType.valueOf(this.type.toUpperCase());
 
         List<ISelectable> searchResults = SearchBar.search(this.username, searchType, filters);
         List<String> results =

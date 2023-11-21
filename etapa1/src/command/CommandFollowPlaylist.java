@@ -4,7 +4,6 @@ import data.ISelectable;
 import data.Library;
 import data.Playlist;
 import functionality.MusicPlayer;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class CommandFollowPlaylist extends Command {
 
         if (selection == null) {
             message = "Please select a source before following or unfollowing.";
-        } else if (selection.getType() != SearchBar.SearchType.PLAYLIST) {
+        } else if (selection.getType() != ISelectable.SearchType.PLAYLIST) {
             message = "The selected source is not a playlist.";
         } else if (Objects.equals(((Playlist) selection).getOwner(), username)) {
             message = "You cannot follow or unfollow your own playlist.";

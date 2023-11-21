@@ -35,7 +35,7 @@ public class MusicPlayer {
     private Map<Podcast, Episode> resumePodcasts = new HashMap<Podcast, Episode>();
     private Map<Episode, Integer> resumeEpisodes = new HashMap<Episode, Integer>();
 
-    private final int windingSpeed = 90;
+    private final int windingSpeed = 90; // used for forward/backward
 
     public MusicPlayer() {
     }
@@ -61,7 +61,8 @@ public class MusicPlayer {
     }
 
     private void updatePodcasts() {
-        if (currentlyLoaded != null && currentlyLoaded.getType() == SearchBar.SearchType.PODCAST) {
+        if (currentlyLoaded != null
+                && currentlyLoaded.getType() == ISelectable.SearchType.PODCAST) {
             Podcast podcast = (Podcast) currentlyLoaded;
             Episode episode = (Episode) audioPlaying;
             if (resumePodcasts.containsKey(podcast)) { // we've played this podcast before
@@ -86,15 +87,14 @@ public class MusicPlayer {
 
         switch (currentlyLoaded.getType()) {
             case SONG:
-                this.audioPlaying = (Song) this.getCurrentSelection();
-                this.remainedTime = audioPlaying.getDuration();
+                playAudio((Song) this.getCurrentSelection());
                 break;
             case PLAYLIST:
                 if (((Playlist) this.getCurrentSelection()).getSongList().isEmpty()) {
                     return false;
                 }
-                this.audioPlaying = ((Playlist) this.getCurrentSelection()).getSongList().get(0);
-                this.remainedTime = audioPlaying.getDuration();
+
+                playAudio(((Playlist) this.getCurrentSelection()).getSongList().get(0));
                 break;
             case PODCAST:
                 Podcast podcast = ((Podcast) this.getCurrentSelection());
@@ -105,15 +105,14 @@ public class MusicPlayer {
 
                 if (resumePodcasts.containsKey(podcast)) { // we've played this podcast before
                     Episode episode = resumePodcasts.get(podcast);
-                    this.audioPlaying = episode;
+                    playAudio(episode);
                     if (resumeEpisodes.containsKey(episode)) { // this is where we left off
                         this.remainedTime = resumeEpisodes.get(episode);
                     } else { // first time we play this episode
                         this.remainedTime = episode.getDuration();
                     }
                 } else { // we haven't played this podcast before
-                    this.audioPlaying = ((Podcast) this.getCurrentSelection()).getEpisodes().get(0);
-                    this.remainedTime = audioPlaying.getDuration();
+                    playAudio(((Podcast) this.getCurrentSelection()).getEpisodes().get(0));
                 }
                 break;
             default:
@@ -172,7 +171,7 @@ public class MusicPlayer {
                 remainedTime -= leftover % audioPlaying.getDuration();
             } else { // Podcast or Playlist (collection), so try and get the next song/episode
                 AudioFile nextThing = shuffle
-                        ? GetNextShuffled((Song) audioPlaying)
+                        ? getNextShuffled((Song) audioPlaying)
                         : currentlyLoaded.getNextAfter(audioPlaying);
 
                 switch (repeatType) {
@@ -185,7 +184,7 @@ public class MusicPlayer {
                         leftover -= nextThing.getDuration();
                         while (leftover > 0) {
                             nextThing = shuffle
-                                    ? GetNextShuffled((Song) nextThing)
+                                    ? getNextShuffled((Song) nextThing)
                                     : currentlyLoaded.getNextAfter(nextThing);
                             if (nextThing == null) {
                                 flushPlayer();
@@ -198,23 +197,31 @@ public class MusicPlayer {
                         break;
                     case ALL:
                         if (nextThing == null) {
-                            if (currentlyLoaded.getType() == SearchBar.SearchType.PLAYLIST) {
+                            if (currentlyLoaded.getType() == ISelectable.SearchType.PLAYLIST) {
                                 // replay from first song
-                                audioPlaying = ((Playlist) currentlyLoaded).getSongList().get(0);
+                                audioPlaying = shuffle
+                                        ? ((Playlist) currentlyLoaded).getSongList()
+                                        .get(shuffleOrder.get(0))
+                                        : ((Playlist) currentlyLoaded).getSongList()
+                                        .get(0);
                             } else {
                                 // repeat current episode for podcast
                                 repeatType = RepeatType.NO; // only run again once
                             }
-                            break;
+                            nextThing = audioPlaying;
                         }
 
                         leftover -= nextThing.getDuration();
                         while (leftover > 0) {
                             nextThing = shuffle
-                                    ? GetNextShuffled((Song) nextThing)
+                                    ? getNextShuffled((Song) nextThing)
                                     : currentlyLoaded.getNextAfter(nextThing);
                             if (nextThing == null) {
-                                nextThing = ((Playlist) currentlyLoaded).getSongList().get(0);
+                                nextThing = shuffle
+                                        ? ((Playlist) currentlyLoaded).getSongList()
+                                        .get(shuffleOrder.get(0))
+                                        : ((Playlist) currentlyLoaded).getSongList()
+                                        .get(0);
                             }
                             leftover -= nextThing.getDuration();
                         }
@@ -223,7 +230,6 @@ public class MusicPlayer {
                         break;
                     case CURRENT:
                         leftover -= audioPlaying.getDuration();
-
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid repeatType");
@@ -274,7 +280,7 @@ public class MusicPlayer {
      * @param song Current song in the playlist.
      * @return Next Song if shuffle still has stuff; null if shuffle ran out
      */
-    private Song GetNextShuffled(Song song) {
+    private Song getNextShuffled(final Song song) {
         Playlist playlist = (Playlist) currentlyLoaded;
         Integer k = playlist.getSongList().indexOf(song);
         int kInShuffle = shuffleOrder.indexOf(k);
@@ -290,7 +296,7 @@ public class MusicPlayer {
      * @param song Current song in the playlist.
      * @return Prev Song if it's not the first in the shuffle list; null otherwise
      */
-    private Song GetPrevShuffled(Song song) {
+    private Song getPrevShuffled(final Song song) {
         Playlist playlist = (Playlist) currentlyLoaded;
         Integer k = playlist.getSongList().indexOf(song);
         int kInShuffle = shuffleOrder.indexOf(k);
@@ -361,8 +367,7 @@ public class MusicPlayer {
      * Cycles through to the next repeatType of the player.
      * @return new repeatType
      */
-    public RepeatType switchRepeat(final int timestamp) {
-        updatePlaying(timestamp);
+    public RepeatType switchRepeat() {
         this.repeatType = switch (this.repeatType) {
             case NO -> RepeatType.ALL;
             case ALL -> RepeatType.CURRENT;
@@ -371,17 +376,6 @@ public class MusicPlayer {
         };
         return this.repeatType;
     }
-
-/*    public void ForwardBackward(int timestamp, int timeToSkip) {
-        UpdatePlaying(timestamp);
-        if (audioPlaying.getDuration() - remainedTime < 90) {
-            remainedTime = audioPlaying.getDuration();
-        } else if (remainedTime - 90 < 0) {
-            PlayAudio(currentlyLoaded.getNextAfter(audioPlaying));
-        } else {
-            remainedTime += 90;
-        }
-    }*/
 
     /**
      * Forwards the player by 90s or skips to the next audio file.
@@ -407,9 +401,13 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * Attempts to skip to the next audio file.
+     * @return true if successfully skipped; false if no other audio to skip to
+     */
     public boolean next() {
         AudioFile nextFile = shuffle
-                ? GetNextShuffled((Song) audioPlaying)
+                ? getNextShuffled((Song) audioPlaying)
                 : currentlyLoaded.getNextAfter(audioPlaying);
 
         if (repeatType == RepeatType.CURRENT) {
@@ -436,12 +434,17 @@ public class MusicPlayer {
         return true;
     }
 
+    /**
+     * Attempts to rewind to the previous audio file if the current audio
+     * isn't played yet. Otherwise, it rewinds to the start.
+     */
     public void prev() {
         AudioFile prevFile = shuffle
-                ? GetPrevShuffled((Song) audioPlaying)
+                ? getPrevShuffled((Song) audioPlaying)
                 : currentlyLoaded.getPrevBefore(audioPlaying);
 
-        if (prevFile == null || (audioPlaying != null && audioPlaying.getDuration() != remainedTime)) {
+        if (prevFile == null
+                || (audioPlaying != null && audioPlaying.getDuration() != remainedTime)) {
             playAudio(audioPlaying);
             return;
         }

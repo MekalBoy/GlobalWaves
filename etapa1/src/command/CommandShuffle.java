@@ -3,7 +3,6 @@ package command;
 import data.ISelectable;
 import data.Library;
 import functionality.MusicPlayer;
-import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +20,7 @@ public class CommandShuffle extends Command {
 
         if (loaded == null) {
             message = "Please load a source before using the shuffle function.";
-        } else if (loaded.getType() != SearchBar.SearchType.PLAYLIST) {
+        } else if (loaded.getType() != ISelectable.SearchType.PLAYLIST) {
             message = "The loaded source is not a playlist.";
         } else {
             message = player.toggleShuffle(this.seed)
