@@ -25,3 +25,7 @@ hs_err_pid*
 etapa1/result/
 
 etapa1/checkstyle.txt
+
+etapa2/result/
+
+etapa2/checkstyle.txt
