@@ -14,18 +14,23 @@ public class CommandSwitchVisibility extends Command {
     public final ResponseMsg processCommand() {
         String message = "Visibility status updated successfully to ";
 
-        MusicPlayer player = Library.instance.seekUser(username).getPlayer();
-
-        if (player.getCreatedPlaylists().size() <= playlistId - 1) {
-            message = "The specified playlist ID is too high.";
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            message = this.username
+                    + " is offline.";
         } else {
-            Playlist playlist = player.getCreatedPlaylists().get(playlistId - 1);
+            MusicPlayer player = Library.instance.seekUser(username).getPlayer();
 
-            playlist.switchVisibility();
+            if (player.getCreatedPlaylists().size() <= playlistId - 1) {
+                message = "The specified playlist ID is too high.";
+            } else {
+                Playlist playlist = player.getCreatedPlaylists().get(playlistId - 1);
 
-            message += playlist.isPrivate()
-                    ? "private."
-                    : "public.";
+                playlist.switchVisibility();
+
+                message += playlist.isPrivate()
+                        ? "private."
+                        : "public.";
+            }
         }
 
         return new ResponseMsg(this, message);

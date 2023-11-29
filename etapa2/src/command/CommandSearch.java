@@ -8,6 +8,7 @@ import functionality.SearchBar;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,21 +20,30 @@ public class CommandSearch extends Command {
 
     @Override
     public final Response processCommand() {
-        ISelectable.SearchType searchType = ISelectable.SearchType.valueOf(this.type.toUpperCase());
+        String message;
+        List<String> results;
 
-        List<ISelectable> searchResults = SearchBar.search(this.username, searchType, filters);
-        List<String> results =
-                searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            results = new ArrayList<String>();
+            message = this.username
+                    + " is offline.";
+        } else {
+            ISelectable.SearchType searchType =
+                    ISelectable.SearchType.valueOf(this.type.toUpperCase());
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-        player.updatePlaying(this.timestamp);
-        player.flushPlayer();
+            List<ISelectable> searchResults = SearchBar.search(this.username, searchType, filters);
+            results = searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
-        player.setSearchResults(searchResults);
+            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            player.updatePlaying(this.timestamp);
+            player.flushPlayer();
 
-        String message = "Search returned "
-                + results.size()
-                + " results";
+            player.setSearchResults(searchResults);
+
+            message = "Search returned "
+                    + results.size()
+                    + " results";
+        }
 
         return new ResponseMsgSearch(this, message, results);
     }

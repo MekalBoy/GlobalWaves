@@ -12,15 +12,20 @@ public class CommandLoad extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-
-        if (player.getCurrentSelection() == null) {
-            message = "Please select a source before attempting to load.";
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            message = this.username
+                    + " is offline.";
         } else {
-            boolean succeeded = player.loadAudio(this.timestamp);
-            message = succeeded
-                    ? "Playback loaded successfully."
-                    : "You can't load an empty audio collection!";
+            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+
+            if (player.getCurrentSelection() == null) {
+                message = "Please select a source before attempting to load.";
+            } else {
+                boolean succeeded = player.loadAudio(this.timestamp);
+                message = succeeded
+                        ? "Playback loaded successfully."
+                        : "You can't load an empty audio collection!";
+            }
         }
 
         return new ResponseMsg(this, message);

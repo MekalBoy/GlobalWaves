@@ -15,18 +15,25 @@ public class CommandLike extends Command {
     public final ResponseMsg processCommand() {
         String message = "";
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-        player.updatePlaying(timestamp);
-
-        AudioFile audio = player.getAudioPlaying();
-
-        if (audio == null) {
-            message = "Please load a source before liking or unliking.";
-        } else if (audio.getType() != ISelectable.SearchType.SONG) {
-            message = "Loaded source is not a song.";
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            message = this.username
+                    + " is offline.";
         } else {
-            boolean isLiked = player.likeUnlike((Song) audio);
-            message = isLiked ? "Like registered successfully." : "Unlike registered successfully.";
+            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            player.updatePlaying(timestamp);
+
+            AudioFile audio = player.getAudioPlaying();
+
+            if (audio == null) {
+                message = "Please load a source before liking or unliking.";
+            } else if (audio.getType() != ISelectable.SearchType.SONG) {
+                message = "Loaded source is not a song.";
+            } else {
+                boolean isLiked = player.likeUnlike((Song) audio);
+                message = isLiked
+                        ? "Like registered successfully."
+                        : "Unlike registered successfully.";
+            }
         }
 
         return new ResponseMsg(this, message);

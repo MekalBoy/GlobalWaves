@@ -36,10 +36,10 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs"),
         @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists"),
         // etapa2
-        //@JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus")
+        @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus"),
+        @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers")
 })
-@Getter
-@Setter
+@Getter @Setter
 public abstract class Command {
     @JsonProperty("command")
     protected String command;

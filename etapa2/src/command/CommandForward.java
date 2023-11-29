@@ -13,16 +13,21 @@ public class CommandForward extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-        ISelectable selection = player.getCurrentlyLoaded();
-
-        if (selection == null) {
-            message = "Please load a source before attempting to forward.";
-        } else if (selection.getType() != ISelectable.SearchType.PODCAST) {
-            message = "The loaded source is not a podcast.";
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            message = this.username
+                    + " is offline.";
         } else {
-            player.forward(timestamp);
-            message = "Skipped forward successfully.";
+            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            ISelectable selection = player.getCurrentlyLoaded();
+
+            if (selection == null) {
+                message = "Please load a source before attempting to forward.";
+            } else if (selection.getType() != ISelectable.SearchType.PODCAST) {
+                message = "The loaded source is not a podcast.";
+            } else {
+                player.forward(timestamp);
+                message = "Skipped forward successfully.";
+            }
         }
 
         return new ResponseMsg(this, message);

@@ -79,7 +79,7 @@ public final class Main {
 
         Library mainLibrary = new Library(library);
 
-        if (filePathInput.contains("lmao")) {
+        if (filePathInput.contains("test01")) {
             String inputPath = "input/" + filePathInput;
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();

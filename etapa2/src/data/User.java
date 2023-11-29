@@ -7,8 +7,16 @@ import lombok.Setter;
 
 @Getter @Setter
 public class User {
+    public enum UserType {
+        NORMAL,
+        ARTIST,
+        HOST
+    }
     private String username, city;
     private int age;
+
+    private UserType userType = UserType.NORMAL;
+    private boolean isOnline = true;
 
     private MusicPlayer player = new MusicPlayer();
 
@@ -25,5 +33,14 @@ public class User {
         this.username = input.getUsername();
         this.city = input.getCity();
         this.age = input.getAge();
+    }
+
+    /**
+     * Switches the user's connection status.
+     * @return true if user is now online; false if now offline
+     */
+    public boolean toggleOnline() {
+        isOnline = !isOnline;
+        return isOnline;
     }
 }

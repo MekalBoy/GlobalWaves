@@ -11,16 +11,21 @@ public class CommandNext extends Command {
     public final ResponseMsg processCommand() {
         String message = "Please load a source before skipping to the next track.";
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
-        player.updatePlaying(timestamp);
+        if (!Library.instance.seekUser(this.username).isOnline()) {
+            message = this.username
+                    + " is offline.";
+        } else {
+            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            player.updatePlaying(timestamp);
 
-        if (player.getCurrentlyLoaded() != null) {
-            boolean isGood = player.next();
-            message = isGood
-                    ? "Skipped to next track successfully. The current track is "
-                    + player.getAudioPlaying().getName()
-                    + "."
-                    : message;
+            if (player.getCurrentlyLoaded() != null) {
+                boolean isGood = player.next();
+                message = isGood
+                        ? "Skipped to next track successfully. The current track is "
+                        + player.getAudioPlaying().getName()
+                        + "."
+                        : message;
+            }
         }
 
         return new ResponseMsg(this, message);
