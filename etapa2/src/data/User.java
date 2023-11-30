@@ -23,10 +23,11 @@ public class User {
     public User() {
     }
 
-    public User(final String username, final String city, final int age) {
+    public User(final String username, final String city, final int age, final String type) {
         this.username = username;
         this.city = city;
         this.age = age;
+        this.userType = UserType.valueOf(type);
     }
 
     public User(final UserInput input) {

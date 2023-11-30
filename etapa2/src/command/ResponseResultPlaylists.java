@@ -10,12 +10,6 @@ import java.util.List;
 public class ResponseResultPlaylists extends Response {
     private List<Playlist.PlaylistInfo> result;
 
-    public ResponseResultPlaylists(final String command, final String user, final int timestamp,
-                                   final List<Playlist.PlaylistInfo> result) {
-        super(command, user, timestamp);
-        this.result = result;
-    }
-
     public ResponseResultPlaylists(final Command command,
                                    final List<Playlist.PlaylistInfo> result) {
         super(command);

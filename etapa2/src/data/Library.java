@@ -14,6 +14,7 @@ public class Library {
     private List<Song> songs;
     private List<Playlist> playlists;
     private List<Podcast> podcasts;
+    private List<Album> albums;
 
     public static Library instance;
     // each test needs a new library so the instance is remade each time
@@ -44,14 +45,28 @@ public class Library {
     /**
      * Adds the podcast to the library's database.
      */
-    public final void addPodcasts(final Podcast podcast) {
+    public final void addPodcast(final Podcast podcast) {
         podcasts.add(podcast);
+    }
+
+    /**
+     * Adds the album to the library's database.
+     */
+    public final void addAlbum(final Album album) {
+        albums.add(album);
+    }
+
+    /**
+     * Adds the user to the library's database.
+     */
+    public final void addUser(final User user) {
+        users.add(user);
     }
 
     /**
      * Retrieves the User object from the library's database.
      * @param username username of the seeked user
-     * @return User object
+     * @return User object or null
      */
     public final User seekUser(final String username) {
         for (User user : this.users) {
@@ -65,12 +80,26 @@ public class Library {
     /**
      * Retrieves the Playlist object from the library's database.
      * @param playlistName name of the seeked playlist
-     * @return Playlist object
+     * @return Playlist object or null
      */
     public final Playlist seekPlaylist(final String playlistName) {
         for (Playlist playlist : this.playlists) {
             if (playlist.getName().equals(playlistName)) {
                 return playlist;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the Playlist object from the library's database.
+     * @param albumName name of the seeked album
+     * @return Album object or null
+     */
+    public final Album seekAlbum(final String albumName) {
+        for (Album album : this.albums) {
+            if (album.getName().equals(albumName)) {
+                return album;
             }
         }
         return null;

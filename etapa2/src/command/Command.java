@@ -37,7 +37,12 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists"),
         // etapa2
         @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus"),
-        @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers")
+        @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers"),
+        @JsonSubTypes.Type(value = AddUser.class, name = "addUser"),
+//        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
+        @JsonSubTypes.Type(value = AddAlbum.class, name = "addAlbum"),
+        @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums")
+//        @JsonSubTypes.Type(value = ShowPodcasts.class, name = "showPodcasts")
 })
 @Getter @Setter
 public abstract class Command {

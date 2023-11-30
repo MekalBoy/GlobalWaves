@@ -33,6 +33,7 @@ public interface ISelectable {
     enum SearchType {
         SONG,
         PLAYLIST,
-        PODCAST
+        PODCAST,
+        ALBUM
     }
 }
