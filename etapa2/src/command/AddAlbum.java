@@ -30,7 +30,7 @@ public class AddAlbum extends Command {
             message = this.username + " is not an artist.";
         } else if (album != null && album.getOwner().equals(this.username)) {
             message = this.username + " has another album with the same name.";
-        } else if (songs.size() != songs.stream().distinct().count()) {
+        } else if (songs.size() != songs.stream().map(Song::getName).distinct().count()) {
             message = this.username + " has the same song at least twice in this album.";
         } else {
             album = new Album(this.name, this.username, this.description,
