@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Getter @Setter
 public class AddAlbum extends Command {
@@ -17,8 +18,8 @@ public class AddAlbum extends Command {
     private List<Song> songs;
 
     @Override
-    public ResponseMsg processCommand() {
-        String message = "";
+    public final ResponseMsg processCommand() {
+        String message;
 
         User user = Library.instance.seekUser(this.username);
         Album album = Library.instance.seekAlbum(this.name);
@@ -35,6 +36,12 @@ public class AddAlbum extends Command {
             album = new Album(this.name, this.username, this.description,
                     this.releaseYear, this.songs);
             Library.instance.addAlbum(album);
+            Library.instance.setSongs(
+                    Stream.concat(
+                            Library.instance.getSongs().stream(),
+                            this.songs.stream()).toList()
+            );
+            user.addAlbum(album);
             message = this.username + " has added new album successfully.";
         }
 

@@ -21,4 +21,9 @@ public class Episode extends AudioFile {
         this.duration = input.getDuration();
         this.description = input.getDescription();
     }
+
+    @Override
+    public final String toString() {
+        return name + " - " + description;
+    }
 }

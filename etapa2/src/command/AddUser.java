@@ -12,7 +12,7 @@ public class AddUser extends Command {
     private String city;
 
     @Override
-    public ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message;
 
         User user = Library.instance.seekUser(this.username);

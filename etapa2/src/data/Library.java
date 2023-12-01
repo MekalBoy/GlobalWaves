@@ -25,6 +25,7 @@ public class Library {
         this.songs = input.getSongs().stream().map(Song::new).collect(Collectors.toList());
         this.playlists = new ArrayList<Playlist>();
         this.podcasts = input.getPodcasts().stream().map(Podcast::new).collect(Collectors.toList());
+        this.albums = new ArrayList<Album>();
         instance = this;
     }
 

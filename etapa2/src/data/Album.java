@@ -50,17 +50,17 @@ public class Album implements ISelectable {
     }
 
     @Override
-    public SearchType getType() {
+    public final SearchType getType() {
         return SearchType.ALBUM;
     }
 
     @Override
-    public boolean isCollection() {
+    public final boolean isCollection() {
         return true;
     }
 
     @Override
-    public AudioFile getNextAfter(final AudioFile file) {
+    public final AudioFile getNextAfter(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == songList.size() - 1) {
@@ -70,7 +70,7 @@ public class Album implements ISelectable {
     }
 
     @Override
-    public AudioFile getPrevBefore(final AudioFile file) {
+    public final AudioFile getPrevBefore(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == 0) {

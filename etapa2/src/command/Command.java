@@ -41,8 +41,9 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = AddUser.class, name = "addUser"),
 //        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
         @JsonSubTypes.Type(value = AddAlbum.class, name = "addAlbum"),
-        @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums")
+        @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums"),
 //        @JsonSubTypes.Type(value = ShowPodcasts.class, name = "showPodcasts")
+        @JsonSubTypes.Type(value = PrintCurrentPage.class, name = "printCurrentPage")
 })
 @Getter @Setter
 public abstract class Command {

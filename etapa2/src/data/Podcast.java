@@ -57,4 +57,9 @@ public class Podcast implements ISelectable {
     public final boolean isCollection() {
         return true;
     }
+
+    @Override
+    public final String toString() {
+        return name + ":\n\t[" + episodes.stream().map(Episode::toString) + "]";
+    }
 }
