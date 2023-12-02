@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class User {
+public class User implements ISelectable {
     public enum UserType {
         NORMAL,
         ARTIST,
         HOST
     }
+
     private String username, city;
     private int age;
 
@@ -26,12 +27,12 @@ public class User {
     private Page page = new Page(Page.PageType.HOME, this);
 
     // Artist only
-    private List<Album> albumList;
-    private List<Merch> merchList;
-    private List<ArtistEvent> eventList;
+    private List<Album> albumList = new ArrayList<Album>();
+    private List<Merch> merchList = new ArrayList<Merch>();
+    private List<ArtistEvent> eventList = new ArrayList<ArtistEvent>();;
     // Host only
-    private List<Podcast> podcastList;
-    private List<Announcement> announcementList;
+    private List<Podcast> podcastList = new ArrayList<Podcast>();
+    private List<Announcement> announcementList = new ArrayList<Announcement>();
 
     public User() {
     }
@@ -62,9 +63,6 @@ public class User {
      * Adds an album to the artist's list.
      */
     public void addAlbum(final Album album) {
-        if (albumList == null) {
-            albumList = new ArrayList<Album>();
-        }
         albumList.add(album);
     }
 
@@ -72,9 +70,6 @@ public class User {
      * Adds a new merch listing to the artist's list.
      */
     public void addMerch(final Merch merch) {
-        if (merchList == null) {
-            merchList = new ArrayList<Merch>();
-        }
         merchList.add(merch);
     }
 
@@ -82,19 +77,21 @@ public class User {
      * Adds a new event to the artist's list.
      */
     public void addArtistEvent(final ArtistEvent artistEvent) {
-        if (eventList == null) {
-            eventList = new ArrayList<ArtistEvent>();
-        }
         eventList.add(artistEvent);
+    }
+
+    /**
+     * Removes an event from the artist's list.
+     * @param eventName Name of the event to remove
+     */
+    public void removeArtistEvent(final String eventName) {
+        eventList.removeIf(event -> event.getName().equals(eventName));
     }
 
     /**
      * Adds a podcast to the host's list.
      */
     public void addPodcast(final Podcast podcast) {
-        if (podcastList == null) {
-            podcastList = new ArrayList<Podcast>();
-        }
         podcastList.add(podcast);
     }
 
@@ -102,9 +99,35 @@ public class User {
      * Adds a new announcement to the host's list.
      */
     public void addAnnouncement(final Announcement announcement) {
-        if (announcementList == null) {
-            announcementList = new ArrayList<Announcement>();
-        }
         announcementList.add(announcement);
+    }
+
+    @Override
+    public final SearchType getType() {
+        if (userType == UserType.ARTIST) {
+            return SearchType.ARTIST;
+        } else {
+            return SearchType.HOST;
+        }
+    }
+
+    @Override
+    public final String getName() {
+        return this.getUsername();
+    }
+
+    @Override
+    public final boolean isCollection() {
+        return false;
+    }
+
+    @Override
+    public final AudioFile getNextAfter(final AudioFile file) {
+        return null;
+    }
+
+    @Override
+    public final AudioFile getPrevBefore(final AudioFile file) {
+        return null;
     }
 }

@@ -2,7 +2,9 @@ package command;
 
 import data.ISelectable;
 import data.Library;
+import data.User;
 import functionality.MusicPlayer;
+import functionality.Page;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +19,13 @@ public class CommandSelect extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        User user = Library.instance.seekUser(this.username);
+
+        if (!user.isOnline()) {
             message = this.username
                     + " is offline.";
         } else {
-            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            MusicPlayer player = user.getPlayer();
             List<ISelectable> searchResults = player.getSearchResults();
 
             if (searchResults == null) {
@@ -29,10 +33,23 @@ public class CommandSelect extends Command {
             } else if (searchResults.size() < this.itemNumber) {
                 message = "The selected ID is too high.";
             } else {
-                String trackName = searchResults.get(this.itemNumber - 1).getName();
-                player.setCurrentSelection(searchResults.get(this.itemNumber - 1));
-                player.setSearchResults(null);
-                message = "Successfully selected " + trackName + ".";
+                ISelectable selected = searchResults.get(this.itemNumber - 1);
+                if (selected.getType() == ISelectable.SearchType.ARTIST) {
+                    player.setSearchResults(null);
+                    message = "Successfully selected " + selected.getName() + "'s page.";
+                    user.setPage(new Page(Page.PageType.ARTIST,
+                            Library.instance.seekUser(selected.getName())));
+                } else if (selected.getType() == ISelectable.SearchType.HOST) {
+                    player.setSearchResults(null);
+                    message = "Successfully selected " + selected.getName() + "'s page.";
+                    user.setPage(new Page(Page.PageType.HOST,
+                            Library.instance.seekUser(selected.getName())));
+                } else {
+                    String trackName = selected.getName();
+                    player.setCurrentSelection(searchResults.get(this.itemNumber - 1));
+                    player.setSearchResults(null);
+                    message = "Successfully selected " + trackName + ".";
+                }
             }
         }
 

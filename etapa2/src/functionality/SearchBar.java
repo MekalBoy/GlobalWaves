@@ -3,6 +3,7 @@ package functionality;
 import data.ISelectable;
 import data.Library;
 import data.SearchFilter;
+import data.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,26 @@ public class SearchBar {
                                 || podcast.getOwner().equals(filterer.getOwner()));
                 }).toList());
                 break;
+            case ALBUM:
+                results.addAll(Library.instance.getAlbums().stream().filter((album) -> {
+                    return album.getName().startsWith(filterer.getName())
+                            && (filterer.getOwner().isEmpty()
+                            || album.getOwner().startsWith(filterer.getOwner()))
+                            && (filterer.getDescription().isEmpty()
+                            || album.getDescription().startsWith(filterer.getDescription()));
+                }).toList());
+                break;
+            case ARTIST:
+                results.addAll(Library.instance.getUsers().stream().filter(user -> {
+                    return user.getUserType() == User.UserType.ARTIST
+                    && user.getName().startsWith(filterer.getName());
+                }).toList());
+                break;
+            case HOST:
+                results.addAll(Library.instance.getUsers().stream().filter(user -> {
+                    return user.getUserType() == User.UserType.HOST
+                            && user.getName().startsWith(filterer.getName());
+                }).toList());
             default:
                 throw new IllegalArgumentException("Invalid searchType");
         }

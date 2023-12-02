@@ -34,6 +34,8 @@ public interface ISelectable {
         SONG,
         PLAYLIST,
         PODCAST,
-        ALBUM
+        ALBUM,
+        ARTIST,
+        HOST
     }
 }

@@ -47,22 +47,22 @@ public class Page {
                     .map(playlist -> playlist.getName() + " - " + playlist.getOwner())
                     .collect(Collectors.joining(","))
                     + "]";
-            case ARTIST -> "Albums:\n\t"
+            case ARTIST -> "Albums:\n\t["
                     + creator.getAlbumList().stream().map(Album::getName)
-                    .collect(Collectors.joining(","))
-                    + "\n\nMerch:\n\t["
+                    .collect(Collectors.joining(", "))
+                    + "]\n\nMerch:\n\t["
                     + creator.getMerchList().stream().map(Merch::toString)
-                    .collect(Collectors.joining(","))
-                    + "]\n\nEvent:\n\t["
+                    .collect(Collectors.joining(", "))
+                    + "]\n\nEvents:\n\t["
                     + creator.getEventList().stream().map(ArtistEvent::toString)
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]";
             case HOST -> "Podcasts:\n\t["
                     + creator.getPodcastList().stream().map(Podcast::toString)
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]\n\tAnnouncements:\n\t["
                     + creator.getAnnouncementList().stream().map(Announcement::toString)
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]";
         };
     }

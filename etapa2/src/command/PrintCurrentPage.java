@@ -1,6 +1,7 @@
 package command;
 
 import data.Library;
+import data.User;
 import lombok.Getter;
 import lombok.Setter;
 import functionality.Page;
@@ -11,9 +12,15 @@ public class PrintCurrentPage extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        Page page = Library.instance.seekUser(this.username).getPage();
+        User user = Library.instance.seekUser(this.username);
+        Page page = user.getPage();
 
-        message = page.toString();
+        if (!user.isOnline()) {
+            message = this.username
+                    + " is offline.";
+        } else {
+            message = page.toString();
+        }
 
         return new ResponseMsg(this, message);
     }
