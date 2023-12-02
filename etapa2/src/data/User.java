@@ -96,6 +96,13 @@ public class User implements ISelectable {
     }
 
     /**
+     * Removes the podcast from the host's list.
+     */
+    public void removePodcast(final Podcast podcast) {
+        podcastList.remove(podcast);
+    }
+
+    /**
      * Adds a new announcement to the host's list.
      */
     public void addAnnouncement(final Announcement announcement) {

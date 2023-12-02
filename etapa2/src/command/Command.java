@@ -46,6 +46,7 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = AddMerch.class, name = "addMerch"),
         @JsonSubTypes.Type(value = AddPodcast.class, name = "addPodcast"),
         @JsonSubTypes.Type(value = RemoveEvent.class, name = "removeEvent"),
+        @JsonSubTypes.Type(value = RemovePodcast.class, name = "removePodcast"),
         @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums"),
         @JsonSubTypes.Type(value = ShowPodcasts.class, name = "showPodcasts"),
         @JsonSubTypes.Type(value = PrintCurrentPage.class, name = "printCurrentPage")

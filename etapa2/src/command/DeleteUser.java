@@ -4,6 +4,8 @@ import data.Album;
 import data.Library;
 import data.Song;
 import data.User;
+import data.Podcast;
+import data.Episode;
 import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,6 +56,28 @@ public final class DeleteUser extends Command {
                     }
                     break;
                 case HOST:
+                    for (Podcast podcast : user.getPodcastList()) {
+                        for (Episode episode : podcast.getEpisodes()) {
+                            for (User normalUser : Library.instance.getUsers()) {
+                                if (normalUser.getUserType() != User.UserType.USER) {
+                                    continue;
+                                }
+                                MusicPlayer player = normalUser.getPlayer();
+                                if (player.getAudioPlaying() != null
+                                        && player.getAudioPlaying()
+                                        .getName().equals(episode.getName())) {
+                                    inUse = true;
+                                    break;
+                                }
+                            }
+                            if (inUse) {
+                                break;
+                            }
+                        }
+                        if (inUse) {
+                            break;
+                        }
+                    }
                     break;
                 case USER: // normal users suffer a yeet
                 default:

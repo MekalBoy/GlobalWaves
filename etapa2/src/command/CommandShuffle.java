@@ -26,7 +26,7 @@ public class CommandShuffle extends Command {
                 message = "Please load a source before using the shuffle function.";
             } else if (loaded.getType() != ISelectable.SearchType.PLAYLIST
                 && loaded.getType() != ISelectable.SearchType.ALBUM) {
-                message = "The loaded source is not a playlist.";
+                message = "The loaded source is not a playlist or an album.";
             } else {
                 message = player.toggleShuffle(this.seed)
                         ? "Shuffle function activated successfully."

@@ -18,6 +18,7 @@ public class CommandForward extends Command {
                     + " is offline.";
         } else {
             MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            player.updatePlaying(timestamp);
             ISelectable selection = player.getCurrentlyLoaded();
 
             if (selection == null) {
@@ -25,7 +26,7 @@ public class CommandForward extends Command {
             } else if (selection.getType() != ISelectable.SearchType.PODCAST) {
                 message = "The loaded source is not a podcast.";
             } else {
-                player.forward(timestamp);
+                player.forward();
                 message = "Skipped forward successfully.";
             }
         }

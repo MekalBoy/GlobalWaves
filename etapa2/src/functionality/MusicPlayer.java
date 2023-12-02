@@ -396,8 +396,7 @@ public class MusicPlayer {
     /**
      * Forwards the player by 90s or skips to the next audio file.
      */
-    public void forward(final int timestamp) {
-        updatePlaying(timestamp);
+    public void forward() {
         if (remainedTime - windingSpeed < 0) {
             playAudio(currentlyLoaded.getNextAfter(audioPlaying));
         } else {
