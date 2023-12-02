@@ -106,6 +106,7 @@ public class SearchBar {
                     return user.getUserType() == User.UserType.HOST
                             && user.getName().startsWith(filterer.getName());
                 }).toList());
+                break;
             default:
                 throw new IllegalArgumentException("Invalid searchType");
         }

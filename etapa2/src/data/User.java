@@ -110,6 +110,14 @@ public class User implements ISelectable {
     }
 
     /**
+     * Removes the announcement from the host's list.
+     */
+    public void removeAnnouncement(final String announcementName) {
+        announcementList.removeIf(announcement
+                -> announcement.getName().equals(announcementName));
+    }
+
+    /**
      * Erases all traces of the user's existence from the library.
      */
     public void eraseTraces() {

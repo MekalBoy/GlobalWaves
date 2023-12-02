@@ -67,7 +67,7 @@ public class Page {
             case HOST -> "Podcasts:\n\t["
                     + creator.getPodcastList().stream().map(Podcast::toString)
                     .collect(Collectors.joining(", "))
-                    + "]\n\tAnnouncements:\n\t["
+                    + "]\n\nAnnouncements:\n\t["
                     + creator.getAnnouncementList().stream().map(Announcement::toString)
                     .collect(Collectors.joining(", "))
                     + "]";

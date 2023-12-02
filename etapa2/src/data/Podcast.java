@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class Podcast implements ISelectable {
@@ -71,6 +72,6 @@ public class Podcast implements ISelectable {
 
     @Override
     public final String toString() {
-        return name + ":\n\t[" + episodes.stream().map(Episode::toString) + "]";
+        return name + ":\n\t" + episodes.stream().map(Episode::toString).toList() + "\n";
     }
 }
