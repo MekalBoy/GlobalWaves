@@ -27,6 +27,9 @@ public class Playlist implements ISelectable {
         this.followers = original.getFollowers();
     }
 
+    public Playlist() {
+    }
+
     @Getter @Setter
     public static class PlaylistInfo {
         private String name;
@@ -63,8 +66,12 @@ public class Playlist implements ISelectable {
         }
     }
 
+    /**
+     * Returns the next song following the provided file.
+     * @param file AudioFile present in the collection
+     */
     @Override
-    public final Song getNextAfter(final AudioFile file) {
+    public Song getNextAfter(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == songList.size() - 1) {
@@ -73,8 +80,12 @@ public class Playlist implements ISelectable {
         return songList.get(index + 1);
     }
 
+    /**
+     * Returns the previous song before the provided file.
+     * @param file AudioFile present in the collection
+     */
     @Override
-    public final Song getPrevBefore(final AudioFile file) {
+    public Song getPrevBefore(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == 0) {
@@ -83,13 +94,19 @@ public class Playlist implements ISelectable {
         return songList.get(index - 1);
     }
 
+    /**
+     * Returns the SearchType of the object.
+     */
     @Override
-    public final SearchType getType() {
+    public SearchType getType() {
         return ISelectable.SearchType.PLAYLIST;
     }
 
+    /**
+     * Returns whether the object is a collection.
+     */
     @Override
-    public final boolean isCollection() {
+    public boolean isCollection() {
         return true;
     }
 }

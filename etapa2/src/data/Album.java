@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class Album implements ISelectable {
+public class Album extends Playlist implements ISelectable {
     private String name, owner, description;
     private int releaseYear;
     private List<Song> songList = new ArrayList<Song>();
@@ -60,7 +60,7 @@ public class Album implements ISelectable {
     }
 
     @Override
-    public final AudioFile getNextAfter(final AudioFile file) {
+    public final Song getNextAfter(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == songList.size() - 1) {
@@ -70,7 +70,7 @@ public class Album implements ISelectable {
     }
 
     @Override
-    public final AudioFile getPrevBefore(final AudioFile file) {
+    public final Song getPrevBefore(final AudioFile file) {
         Song song = (Song) file;
         int index = songList.indexOf(song);
         if (index == -1 || index == 0) {
