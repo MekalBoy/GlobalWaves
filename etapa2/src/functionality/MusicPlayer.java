@@ -242,6 +242,10 @@ public class MusicPlayer {
                         break;
                     case CURRENT:
                         leftover -= audioPlaying.getDuration();
+                        if (leftover > 0) {
+                            leftover = audioPlaying.getDuration() - leftover;
+                            leftover = -leftover;
+                        }
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid repeatType");
