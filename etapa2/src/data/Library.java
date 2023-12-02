@@ -131,7 +131,7 @@ public class Library {
     }
 
     /**
-     * Retrieves the Playlist object from the library's database.
+     * Retrieves the Album object from the library's database.
      * @param albumName name of the seeked album
      * @return Album object or null
      */
@@ -139,6 +139,20 @@ public class Library {
         for (Album album : this.albums) {
             if (album.getName().equals(albumName)) {
                 return album;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the Podcast object from the library's database.
+     * @param podcastName name of the seeked podcast
+     * @return Podcast object or null
+     */
+    public final Podcast seekPodcast(final String podcastName) {
+        for (Podcast podcast : this.podcasts) {
+            if (podcast.getName().equals(podcastName)) {
+                return podcast;
             }
         }
         return null;

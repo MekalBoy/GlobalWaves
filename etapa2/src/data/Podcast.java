@@ -28,6 +28,17 @@ public class Podcast implements ISelectable {
         }
     }
 
+    @Getter @Setter
+    public static class PodcastInfo {
+        private String name;
+        private List<String> episodes;
+
+        public PodcastInfo(final Podcast podcast) {
+            this.name = podcast.name;
+            this.episodes = podcast.getEpisodes().stream().map(Episode::getName).toList();
+        }
+    }
+
     @Override
     public final Episode getNextAfter(final AudioFile file) {
         Episode episode = (Episode) file;
