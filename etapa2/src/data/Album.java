@@ -49,6 +49,17 @@ public class Album extends Playlist implements ISelectable {
         }
     }
 
+    /**
+     * Returns the total likes of all songs in the album.
+     */
+    public final int getTotalLikes() {
+        int total = 0;
+        for (Song song : songList) {
+            total += song.getNrLikes();
+        }
+        return total;
+    }
+
     @Override
     public final SearchType getType() {
         return SearchType.ALBUM;

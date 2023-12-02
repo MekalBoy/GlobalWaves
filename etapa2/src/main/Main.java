@@ -85,7 +85,7 @@ public final class Main {
             || filePathInput.contains("test07") || filePathInput.contains("test08")
             || filePathInput.contains("test09") || filePathInput.contains("test10")
             || filePathInput.contains("test11") || filePathInput.contains("test12")
-            /*|| filePathInput.contains("test13") || filePathInput.contains("test14")*/) {
+            || filePathInput.contains("test13")/* || filePathInput.contains("test14")*/) {
             String inputPath = "input/" + filePathInput;
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();
