@@ -67,6 +67,13 @@ public class User implements ISelectable {
     }
 
     /**
+     * Removes the album from the artist's list.
+     */
+    public void removeAlbum(final Album album) {
+        albumList.remove(album);
+    }
+
+    /**
      * Adds a new merch listing to the artist's list.
      */
     public void addMerch(final Merch merch) {
@@ -142,6 +149,29 @@ public class User implements ISelectable {
             case HOST:
                 break;
             case USER:
+                for (Playlist playlist : player.getCreatedPlaylists()) {
+                    for (Song song : playlist.getSongList()) {
+                        for (User normalUser : Library.instance.getUsers()) {
+                            if (normalUser.getUserType() != User.UserType.USER) {
+                                continue;
+                            }
+                            MusicPlayer normalPlayer = normalUser.getPlayer();
+                            if (normalPlayer.getLikedSongs().contains(song)) {
+                                normalPlayer.likeUnlike(song);
+                            }
+                        }
+                    }
+                    for (User normalUser : Library.instance.getUsers()) {
+                        if (normalUser.getUserType() != User.UserType.USER) {
+                            continue;
+                        }
+                        MusicPlayer normalPlayer = normalUser.getPlayer();
+                        if (normalPlayer.getFollowedPlaylists().contains(playlist)) {
+                            normalPlayer.followUnfollow(playlist);
+                        }
+                    }
+                }
+                break;
             default:
                 break;
         }

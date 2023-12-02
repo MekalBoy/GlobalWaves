@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Page {
     public enum PageType {
         HOME,
-        LIKED,
+        LIKEDCONTENT,
         ARTIST,
         HOST
     }
@@ -45,11 +45,11 @@ public class Page {
                     .map(Playlist::getName)
                     .collect(Collectors.joining(","))
                     + "]";
-            case LIKED -> "Liked Songs:\n\t["
+            case LIKEDCONTENT -> "Liked songs:\n\t["
                     + creator.getPlayer().getLikedSongs().stream()
                     .map(song -> song.getName() + " - " + song.getArtist())
                     .collect(Collectors.joining(","))
-                    + "]\n\nFollowed Playlists:\n\t["
+                    + "]\n\nFollowed playlists:\n\t["
                     + creator.getPlayer().getFollowedPlaylists().stream()
                     .map(playlist -> playlist.getName() + " - " + playlist.getOwner())
                     .collect(Collectors.joining(","))

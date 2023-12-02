@@ -44,6 +44,13 @@ public class Library {
     }
 
     /**
+     * Removes the playlist from the library's database.
+     */
+    public final void removePlaylist(final Playlist playlist) {
+        playlists.remove(playlist);
+    }
+
+    /**
      * Adds the podcast to the library's database.
      */
     public final void addPodcast(final Podcast podcast) {
@@ -97,6 +104,9 @@ public class Library {
                 }
                 break;
             case USER:
+//                for (Playlist playlist : user.getPlayer().getCreatedPlaylists()) {
+//                    removePlaylist(playlist);
+//                }
             default:
                 break;
         }
