@@ -96,6 +96,13 @@ public class MusicPlayer {
 
                 playAudio(((Playlist) this.getCurrentSelection()).getSongList().get(0));
                 break;
+            case ALBUM:
+                if (((Album) this.getCurrentSelection()).getSongList().isEmpty()) {
+                    return false;
+                }
+
+                playAudio(((Album) this.getCurrentSelection()).getSongList().get(0));
+                break;
             case PODCAST:
                 Podcast podcast = ((Podcast) this.getCurrentSelection());
 
@@ -450,5 +457,18 @@ public class MusicPlayer {
         }
 
         playAudio(prevFile);
+    }
+
+    /**
+     * Attempts to erase all traces of user interaction
+     * with the rest of the library.
+     */
+    public void eraseTraces() {
+        for (Song song : likedSongs) {
+            likeUnlike(song);
+        }
+        for (Playlist playlist : followedPlaylists) {
+            followUnfollow(playlist);
+        }
     }
 }

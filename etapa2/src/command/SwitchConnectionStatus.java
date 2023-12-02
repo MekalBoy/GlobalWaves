@@ -15,7 +15,7 @@ public class SwitchConnectionStatus extends Command {
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";
-        } else if (user.getUserType() != User.UserType.NORMAL) {
+        } else if (user.getUserType() != User.UserType.USER) {
             message = this.username + " is not a normal user.";
         } else {
             // Only update the player's status if the user is going into sleep mode (offline)

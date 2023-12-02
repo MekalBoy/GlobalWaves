@@ -13,7 +13,7 @@ public class GetOnlineUsers extends Command {
     public final ResponseResultString processCommand() {
         List<String> result = Library.instance.getUsers().stream()
                 .filter(User::isOnline)
-                .filter(user -> user.getUserType() == User.UserType.NORMAL)
+                .filter(user -> user.getUserType() == User.UserType.USER)
                 .map(User::getUsername).toList();
 
         return new ResponseResultString(this, result);

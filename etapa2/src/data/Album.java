@@ -21,7 +21,7 @@ public class Album implements ISelectable {
         this.owner = owner;
         this.description = description;
         this.releaseYear = releaseYear;
-        this.songList = songList;
+        this.songList = new ArrayList<Song>(songList);
     }
 
     @Getter @Setter

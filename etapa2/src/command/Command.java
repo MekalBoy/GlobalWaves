@@ -38,8 +38,9 @@ import lombok.Setter;
         // etapa2
         @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus"),
         @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers"),
+        @JsonSubTypes.Type(value = GetAllUsers.class, name = "getAllUsers"),
         @JsonSubTypes.Type(value = AddUser.class, name = "addUser"),
-//        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
+        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
         @JsonSubTypes.Type(value = AddAlbum.class, name = "addAlbum"),
         @JsonSubTypes.Type(value = AddEvent.class, name = "addEvent"),
         @JsonSubTypes.Type(value = AddMerch.class, name = "addMerch"),

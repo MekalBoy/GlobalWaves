@@ -51,6 +51,13 @@ public class Library {
     }
 
     /**
+     * Removes the podcast from the library's database.
+     */
+    public final void removePodcast(final Podcast podcast) {
+        podcasts.remove(podcast);
+    }
+
+    /**
      * Adds the album to the library's database.
      */
     public final void addAlbum(final Album album) {
@@ -58,10 +65,41 @@ public class Library {
     }
 
     /**
+     * Removes the album (and songs) from the library's database.
+     */
+    public final void removeAlbum(final Album album) {
+        songs.removeAll(album.getSongList().stream().toList());
+        albums.remove(album);
+    }
+
+    /**
      * Adds the user to the library's database.
      */
     public final void addUser(final User user) {
         users.add(user);
+    }
+
+    /**
+     * Removes the user from the library's database.
+     */
+    public final void removeUser(final User user) {
+        users.remove(user);
+
+        switch (user.getUserType()) {
+            case ARTIST:
+                for (Album album : user.getAlbumList()) {
+                    removeAlbum(album);
+                }
+                break;
+            case HOST:
+                for (Podcast podcast : user.getPodcastList()) {
+                    removePodcast(podcast);
+                }
+                break;
+            case USER:
+            default:
+                break;
+        }
     }
 
     /**

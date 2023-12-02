@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class User implements ISelectable {
     public enum UserType {
-        NORMAL,
+        USER,
         ARTIST,
         HOST
     }
@@ -20,7 +20,7 @@ public class User implements ISelectable {
     private String username, city;
     private int age;
 
-    private UserType userType = UserType.NORMAL;
+    private UserType userType = UserType.USER;
     private boolean isOnline = true;
 
     private MusicPlayer player = new MusicPlayer();
@@ -100,6 +100,37 @@ public class User implements ISelectable {
      */
     public void addAnnouncement(final Announcement announcement) {
         announcementList.add(announcement);
+    }
+
+    /**
+     * Erases all traces of the user's existence from the library.
+     */
+    public void eraseTraces() {
+        switch (userType) {
+            case ARTIST:
+                // THIS IS HORRID, PLEASE LOOK INTO FIXING THIS
+                // or at least optimizing it somewhat
+                for (Album album : albumList) {
+                    for (Song song : album.getSongList()) {
+                        for (User normalUser : Library.instance.getUsers()) {
+                            if (normalUser.getUserType() != User.UserType.USER) {
+                                continue;
+                            }
+                            MusicPlayer normalPlayer = normalUser.getPlayer();
+                            if (normalPlayer.getLikedSongs().contains(song)) {
+                                normalPlayer.likeUnlike(song);
+                            }
+                        }
+                    }
+                }
+                break;
+            case HOST:
+                break;
+            case USER:
+            default:
+                break;
+        }
+        player.eraseTraces();
     }
 
     @Override

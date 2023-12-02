@@ -7,6 +7,7 @@ import data.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,9 +38,9 @@ public class AddAlbum extends Command {
                     this.releaseYear, this.songs);
             Library.instance.addAlbum(album);
             Library.instance.setSongs(
-                    Stream.concat(
+                    new ArrayList<Song>(Stream.concat(
                             Library.instance.getSongs().stream(),
-                            this.songs.stream()).toList()
+                            this.songs.stream()).toList())
             );
             user.addAlbum(album);
             message = this.username + " has added new album successfully.";
