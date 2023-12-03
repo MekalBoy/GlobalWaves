@@ -77,23 +77,19 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
+        /*
+         mainLibrary is not passed to anything, but a new library
+         is created to update the instance as each test
+         expects a fresh, from-scratch library
+        */
         Library mainLibrary = new Library(library);
 
-        if (filePathInput.contains("test00")
-            || filePathInput.contains("test01") || filePathInput.contains("test02")
-            || filePathInput.contains("test03") || filePathInput.contains("test04")
-            || filePathInput.contains("test05") || filePathInput.contains("test06")
-            || filePathInput.contains("test07") /*|| filePathInput.contains("test08")
-            || filePathInput.contains("test09") || filePathInput.contains("test10")
-            || filePathInput.contains("test11") || filePathInput.contains("test12")
-            || filePathInput.contains("test13") || filePathInput.contains("test14")*/) {
-            String inputPath = "input/" + filePathInput;
-            Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
-            List<Command> commandsList = Arrays.stream(commands).toList();
+        String inputPath = "input/" + filePathInput;
+        Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
+        List<Command> commandsList = Arrays.stream(commands).toList();
 
-            for (Command com : commands) {
-                outputs.add(objectMapper.valueToTree(com.processCommand()));
-            }
+        for (Command com : commands) {
+            outputs.add(objectMapper.valueToTree(com.processCommand()));
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

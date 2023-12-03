@@ -475,7 +475,8 @@ public class MusicPlayer {
         for (Song song : likedSongs) {
             likeUnlike(song);
         }
-        for (Playlist playlist : followedPlaylists) {
+        List<Playlist> copyPlaylists = new ArrayList<Playlist>(followedPlaylists);
+        for (Playlist playlist : copyPlaylists) {
             followUnfollow(playlist);
         }
     }

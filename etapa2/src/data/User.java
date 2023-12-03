@@ -74,6 +74,17 @@ public class User implements ISelectable {
     }
 
     /**
+     * Returns the total amount of likes of all the artist's albums.
+     */
+    public int getTotalLikes() {
+        int sum = 0;
+        for (Album album : albumList) {
+            sum += album.getTotalLikes();
+        }
+        return sum;
+    }
+
+    /**
      * Adds a new merch listing to the artist's list.
      */
     public void addMerch(final Merch merch) {
@@ -150,17 +161,6 @@ public class User implements ISelectable {
                 break;
             case USER:
                 for (Playlist playlist : player.getCreatedPlaylists()) {
-                    for (Song song : playlist.getSongList()) {
-                        for (User normalUser : Library.instance.getUsers()) {
-                            if (normalUser.getUserType() != User.UserType.USER) {
-                                continue;
-                            }
-                            MusicPlayer normalPlayer = normalUser.getPlayer();
-                            if (normalPlayer.getLikedSongs().contains(song)) {
-                                normalPlayer.likeUnlike(song);
-                            }
-                        }
-                    }
                     for (User normalUser : Library.instance.getUsers()) {
                         if (normalUser.getUserType() != User.UserType.USER) {
                             continue;

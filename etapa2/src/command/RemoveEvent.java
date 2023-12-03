@@ -1,7 +1,7 @@
 package command;
 
+import data.ArtistEvent;
 import data.Library;
-import data.Merch;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +20,8 @@ public class RemoveEvent extends Command {
             message = "The username " + this.username + " doesn't exist.";
         } else if (user.getUserType() != User.UserType.ARTIST) {
             message = username + " is not an artist.";
-        } else if (!user.getMerchList().stream()
-                .map(Merch::getName).toList().contains(name)) {
+        } else if (!user.getEventList().stream()
+                .map(ArtistEvent::getName).toList().contains(name)) {
             message = username + " doesn't have an event with the given name.";
         } else {
             user.removeArtistEvent(this.name);
