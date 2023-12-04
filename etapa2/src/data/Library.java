@@ -86,20 +86,6 @@ public class Library {
                 if (normalPlayer.getLikedSongs().contains(song)) {
                     normalPlayer.likeUnlike(song);
                 }
-
-                // go through each user and do mental gymnastics if
-                // the song is in a playlist which is currently loaded
-                // and has shuffle on
-                if (normalPlayer.getCurrentlyLoaded() != null
-                    && normalPlayer.getCurrentlyLoaded().getType() == ISelectable.SearchType.PLAYLIST
-                    && normalPlayer.isShuffle()) {
-                    Playlist playlist = (Playlist) normalPlayer.getCurrentlyLoaded();
-                    if (playlist.getSongList().contains(song)) {
-                        playlist.addRemove(song);
-                    }
-                    normalPlayer.toggleShuffle(normalPlayer.getShuffleSeed());
-                    normalPlayer.toggleShuffle(normalPlayer.getShuffleSeed());
-                }
             }
 
             // go through each playlist and remove the song from it

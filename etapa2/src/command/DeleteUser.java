@@ -42,7 +42,8 @@ public final class DeleteUser extends Command {
                                     break;
                                 }
 
-                                if (normalUser.getPage() != null && normalUser.getPage().getCreator() == user) {
+                                if (normalUser.getPage() != null
+                                        && normalUser.getPage().getCreator() == user) {
                                     inUse = true;
                                     break;
                                 }

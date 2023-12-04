@@ -1,11 +1,12 @@
 package command;
 
 import command.response.ResponseMsg;
-import data.Album;
-import data.Library;
-import data.User;
+import data.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 public class RemoveAlbum extends Command {
@@ -44,6 +45,17 @@ public class RemoveAlbum extends Command {
                         .getName().equals(this.name)) {
                     inUse = true;
                     break;
+                }
+
+                if (normalUser.getPlayer().getCurrentlyLoaded() != null
+                        && normalUser.getPlayer().getCurrentlyLoaded().getType() == ISelectable.SearchType.PLAYLIST) {
+                    Playlist playlist = (Playlist) normalUser.getPlayer().getCurrentlyLoaded();
+                    List<Song> songsCopy = new ArrayList<Song>(playlist.getSongList());
+                    songsCopy.retainAll(album.getSongList());
+                    if (!songsCopy.isEmpty()) {
+                        inUse = true;
+                        break;
+                    }
                 }
             }
 

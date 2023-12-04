@@ -36,7 +36,6 @@ public class MusicPlayer {
     private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
     private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
     private List<Integer> shuffleOrder = null; // used for shuffle
-    private int shuffleSeed = 0;
 
     private Map<Podcast, Episode> resumePodcasts = new HashMap<Podcast, Episode>();
     private Map<Episode, Integer> resumeEpisodes = new HashMap<Episode, Integer>();
@@ -284,7 +283,6 @@ public class MusicPlayer {
             Collections.shuffle(shuffledInts, new Random(seed));
 
             shuffleOrder = shuffledInts;
-            shuffleSeed = seed;
         } else {
             shuffleOrder = null;
         }
