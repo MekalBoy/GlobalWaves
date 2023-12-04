@@ -1,6 +1,7 @@
-package command;
+package command.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import command.Command;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,5 +1,7 @@
 package command;
 
+import command.response.Response;
+import command.response.ResponseMsgSearch;
 import data.ISelectable;
 import data.Library;
 import data.SearchFilter;

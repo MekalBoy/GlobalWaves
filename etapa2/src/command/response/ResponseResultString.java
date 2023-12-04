@@ -1,5 +1,6 @@
-package command;
+package command.response;
 
+import command.Command;
 import lombok.Getter;
 import lombok.Setter;
 

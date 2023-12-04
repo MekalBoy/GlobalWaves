@@ -1,5 +1,6 @@
 package command;
 
+import command.response.ResponseMsg;
 import data.*;
 import functionality.MusicPlayer;
 import lombok.Getter;
@@ -40,6 +41,11 @@ public final class DeleteUser extends Command {
                                     inUse = true;
                                     break;
                                 }
+
+                                if (normalUser.getPage() != null && normalUser.getPage().getCreator() == user) {
+                                    inUse = true;
+                                    break;
+                                }
                             }
                             if (inUse) {
                                 break;
@@ -61,6 +67,12 @@ public final class DeleteUser extends Command {
                                 if (player.getAudioPlaying() != null
                                         && player.getAudioPlaying()
                                         .getName().equals(episode.getName())) {
+                                    inUse = true;
+                                    break;
+                                }
+
+                                if (normalUser.getPage() != null
+                                        && normalUser.getPage().getCreator() == user) {
                                     inUse = true;
                                     break;
                                 }

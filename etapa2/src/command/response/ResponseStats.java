@@ -1,5 +1,6 @@
-package command;
+package command.response;
 
+import command.Command;
 import functionality.MusicPlayerStatus;
 import lombok.Getter;
 import lombok.Setter;

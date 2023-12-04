@@ -1,5 +1,6 @@
 package command;
 
+import command.response.ResponseMsg;
 import data.ISelectable;
 import data.Library;
 import functionality.MusicPlayer;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CommandRepeat extends Command {
     @Override
-    public final  ResponseMsg processCommand() {
+    public final ResponseMsg processCommand() {
         String message = "Repeat mode changed to ";
 
         if (!Library.instance.seekUser(this.username).isOnline()) {

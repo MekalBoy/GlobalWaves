@@ -1,6 +1,7 @@
 package data;
 
 import fileio.input.LibraryInput;
+import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -75,6 +76,39 @@ public class Library {
      * Removes the album (and songs) from the library's database.
      */
     public final void removeAlbum(final Album album) {
+        for (Song song : album.getSongList()) {
+            for (User normalUser : Library.instance.getUsers()) {
+                if (normalUser.getUserType() != User.UserType.USER) {
+                    continue;
+                }
+                MusicPlayer normalPlayer = normalUser.getPlayer();
+                // go through each user and force them to unlike the song
+                if (normalPlayer.getLikedSongs().contains(song)) {
+                    normalPlayer.likeUnlike(song);
+                }
+
+                // go through each user and do mental gymnastics if
+                // the song is in a playlist which is currently loaded
+                // and has shuffle on
+                if (normalPlayer.getCurrentlyLoaded() != null
+                    && normalPlayer.getCurrentlyLoaded().getType() == ISelectable.SearchType.PLAYLIST
+                    && normalPlayer.isShuffle()) {
+                    Playlist playlist = (Playlist) normalPlayer.getCurrentlyLoaded();
+                    if (playlist.getSongList().contains(song)) {
+                        playlist.addRemove(song);
+                    }
+                    normalPlayer.toggleShuffle(normalPlayer.getShuffleSeed());
+                    normalPlayer.toggleShuffle(normalPlayer.getShuffleSeed());
+                }
+            }
+
+            // go through each playlist and remove the song from it
+            for (Playlist playlist : Library.instance.getPlaylists()) {
+                if (playlist.getSongList().contains(song)) {
+                    playlist.addRemove(song);
+                }
+            }
+        }
         songs.removeAll(album.getSongList().stream().toList());
         albums.remove(album);
     }

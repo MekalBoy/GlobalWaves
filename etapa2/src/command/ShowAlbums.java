@@ -1,5 +1,6 @@
 package command;
 
+import command.response.ResponseResultAlbums;
 import data.Album;
 import data.Library;
 import lombok.Getter;

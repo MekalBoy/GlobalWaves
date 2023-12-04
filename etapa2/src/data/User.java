@@ -150,8 +150,15 @@ public class User implements ISelectable {
                                 continue;
                             }
                             MusicPlayer normalPlayer = normalUser.getPlayer();
+                            // go through each user and force them to unlike the song
                             if (normalPlayer.getLikedSongs().contains(song)) {
                                 normalPlayer.likeUnlike(song);
+                            }
+                        }
+
+                        for (Playlist playlist : Library.instance.getPlaylists()) {
+                            if (playlist.getSongList().contains(song)) {
+                                playlist.addRemove(song);
                             }
                         }
                     }
