@@ -48,7 +48,8 @@ public class RemoveAlbum extends Command {
                 }
 
                 if (normalUser.getPlayer().getCurrentlyLoaded() != null
-                        && normalUser.getPlayer().getCurrentlyLoaded().getType() == ISelectable.SearchType.PLAYLIST) {
+                        && normalUser.getPlayer().getCurrentlyLoaded()
+                        .getType() == ISelectable.SearchType.PLAYLIST) {
                     Playlist playlist = (Playlist) normalUser.getPlayer().getCurrentlyLoaded();
                     List<Song> songsCopy = new ArrayList<Song>(playlist.getSongList());
                     songsCopy.retainAll(album.getSongList());

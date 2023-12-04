@@ -49,7 +49,7 @@ public class Song extends AudioFile implements Comparable<Song> {
     }
 
     @Override
-    public int compareTo(Song song) {
+    public final int compareTo(final Song song) {
         return song.nrLikes - nrLikes;
     }
 }

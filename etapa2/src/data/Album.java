@@ -25,8 +25,10 @@ public class Album extends Playlist implements ISelectable, Comparable<Album> {
     }
 
     @Override
-    public int compareTo(Album album) {
-        if (getTotalLikes() != album.getTotalLikes()) return getTotalLikes() - album.getTotalLikes();
+    public final int compareTo(final Album album) {
+        if (getTotalLikes() != album.getTotalLikes()) {
+            return getTotalLikes() - album.getTotalLikes();
+        }
         return album.getName().compareTo(name);
     }
 
