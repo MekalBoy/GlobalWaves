@@ -33,26 +33,31 @@ public class Page {
         this.creator = creator;
     }
 
+    private final int likeLimit = 5;
+
     @Override
     public final String toString() {
         return switch (this.type) {
             case HOME -> "Liked songs:\n\t["
                     + creator.getPlayer().getLikedSongs().stream()
+                    .sorted(Song::compareTo)
                     .map(Song::getName)
-                    .collect(Collectors.joining(","))
+                    .limit(likeLimit)
+                    .collect(Collectors.joining(", "))
                     + "]\n\nFollowed playlists:\n\t["
                     + creator.getPlayer().getFollowedPlaylists().stream()
                     .map(Playlist::getName)
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]";
             case LIKEDCONTENT -> "Liked songs:\n\t["
                     + creator.getPlayer().getLikedSongs().stream()
+                    //.sorted(Song::compareTo) // this does not need to be sorted, it seems
                     .map(song -> song.getName() + " - " + song.getArtist())
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]\n\nFollowed playlists:\n\t["
                     + creator.getPlayer().getFollowedPlaylists().stream()
                     .map(playlist -> playlist.getName() + " - " + playlist.getOwner())
-                    .collect(Collectors.joining(","))
+                    .collect(Collectors.joining(", "))
                     + "]";
             case ARTIST -> "Albums:\n\t["
                     + creator.getAlbumList().stream().map(Album::getName)

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class GetTop5Albums extends Command {
         List<String> result = new ArrayList<String>();
 
         List<Album> sortedAlbums = new ArrayList<Album>(Library.instance.getAlbums());
-        sortedAlbums.sort(Comparator.comparingInt(Album::getTotalLikes).reversed());
+        sortedAlbums.sort(Album::compareTo);
+        Collections.reverse(sortedAlbums);
 
         for (int i = 0; i < sortedAlbums.size() && i < albumLimit; i++) {
             result.add(sortedAlbums.get(i).getName());

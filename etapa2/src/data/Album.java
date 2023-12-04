@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class Album extends Playlist implements ISelectable {
+public class Album extends Playlist implements ISelectable, Comparable<Album> {
     private String name, owner, description;
     private int releaseYear;
     private List<Song> songList = new ArrayList<Song>();
@@ -22,6 +22,12 @@ public class Album extends Playlist implements ISelectable {
         this.description = description;
         this.releaseYear = releaseYear;
         this.songList = new ArrayList<Song>(songList);
+    }
+
+    @Override
+    public int compareTo(Album album) {
+        if (getTotalLikes() != album.getTotalLikes()) return getTotalLikes() - album.getTotalLikes();
+        return album.getName().compareTo(name);
     }
 
     @Getter @Setter

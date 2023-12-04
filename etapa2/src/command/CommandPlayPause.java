@@ -15,6 +15,10 @@ public class CommandPlayPause extends Command {
         } else {
             MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
 
+            if (player.isPlaying()) {
+                player.updatePlaying(timestamp);
+            }
+
             if (player.getCurrentlyLoaded() == null) {
                 message = "Please load a source before attempting to pause or resume playback.";
             } else {

@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 
 @Getter @Setter
-public class Song extends AudioFile {
+public class Song extends AudioFile implements Comparable<Song> {
     private String album;
     private ArrayList<String> tags;
     private String lyrics;
@@ -46,5 +46,10 @@ public class Song extends AudioFile {
     @Override
     public final SearchType getType() {
         return ISelectable.SearchType.SONG;
+    }
+
+    @Override
+    public int compareTo(Song song) {
+        return song.nrLikes - nrLikes;
     }
 }
