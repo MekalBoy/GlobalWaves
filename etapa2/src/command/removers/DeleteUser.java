@@ -29,8 +29,9 @@ public final class DeleteUser extends Command {
                 case ARTIST:
                     // THIS IS HORRID, PLEASE LOOK INTO FIXING THIS
                     // or at least optimizing it somewhat
+                    // as there is quite a bit of duplicate code
                     for (Album album : user.getAlbumList()) {
-                        for (Song song : album.getSongList()) {
+                        for (AudioFile file : album.getSongList()) {
                             for (User normalUser : Library.instance.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
@@ -38,7 +39,7 @@ public final class DeleteUser extends Command {
                                 MusicPlayer player = normalUser.getPlayer();
                                 if (player.getAudioPlaying() != null
                                         && player.getAudioPlaying()
-                                            .getName().equals(song.getName())) {
+                                            .getName().equals(file.getName())) {
                                     inUse = true;
                                     break;
                                 }
@@ -60,7 +61,7 @@ public final class DeleteUser extends Command {
                     break;
                 case HOST:
                     for (Podcast podcast : user.getPodcastList()) {
-                        for (Episode episode : podcast.getEpisodes()) {
+                        for (AudioFile file : podcast.getEpisodes()) {
                             for (User normalUser : Library.instance.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
@@ -68,7 +69,7 @@ public final class DeleteUser extends Command {
                                 MusicPlayer player = normalUser.getPlayer();
                                 if (player.getAudioPlaying() != null
                                         && player.getAudioPlaying()
-                                        .getName().equals(episode.getName())) {
+                                        .getName().equals(file.getName())) {
                                     inUse = true;
                                     break;
                                 }
@@ -90,7 +91,7 @@ public final class DeleteUser extends Command {
                     break;
                 case USER:
                     for (Playlist playlist : user.getPlayer().getCreatedPlaylists()) {
-                        for (Song song : playlist.getSongList()) {
+                        for (AudioFile file : playlist.getSongList()) {
                             for (User normalUser : Library.instance.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
@@ -98,7 +99,7 @@ public final class DeleteUser extends Command {
                                 MusicPlayer player = normalUser.getPlayer();
                                 if (player.getAudioPlaying() != null
                                         && player.getAudioPlaying()
-                                        .getName().equals(song.getName())) {
+                                        .getName().equals(file.getName())) {
                                     inUse = true;
                                     break;
                                 }
@@ -119,7 +120,6 @@ public final class DeleteUser extends Command {
             if (inUse) {
                 message = username + " can't be deleted.";
             } else {
-                user.eraseTraces();
                 Library.instance.removeUser(user);
                 message = username + " was successfully deleted.";
             }

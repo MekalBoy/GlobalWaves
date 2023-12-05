@@ -76,6 +76,9 @@ public class Library {
      * Removes the album (and songs) from the library's database.
      */
     public final void removeAlbum(final Album album) {
+        songs.removeAll(album.getSongList().stream().toList());
+        albums.remove(album);
+
         for (Song song : album.getSongList()) {
             for (User normalUser : Library.instance.getUsers()) {
                 if (normalUser.getUserType() != User.UserType.USER) {
@@ -95,8 +98,6 @@ public class Library {
                 }
             }
         }
-        songs.removeAll(album.getSongList().stream().toList());
-        albums.remove(album);
     }
 
     /**
@@ -124,9 +125,10 @@ public class Library {
                 }
                 break;
             case USER:
-//                for (Playlist playlist : user.getPlayer().getCreatedPlaylists()) {
-//                    removePlaylist(playlist);
-//                }
+                user.eraseTraces();
+                for (Playlist playlist : user.getPlayer().getCreatedPlaylists()) {
+                    removePlaylist(playlist);
+                }
             default:
                 break;
         }

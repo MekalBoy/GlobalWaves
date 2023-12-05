@@ -472,12 +472,31 @@ public class MusicPlayer {
      * with the rest of the library.
      */
     public void eraseTraces() {
+        // Unlike every song that has been liked by this user
         for (Song song : likedSongs) {
             likeUnlike(song);
         }
+
+        // Unfollow every playlist that has been followed by this user
         List<Playlist> copyPlaylists = new ArrayList<Playlist>(followedPlaylists);
         for (Playlist playlist : copyPlaylists) {
             followUnfollow(playlist);
+        }
+
+        // Loop through each of this user's created playlists
+        for (Playlist playlist : createdPlaylists) {
+            // Find every normal user
+            for (User normalUser : Library.instance.getUsers()) {
+                if (normalUser.getUserType() != User.UserType.USER) {
+                    continue;
+                }
+
+                MusicPlayer normalPlayer = normalUser.getPlayer();
+                // and force them to unfollow all playlists created by this user
+                if (normalPlayer.getFollowedPlaylists().contains(playlist)) {
+                    normalPlayer.followUnfollow(playlist);
+                }
+            }
         }
     }
 }

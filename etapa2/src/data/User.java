@@ -139,49 +139,6 @@ public class User implements ISelectable {
      * Erases all traces of the user's existence from the library.
      */
     public void eraseTraces() {
-        switch (userType) {
-            case ARTIST:
-                // THIS IS HORRID, PLEASE LOOK INTO FIXING THIS
-                // or at least optimizing it somewhat
-                for (Album album : albumList) {
-                    for (Song song : album.getSongList()) {
-                        for (User normalUser : Library.instance.getUsers()) {
-                            if (normalUser.getUserType() != User.UserType.USER) {
-                                continue;
-                            }
-                            MusicPlayer normalPlayer = normalUser.getPlayer();
-                            // go through each user and force them to unlike the song
-                            if (normalPlayer.getLikedSongs().contains(song)) {
-                                normalPlayer.likeUnlike(song);
-                            }
-                        }
-
-                        for (Playlist playlist : Library.instance.getPlaylists()) {
-                            if (playlist.getSongList().contains(song)) {
-                                playlist.addRemove(song);
-                            }
-                        }
-                    }
-                }
-                break;
-            case HOST:
-                break;
-            case USER:
-                for (Playlist playlist : player.getCreatedPlaylists()) {
-                    for (User normalUser : Library.instance.getUsers()) {
-                        if (normalUser.getUserType() != User.UserType.USER) {
-                            continue;
-                        }
-                        MusicPlayer normalPlayer = normalUser.getPlayer();
-                        if (normalPlayer.getFollowedPlaylists().contains(playlist)) {
-                            normalPlayer.followUnfollow(playlist);
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
         player.eraseTraces();
     }
 
