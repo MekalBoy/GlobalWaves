@@ -79,8 +79,8 @@ public final class Main {
 
         /*
          mainLibrary is not passed to anything, but a new library
-         is created to update the instance as each test
-         expects a fresh, from-scratch library
+         is created to update the singleton instance because
+         each test expects a fresh, from-scratch library
         */
         Library mainLibrary = new Library(library);
 
