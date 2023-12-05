@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.ResponseResultPodcasts;
 import data.Library;
 import data.Podcast;

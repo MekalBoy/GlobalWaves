@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.ResponseStats;
 import data.Library;
 import data.User;
@@ -9,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CommandStatus extends Command {
+public class Status extends Command {
 
     @Override
     public final ResponseStats processCommand() {

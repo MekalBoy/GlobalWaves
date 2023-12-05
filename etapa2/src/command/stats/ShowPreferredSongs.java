@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.ResponseResultString;
 import data.AudioFile;
 import data.Library;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class CommandShowPreferredSongs extends Command {
+public class ShowPreferredSongs extends Command {
     private List<String> result;
 
     @Override

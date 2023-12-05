@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.ResponseResultPlaylists;
 import data.Library;
 import data.Playlist;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter @Setter
-public class CommandShowPlaylists extends Command {
+public class ShowPlaylists extends Command {
     private List<Playlist.PlaylistInfo> result;
 
     @Override

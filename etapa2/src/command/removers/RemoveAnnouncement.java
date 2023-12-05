@@ -1,5 +1,6 @@
-package command;
+package command.removers;
 
+import command.Command;
 import command.response.ResponseMsg;
 import data.Announcement;
 import data.Library;

@@ -1,5 +1,6 @@
-package command;
+package command.adders;
 
+import command.Command;
 import command.response.ResponseMsg;
 import data.Library;
 import data.Playlist;
@@ -7,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CommandCreatePlaylist extends Command {
+public class CreatePlaylist extends Command {
     private String playlistName;
 
     @Override

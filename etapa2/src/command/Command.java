@@ -3,7 +3,10 @@ package command;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import command.adders.*;
+import command.removers.*;
 import command.response.Response;
+import command.stats.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,35 +31,35 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = CommandNext.class, name = "next"),
         @JsonSubTypes.Type(value = CommandPrev.class, name = "prev"),
         @JsonSubTypes.Type(value = CommandModify.class, name = "addRemoveInPlaylist"),
-        @JsonSubTypes.Type(value = CommandStatus.class, name = "status"),
-        @JsonSubTypes.Type(value = CommandCreatePlaylist.class, name = "createPlaylist"),
+        @JsonSubTypes.Type(value = Status.class, name = "status"),
+        @JsonSubTypes.Type(value = CreatePlaylist.class, name = "createPlaylist"),
         @JsonSubTypes.Type(value = CommandSwitchVisibility.class, name = "switchVisibility"),
         @JsonSubTypes.Type(value = CommandFollowPlaylist.class, name = "follow"),
-        @JsonSubTypes.Type(value = CommandShowPlaylists.class, name = "showPlaylists"),
-        @JsonSubTypes.Type(value = CommandShowPreferredSongs.class, name = "showPreferredSongs"),
+        @JsonSubTypes.Type(value = ShowPlaylists.class, name = "showPlaylists"),
+        @JsonSubTypes.Type(value = ShowPreferredSongs.class, name = "showPreferredSongs"),
         @JsonSubTypes.Type(value = GetTop5Songs.class, name = "getTop5Songs"),
         @JsonSubTypes.Type(value = GetTop5Playlists.class, name = "getTop5Playlists"),
         // etapa2
-        @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus"),
-        @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers"),
-        @JsonSubTypes.Type(value = GetAllUsers.class, name = "getAllUsers"),
-        @JsonSubTypes.Type(value = AddUser.class, name = "addUser"),
-        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
         @JsonSubTypes.Type(value = AddAlbum.class, name = "addAlbum"),
+        @JsonSubTypes.Type(value = AddAnnouncement.class, name = "addAnnouncement"),
         @JsonSubTypes.Type(value = AddEvent.class, name = "addEvent"),
         @JsonSubTypes.Type(value = AddMerch.class, name = "addMerch"),
         @JsonSubTypes.Type(value = AddPodcast.class, name = "addPodcast"),
-        @JsonSubTypes.Type(value = AddAnnouncement.class, name = "addAnnouncement"),
+        @JsonSubTypes.Type(value = AddUser.class, name = "addUser"),
+        @JsonSubTypes.Type(value = DeleteUser.class, name = "deleteUser"),
         @JsonSubTypes.Type(value = RemoveAlbum.class, name = "removeAlbum"),
+        @JsonSubTypes.Type(value = RemoveAnnouncement.class, name = "removeAnnouncement"),
         @JsonSubTypes.Type(value = RemoveEvent.class, name = "removeEvent"),
         @JsonSubTypes.Type(value = RemovePodcast.class, name = "removePodcast"),
-        @JsonSubTypes.Type(value = RemoveAnnouncement.class, name = "removeAnnouncement"),
-        @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums"),
-        @JsonSubTypes.Type(value = ShowPodcasts.class, name = "showPodcasts"),
+        @JsonSubTypes.Type(value = GetAllUsers.class, name = "getAllUsers"),
+        @JsonSubTypes.Type(value = GetOnlineUsers.class, name = "getOnlineUsers"),
+        @JsonSubTypes.Type(value = GetTop5Albums.class, name = "getTop5Albums"),
+        @JsonSubTypes.Type(value = GetTop5Artists.class, name = "getTop5Artists"),
         @JsonSubTypes.Type(value = PrintCurrentPage.class, name = "printCurrentPage"),
         @JsonSubTypes.Type(value = ChangePage.class, name = "changePage"),
-        @JsonSubTypes.Type(value = GetTop5Albums.class, name = "getTop5Albums"),
-        @JsonSubTypes.Type(value = GetTop5Artists.class, name = "getTop5Artists")
+        @JsonSubTypes.Type(value = ShowAlbums.class, name = "showAlbums"),
+        @JsonSubTypes.Type(value = ShowPodcasts.class, name = "showPodcasts"),
+        @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus")
 })
 @Getter @Setter
 public abstract class Command {

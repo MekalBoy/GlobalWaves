@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.ResponseResultString;
 import data.Library;
 import data.Song;
