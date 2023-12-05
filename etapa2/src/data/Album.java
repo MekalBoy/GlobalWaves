@@ -8,9 +8,8 @@ import java.util.List;
 
 @Getter @Setter
 public class Album extends Playlist implements ISelectable, Comparable<Album> {
-    private String name, owner, description;
+    private String description;
     private int releaseYear;
-    private List<Song> songList = new ArrayList<Song>();
 
     public Album() {
     }
@@ -44,21 +43,7 @@ public class Album extends Playlist implements ISelectable, Comparable<Album> {
     }
 
     /**
-     * Adds or removes a song from the album and returns a confirmation boolean.
-     * @return true if the song was added; false if the song was removed.
-     */
-    public boolean addRemove(final Song song) {
-        if (this.songList.contains(song)) {
-            this.songList.remove(song);
-            return false;
-        } else {
-            this.songList.add(song);
-            return true;
-        }
-    }
-
-    /**
-     * Returns the total likes of all songs in the album.
+     * Returns the total likes of all songs within the album.
      */
     public final int getTotalLikes() {
         int total = 0;
@@ -71,30 +56,5 @@ public class Album extends Playlist implements ISelectable, Comparable<Album> {
     @Override
     public final SearchType getType() {
         return SearchType.ALBUM;
-    }
-
-    @Override
-    public final boolean isCollection() {
-        return true;
-    }
-
-    @Override
-    public final Song getNextAfter(final AudioFile file) {
-        Song song = (Song) file;
-        int index = songList.indexOf(song);
-        if (index == -1 || index == songList.size() - 1) {
-            return null;
-        }
-        return songList.get(index + 1);
-    }
-
-    @Override
-    public final Song getPrevBefore(final AudioFile file) {
-        Song song = (Song) file;
-        int index = songList.indexOf(song);
-        if (index == -1 || index == 0) {
-            return null;
-        }
-        return songList.get(index - 1);
     }
 }

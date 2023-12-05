@@ -8,9 +8,9 @@ import java.util.List;
 
 @Getter @Setter
 public class Playlist implements ISelectable {
-    private String name, owner;
+    protected String name, owner;
     private boolean isPrivate;
-    private List<Song> songList = new ArrayList<Song>();
+    protected List<Song> songList = new ArrayList<Song>();
     private int followers;
 
     public Playlist(final String name, final String owner) {
