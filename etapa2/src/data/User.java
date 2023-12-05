@@ -26,6 +26,9 @@ public class User implements ISelectable {
     private MusicPlayer player = new MusicPlayer();
     private Page page = new Page(Page.PageType.HOME, this);
 
+    // Time constraints prevent me from making proper classes
+    // for Artist and Host, so this will have to do for now
+
     // Artist only
     private List<Album> albumList = new ArrayList<Album>();
     private List<Merch> merchList = new ArrayList<Merch>();

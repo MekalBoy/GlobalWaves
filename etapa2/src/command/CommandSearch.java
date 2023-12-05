@@ -27,8 +27,7 @@ public class CommandSearch extends Command {
 
         if (!Library.instance.seekUser(this.username).isOnline()) {
             results = new ArrayList<String>();
-            message = this.username
-                    + " is offline.";
+            message = this.username + " is offline.";
         } else {
             ISelectable.SearchType searchType =
                     ISelectable.SearchType.valueOf(this.type.toUpperCase());

@@ -94,19 +94,13 @@ public class MusicPlayer {
             case SONG:
                 playAudio((Song) this.getCurrentSelection());
                 break;
+            case ALBUM:
             case PLAYLIST:
                 if (((Playlist) this.getCurrentSelection()).getSongList().isEmpty()) {
                     return false;
                 }
 
                 playAudio(((Playlist) this.getCurrentSelection()).getSongList().get(0));
-                break;
-            case ALBUM:
-                if (((Album) this.getCurrentSelection()).getSongList().isEmpty()) {
-                    return false;
-                }
-
-                playAudio(((Album) this.getCurrentSelection()).getSongList().get(0));
                 break;
             case PODCAST:
                 Podcast podcast = ((Podcast) this.getCurrentSelection());

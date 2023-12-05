@@ -10,8 +10,7 @@ public class CommandPlayPause extends Command {
     public final ResponseMsg processCommand() {
         String message;
         if (!Library.instance.seekUser(this.username).isOnline()) {
-            message = this.username
-                    + " is offline.";
+            message = this.username + " is offline.";
         } else {
             MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
 

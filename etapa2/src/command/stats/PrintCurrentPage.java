@@ -18,8 +18,7 @@ public class PrintCurrentPage extends Command {
         Page page = user.getPage();
 
         if (!user.isOnline()) {
-            message = this.username
-                    + " is offline.";
+            message = this.username + " is offline.";
         } else {
             message = page.toString();
         }

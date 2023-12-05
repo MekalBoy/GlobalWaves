@@ -13,8 +13,7 @@ public class CommandNext extends Command {
         String message = "Please load a source before skipping to the next track.";
 
         if (!Library.instance.seekUser(this.username).isOnline()) {
-            message = this.username
-                    + " is offline.";
+            message = this.username + " is offline.";
         } else {
             MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
             player.updatePlaying(timestamp);

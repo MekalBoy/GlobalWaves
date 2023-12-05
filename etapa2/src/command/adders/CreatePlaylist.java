@@ -16,8 +16,7 @@ public class CreatePlaylist extends Command {
         String message;
 
         if (!Library.instance.seekUser(this.username).isOnline()) {
-            message = this.username
-                    + " is offline.";
+            message = this.username + " is offline.";
         } else {
             if (Library.instance.seekPlaylist(this.playlistName) != null) {
                 message = "A playlist with the same name already exists.";
