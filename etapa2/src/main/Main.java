@@ -77,11 +77,7 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
-        /*
-         mainLibrary is not passed to anything, but a new library
-         is created to update the singleton instance because
-         each test expects a fresh, from-scratch library
-        */
+        // each test expects a fresh library
         Library.resetLibrary(libraryInput);
 
         String inputPath = "input/" + filePathInput;

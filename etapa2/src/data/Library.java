@@ -28,14 +28,13 @@ public class Library {
         this.playlists = new ArrayList<Playlist>();
         this.podcasts = input.getPodcasts().stream().map(Podcast::new).collect(Collectors.toList());
         this.albums = new ArrayList<Album>();
-        instance = this;
     }
 
     /**
      * Regenerates the library with the given LibraryInput
      */
     public static void resetLibrary(final LibraryInput input) {
-        new Library(input);
+        instance = new Library(input);
     }
 
     /**

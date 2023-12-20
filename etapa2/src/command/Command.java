@@ -84,11 +84,9 @@ public abstract class Command {
         this.timestamp = timestamp;
     }
 
-
     /**
      * processCommand is the primary method which should be overwritten by all subclasses
      * and handles the input of any Command subclass according to its form.
      */
-
     public abstract Response processCommand();
 }
