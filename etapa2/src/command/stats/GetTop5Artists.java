@@ -2,7 +2,6 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseResultString;
-import data.Library;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class GetTop5Artists extends Command {
     public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        List<User> sortedArtists = new ArrayList<User>(Library.instance.getUsers().stream()
+        List<User> sortedArtists = new ArrayList<User>(library.getUsers().stream()
                 .filter(user -> user.getUserType() == User.UserType.ARTIST).toList());
         sortedArtists.sort(Comparator.comparingInt(User::getTotalLikes).reversed());
 

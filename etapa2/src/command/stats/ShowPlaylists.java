@@ -2,7 +2,6 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseResultPlaylists;
-import data.Library;
 import data.Playlist;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class ShowPlaylists extends Command {
     public final ResponseResultPlaylists processCommand() {
         result = new ArrayList<Playlist.PlaylistInfo>();
 
-        for (Playlist playlist : Library.instance.getPlaylists()) {
+        for (Playlist playlist : library.getPlaylists()) {
             if (Objects.equals(playlist.getOwner(), this.username)) {
                 result.add(new Playlist.PlaylistInfo(playlist));
             }

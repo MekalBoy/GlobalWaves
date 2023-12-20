@@ -2,10 +2,9 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.Library;
-import data.User;
-import data.Podcast;
 import data.Episode;
+import data.Podcast;
+import data.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +19,6 @@ public class AddPodcast extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        Library library = Library.instance;
         User user = library.seekUser(this.username);
         Podcast podcast = library.seekPodcast(this.name);
 

@@ -2,11 +2,10 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.Library;
 import data.User;
+import functionality.Page;
 import lombok.Getter;
 import lombok.Setter;
-import functionality.Page;
 
 @Getter @Setter
 public class PrintCurrentPage extends Command {
@@ -14,7 +13,7 @@ public class PrintCurrentPage extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
         Page page = user.getPage();
 
         if (!user.isOnline()) {

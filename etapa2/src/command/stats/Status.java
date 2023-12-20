@@ -2,7 +2,6 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseStats;
-import data.Library;
 import data.User;
 import functionality.MusicPlayer;
 import functionality.MusicPlayerStatus;
@@ -14,8 +13,8 @@ public class Status extends Command {
 
     @Override
     public final ResponseStats processCommand() {
-        User user = Library.instance.seekUser(this.username);
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        User user = library.seekUser(this.username);
+        MusicPlayer player = library.seekUser(this.username).getPlayer();
         if (user.isOnline()) {
             player.updatePlaying(this.timestamp);
         } else {

@@ -1,7 +1,6 @@
 package command;
 
 import command.response.ResponseMsg;
-import data.Library;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ public class SwitchConnectionStatus extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";

@@ -1,13 +1,6 @@
 package functionality;
 
-import data.User;
-import data.Song;
-import data.Playlist;
-import data.Album;
-import data.Merch;
-import data.ArtistEvent;
-import data.Podcast;
-import data.Announcement;
+import data.*;
 import lombok.Getter;
 import lombok.Setter;
 

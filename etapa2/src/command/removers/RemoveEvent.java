@@ -3,7 +3,6 @@ package command.removers;
 import command.Command;
 import command.response.ResponseMsg;
 import data.ArtistEvent;
-import data.Library;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,7 @@ public class RemoveEvent extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(username);
+        User user = library.seekUser(username);
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";

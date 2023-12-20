@@ -2,7 +2,6 @@ package command;
 
 import command.response.ResponseMsg;
 import data.ISelectable;
-import data.Library;
 import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +12,10 @@ public class CommandRepeat extends Command {
     public final ResponseMsg processCommand() {
         String message = "Repeat mode changed to ";
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        if (!library.seekUser(this.username).isOnline()) {
             message = this.username + " is offline.";
         } else {
-            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            MusicPlayer player = library.seekUser(this.username).getPlayer();
             player.updatePlaying(timestamp);
 
             ISelectable currentlyLoaded = player.getCurrentlyLoaded();

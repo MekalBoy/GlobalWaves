@@ -1,7 +1,6 @@
 package command;
 
 import command.response.ResponseMsg;
-import data.Library;
 import data.User;
 import functionality.Page;
 import lombok.Getter;
@@ -15,7 +14,7 @@ public class ChangePage extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(username);
+        User user = library.seekUser(username);
 
         if (!user.isOnline()) {
             message = username + " is offline.";

@@ -2,9 +2,9 @@ package data;
 
 import fileio.input.UserInput;
 import functionality.MusicPlayer;
+import functionality.Page;
 import lombok.Getter;
 import lombok.Setter;
-import functionality.Page;
 
 import java.util.ArrayList;
 import java.util.List;

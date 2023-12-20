@@ -1,7 +1,6 @@
 package command;
 
 import command.response.ResponseMsg;
-import data.Library;
 import data.Playlist;
 import functionality.MusicPlayer;
 import lombok.Getter;
@@ -15,10 +14,10 @@ public class CommandSwitchVisibility extends Command {
     public final ResponseMsg processCommand() {
         String message = "Visibility status updated successfully to ";
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        if (!library.seekUser(this.username).isOnline()) {
             message = this.username + " is offline.";
         } else {
-            MusicPlayer player = Library.instance.seekUser(username).getPlayer();
+            MusicPlayer player = library.seekUser(username).getPlayer();
 
             if (player.getCreatedPlaylists().size() <= playlistId - 1) {
                 message = "The specified playlist ID is too high.";

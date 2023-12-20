@@ -2,7 +2,6 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.Library;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,14 +16,14 @@ public class AddUser extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
         if (user != null) {
             message = "The username "
                     + this.username
                     + " is already taken.";
         } else {
             user = new User(this.username, this.city, this.age, this.type);
-            Library.instance.addUser(user);
+            library.addUser(user);
 
             message = "The username "
                     + this.username

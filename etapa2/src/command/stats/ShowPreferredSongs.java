@@ -3,7 +3,6 @@ package command.stats;
 import command.Command;
 import command.response.ResponseResultString;
 import data.AudioFile;
-import data.Library;
 import functionality.MusicPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class ShowPreferredSongs extends Command {
     public final ResponseResultString processCommand() {
         result = new ArrayList<String>();
 
-        MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+        MusicPlayer player = library.seekUser(this.username).getPlayer();
 
         result.addAll(player.getLikedSongs().stream().map(AudioFile::getName).toList());
 

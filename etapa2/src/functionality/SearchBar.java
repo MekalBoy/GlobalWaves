@@ -8,7 +8,7 @@ import data.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchBar {
+public final class SearchBar {
 
     /**
      * Uses the parameters to retrieve matching results from the Library's database.
@@ -22,12 +22,13 @@ public class SearchBar {
                                            final ISelectable.SearchType searchType,
                                            final SearchFilter filterer) {
         final int searchLimit = 5;
+        final Library library = Library.getInstance();
 
         List<ISelectable> results = new ArrayList<ISelectable>();
 
         switch (searchType) {
             case SONG:
-                results.addAll(Library.instance.getSongs().stream().filter((song) -> {
+                results.addAll(library.getSongs().stream().filter((song) -> {
                     List<String> commonTags = new ArrayList<String>(song.getTags());
                     boolean chkTags = true;
                     for (String filterTag : filterer.getTags()) {
@@ -70,7 +71,7 @@ public class SearchBar {
                 }).toList());
                 break;
             case PLAYLIST:
-                results.addAll(Library.instance.getPlaylists().stream().filter((playlist) -> {
+                results.addAll(library.getPlaylists().stream().filter((playlist) -> {
                     return playlist.getName().startsWith(filterer.getName())
                             && (filterer.getOwner().isEmpty()
                                 || playlist.getOwner().equals(filterer.getOwner()))
@@ -79,7 +80,7 @@ public class SearchBar {
                 }).toList());
                 break;
             case PODCAST:
-                results.addAll(Library.instance.getPodcasts().stream().filter((podcast) -> {
+                results.addAll(library.getPodcasts().stream().filter((podcast) -> {
                     return (filterer.getName().isEmpty()
                                 || podcast.getName().startsWith(filterer.getName()))
                             && (filterer.getOwner().isEmpty()
@@ -87,7 +88,7 @@ public class SearchBar {
                 }).toList());
                 break;
             case ALBUM:
-                results.addAll(Library.instance.getAlbums().stream().filter((album) -> {
+                results.addAll(library.getAlbums().stream().filter((album) -> {
                     return album.getName().startsWith(filterer.getName())
                             && (filterer.getOwner().isEmpty()
                             || album.getOwner().startsWith(filterer.getOwner()))
@@ -96,13 +97,13 @@ public class SearchBar {
                 }).toList());
                 break;
             case ARTIST:
-                results.addAll(Library.instance.getUsers().stream().filter(user -> {
+                results.addAll(library.getUsers().stream().filter(user -> {
                     return user.getUserType() == User.UserType.ARTIST
                     && user.getName().startsWith(filterer.getName());
                 }).toList());
                 break;
             case HOST:
-                results.addAll(Library.instance.getUsers().stream().filter(user -> {
+                results.addAll(library.getUsers().stream().filter(user -> {
                     return user.getUserType() == User.UserType.HOST
                             && user.getName().startsWith(filterer.getName());
                 }).toList());
@@ -117,5 +118,8 @@ public class SearchBar {
         }
 
         return results;
+    }
+
+    private SearchBar() {
     }
 }

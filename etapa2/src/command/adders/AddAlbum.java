@@ -3,7 +3,6 @@ package command.adders;
 import command.Command;
 import command.response.ResponseMsg;
 import data.Album;
-import data.Library;
 import data.Song;
 import data.User;
 import lombok.Getter;
@@ -24,7 +23,7 @@ public class AddAlbum extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";
@@ -37,10 +36,10 @@ public class AddAlbum extends Command {
         } else {
             Album album = new Album(this.name, this.username, this.description,
                     this.releaseYear, this.songs);
-            Library.instance.addAlbum(album);
-            Library.instance.setSongs(
+            library.addAlbum(album);
+            library.setSongs(
                     new ArrayList<Song>(Stream.concat(
-                            Library.instance.getSongs().stream(),
+                            library.getSongs().stream(),
                             this.songs.stream()).toList())
             );
             user.addAlbum(album);

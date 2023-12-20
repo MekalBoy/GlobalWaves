@@ -2,7 +2,6 @@ package command;
 
 import command.response.ResponseMsg;
 import data.ISelectable;
-import data.Library;
 import data.User;
 import functionality.MusicPlayer;
 import functionality.Page;
@@ -20,7 +19,7 @@ public class CommandSelect extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
 
         if (!user.isOnline()) {
             message = this.username + " is offline.";
@@ -39,11 +38,11 @@ public class CommandSelect extends Command {
                 if (selected.getType() == ISelectable.SearchType.ARTIST) {
                     message += selected.getName() + "'s page.";
                     user.setPage(new Page(Page.PageType.ARTIST,
-                            Library.instance.seekUser(selected.getName())));
+                            library.seekUser(selected.getName())));
                 } else if (selected.getType() == ISelectable.SearchType.HOST) {
                     message += selected.getName() + "'s page.";
                     user.setPage(new Page(Page.PageType.HOST,
-                            Library.instance.seekUser(selected.getName())));
+                            library.seekUser(selected.getName())));
                 } else {
                     String trackName = selected.getName();
                     message += trackName + ".";

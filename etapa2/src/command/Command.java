@@ -1,5 +1,6 @@
 package command;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -7,6 +8,7 @@ import command.adders.*;
 import command.removers.*;
 import command.response.Response;
 import command.stats.*;
+import data.Library;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -69,6 +71,9 @@ public abstract class Command {
     protected int timestamp;
     @JsonProperty("username")
     protected String username = null;
+
+    @JsonIgnore
+    protected final Library library = Library.getInstance();
 
     public Command() {
     }

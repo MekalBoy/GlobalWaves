@@ -17,17 +17,25 @@ public class Library {
     private List<Podcast> podcasts;
     private List<Album> albums;
 
-    public static Library instance;
+    @Getter
+    private static Library instance;
     // each test needs a new library so the instance is remade each time
     // probably useless then, might change it in future iterations
 
-    public Library(final LibraryInput input) {
+    private Library(final LibraryInput input) {
         this.users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
         this.songs = input.getSongs().stream().map(Song::new).collect(Collectors.toList());
         this.playlists = new ArrayList<Playlist>();
         this.podcasts = input.getPodcasts().stream().map(Podcast::new).collect(Collectors.toList());
         this.albums = new ArrayList<Album>();
         instance = this;
+    }
+
+    /**
+     * Regenerates the library with the given LibraryInput
+     */
+    public static void resetLibrary(final LibraryInput input) {
+        new Library(input);
     }
 
     /**

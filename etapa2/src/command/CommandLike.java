@@ -3,7 +3,6 @@ package command;
 import command.response.ResponseMsg;
 import data.AudioFile;
 import data.ISelectable;
-import data.Library;
 import data.Song;
 import functionality.MusicPlayer;
 import lombok.Getter;
@@ -16,10 +15,10 @@ public class CommandLike extends Command {
     public final ResponseMsg processCommand() {
         String message = "";
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        if (!library.seekUser(this.username).isOnline()) {
             message = this.username + " is offline.";
         } else {
-            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            MusicPlayer player = library.seekUser(this.username).getPlayer();
             player.updatePlaying(timestamp);
 
             AudioFile audio = player.getAudioPlaying();

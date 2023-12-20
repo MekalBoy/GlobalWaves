@@ -3,7 +3,6 @@ package command;
 import command.response.Response;
 import command.response.ResponseMsgSearch;
 import data.ISelectable;
-import data.Library;
 import data.SearchFilter;
 import functionality.MusicPlayer;
 import functionality.SearchBar;
@@ -25,7 +24,7 @@ public class CommandSearch extends Command {
         String message;
         List<String> results;
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        if (!library.seekUser(this.username).isOnline()) {
             results = new ArrayList<String>();
             message = this.username + " is offline.";
         } else {
@@ -35,7 +34,7 @@ public class CommandSearch extends Command {
             List<ISelectable> searchResults = SearchBar.search(this.username, searchType, filters);
             results = searchResults.stream().map(ISelectable::getName).collect(Collectors.toList());
 
-            MusicPlayer player = Library.instance.seekUser(this.username).getPlayer();
+            MusicPlayer player = library.seekUser(this.username).getPlayer();
             player.updatePlaying(this.timestamp);
             player.flushPlayer();
 

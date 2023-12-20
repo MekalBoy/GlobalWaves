@@ -3,7 +3,6 @@ package command.stats;
 import command.Command;
 import command.response.ResponseResultString;
 import data.Album;
-import data.Library;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ public class GetTop5Albums extends Command {
     public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        List<Album> sortedAlbums = new ArrayList<Album>(Library.instance.getAlbums());
+        List<Album> sortedAlbums = new ArrayList<Album>(library.getAlbums());
         sortedAlbums.sort(Album::compareTo);
         Collections.reverse(sortedAlbums);
 

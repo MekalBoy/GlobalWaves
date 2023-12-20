@@ -13,8 +13,8 @@ public final class DeleteUser extends Command {
     public ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(username);
-        for (User normalUser : Library.instance.getUsers()) {
+        User user = library.seekUser(username);
+        for (User normalUser : library.getUsers()) {
             if (normalUser.getUserType() != User.UserType.USER || !normalUser.isOnline()) {
                 continue;
             }
@@ -32,7 +32,7 @@ public final class DeleteUser extends Command {
                     // as there is quite a bit of duplicate code
                     for (Album album : user.getAlbumList()) {
                         for (AudioFile file : album.getSongList()) {
-                            for (User normalUser : Library.instance.getUsers()) {
+                            for (User normalUser : library.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
                                 }
@@ -62,7 +62,7 @@ public final class DeleteUser extends Command {
                 case HOST:
                     for (Podcast podcast : user.getPodcastList()) {
                         for (AudioFile file : podcast.getEpisodes()) {
-                            for (User normalUser : Library.instance.getUsers()) {
+                            for (User normalUser : library.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
                                 }
@@ -92,7 +92,7 @@ public final class DeleteUser extends Command {
                 case USER:
                     for (Playlist playlist : user.getPlayer().getCreatedPlaylists()) {
                         for (AudioFile file : playlist.getSongList()) {
-                            for (User normalUser : Library.instance.getUsers()) {
+                            for (User normalUser : library.getUsers()) {
                                 if (normalUser.getUserType() != User.UserType.USER) {
                                     continue;
                                 }
@@ -120,7 +120,7 @@ public final class DeleteUser extends Command {
             if (inUse) {
                 message = username + " can't be deleted.";
             } else {
-                Library.instance.removeUser(user);
+                library.removeUser(user);
                 message = username + " was successfully deleted.";
             }
         }

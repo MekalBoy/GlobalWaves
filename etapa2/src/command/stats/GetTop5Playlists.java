@@ -2,7 +2,6 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseResultString;
-import data.Library;
 import data.Playlist;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class GetTop5Playlists extends Command {
     public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        List<Playlist> sortedPlaylists = new ArrayList<Playlist>(Library.instance.getPlaylists());
+        List<Playlist> sortedPlaylists = new ArrayList<Playlist>(library.getPlaylists());
         sortedPlaylists.sort(Comparator.comparingInt(Playlist::getFollowers).reversed());
 
         for (int i = 0; i < sortedPlaylists.size() && i < playlistLimit; i++) {

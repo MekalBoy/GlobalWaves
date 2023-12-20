@@ -3,7 +3,6 @@ package command.adders;
 import command.Command;
 import command.response.ResponseMsg;
 import data.ArtistEvent;
-import data.Library;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,7 @@ public class AddEvent extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(this.username);
+        User user = library.seekUser(this.username);
 
         final int lowestYear = 1900;
         final int highestYear = 2023;

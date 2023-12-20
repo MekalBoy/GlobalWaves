@@ -4,12 +4,7 @@ import data.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Getter @Setter
@@ -480,7 +475,7 @@ public class MusicPlayer {
         // Loop through each of this user's created playlists
         for (Playlist playlist : createdPlaylists) {
             // Find every normal user
-            for (User normalUser : Library.instance.getUsers()) {
+            for (User normalUser : Library.getInstance().getUsers()) {
                 if (normalUser.getUserType() != User.UserType.USER) {
                     continue;
                 }

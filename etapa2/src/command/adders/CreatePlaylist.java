@@ -2,7 +2,6 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.Library;
 import data.Playlist;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,16 +14,16 @@ public class CreatePlaylist extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        if (!Library.instance.seekUser(this.username).isOnline()) {
+        if (!library.seekUser(this.username).isOnline()) {
             message = this.username + " is offline.";
         } else {
-            if (Library.instance.seekPlaylist(this.playlistName) != null) {
+            if (library.seekPlaylist(this.playlistName) != null) {
                 message = "A playlist with the same name already exists.";
             } else {
                 Playlist newPlaylist = new Playlist(this.playlistName, this.username);
-                Library.instance.seekUser(this.username)
+                library.seekUser(this.username)
                         .getPlayer().addToCreatedPlaylists(newPlaylist);
-                Library.instance
+                library
                         .addPlaylist(newPlaylist);
                 message = "Playlist created successfully.";
             }

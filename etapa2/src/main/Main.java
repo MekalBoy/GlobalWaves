@@ -73,7 +73,7 @@ public final class Main {
     public static void action(final String filePathInput,
                               final String filePathOutput) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        LibraryInput library = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
+        LibraryInput libraryInput = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
@@ -82,7 +82,7 @@ public final class Main {
          is created to update the singleton instance because
          each test expects a fresh, from-scratch library
         */
-        Library mainLibrary = new Library(library);
+        Library.resetLibrary(libraryInput);
 
         String inputPath = "input/" + filePathInput;
         Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);

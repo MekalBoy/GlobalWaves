@@ -17,15 +17,15 @@ public class RemoveAlbum extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(username);
-        for (User normalUser : Library.instance.getUsers()) {
+        User user = library.seekUser(username);
+        for (User normalUser : library.getUsers()) {
             if (normalUser.getUserType() != User.UserType.USER || !normalUser.isOnline()) {
                 continue;
             }
             normalUser.getPlayer().updatePlaying(timestamp);
         }
 
-        Album album = Library.instance.seekAlbum(this.name);
+        Album album = library.seekAlbum(this.name);
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";
@@ -36,7 +36,7 @@ public class RemoveAlbum extends Command {
         } else {
             boolean inUse = false;
 
-            for (User normalUser : Library.instance.getUsers()) {
+            for (User normalUser : library.getUsers()) {
                 if (normalUser.getUserType() != User.UserType.USER) {
                     continue;
                 }
@@ -64,7 +64,7 @@ public class RemoveAlbum extends Command {
             if (inUse) {
                 message = username + " can't delete this album.";
             } else {
-                Library.instance.removeAlbum(album);
+                library.removeAlbum(album);
                 user.removeAlbum(album);
                 message = username + " deleted the album successfully.";
             }

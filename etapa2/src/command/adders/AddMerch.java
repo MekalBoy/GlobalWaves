@@ -2,7 +2,6 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.Library;
 import data.Merch;
 import data.User;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class AddMerch extends Command {
     public final ResponseMsg processCommand() {
         String message;
 
-        User user = Library.instance.seekUser(username);
+        User user = library.seekUser(username);
 
         if (user == null) {
             message = "The username " + this.username + " doesn't exist.";

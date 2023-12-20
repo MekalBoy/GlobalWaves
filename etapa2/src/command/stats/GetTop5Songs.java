@@ -2,7 +2,6 @@ package command.stats;
 
 import command.Command;
 import command.response.ResponseResultString;
-import data.Library;
 import data.Song;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class GetTop5Songs extends Command {
     public final ResponseResultString processCommand() {
         List<String> result = new ArrayList<String>();
 
-        List<Song> sortedSongs = new ArrayList<Song>(Library.instance.getSongs());
+        List<Song> sortedSongs = new ArrayList<Song>(library.getSongs());
         sortedSongs.sort(Comparator.comparingInt(Song::getNrLikes).reversed());
 
         for (int i = 0; i < songLimit; i++) {
