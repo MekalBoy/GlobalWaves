@@ -23,6 +23,11 @@ public class Episode extends AudioFile {
     }
 
     @Override
+    public final SearchType getType() {
+        return SearchType.EPISODE;
+    }
+
+    @Override
     public final String toString() {
         return name + " - " + description;
     }

@@ -1,8 +1,7 @@
 package data;
 
 import fileio.input.UserInput;
-import functionality.MusicPlayer;
-import functionality.Page;
+import functionality.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,12 +44,25 @@ public class User implements ISelectable {
         this.city = city;
         this.age = age;
         this.userType = UserType.valueOf(type.toUpperCase());
+        switch (userType) {
+            case USER -> player.setWrappedStats(new WrappedUser());
+            case ARTIST -> player.setWrappedStats(new WrappedArtist());
+            case HOST -> player.setWrappedStats(new WrappedHost());
+        }
+        player.setOwner(this);
     }
 
     public User(final UserInput input) {
         this.username = input.getUsername();
         this.city = input.getCity();
         this.age = input.getAge();
+        this.userType = UserType.USER;
+        switch (userType) {
+            case USER -> player.setWrappedStats(new WrappedUser());
+            case ARTIST -> player.setWrappedStats(new WrappedArtist());
+            case HOST -> player.setWrappedStats(new WrappedHost());
+        }
+        player.setOwner(this);
     }
 
     /**

@@ -81,11 +81,13 @@ public final class Main {
         Library.resetLibrary(libraryInput);
 
         String inputPath = "input/" + filePathInput;
-        Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
-        List<Command> commandsList = Arrays.stream(commands).toList();
+        if (inputPath.contains("test00")) {
+            Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
+            List<Command> commandsList = Arrays.stream(commands).toList();
 
-        for (Command com : commands) {
-            outputs.add(objectMapper.valueToTree(com.processCommand()));
+            for (Command com : commands) {
+                outputs.add(objectMapper.valueToTree(com.processCommand()));
+            }
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

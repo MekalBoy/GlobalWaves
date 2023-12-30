@@ -37,6 +37,9 @@ public class MusicPlayer {
 
     private final int windingSpeed = 90; // used for forward/backward
 
+    private Wrapped wrappedStats;
+    private User owner;
+
     public MusicPlayer() {
     }
 
@@ -135,6 +138,11 @@ public class MusicPlayer {
         this.audioPlaying = audioFile;
         this.remainedTime = audioFile.getDuration();
         setPlaying(true);
+        incrementListen(audioFile);
+    }
+
+    public void incrementListen(final AudioFile audioFile) {
+        wrappedStats.incrementTop(audioFile, this.owner);
     }
 
     /**
@@ -192,6 +200,7 @@ public class MusicPlayer {
                                 return;
                             }
                             leftover -= nextThing.getDuration();
+                            incrementListen(nextThing);
                         }
 
                         audioPlaying = nextThing;
