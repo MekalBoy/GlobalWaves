@@ -81,7 +81,7 @@ public final class Main {
         Library.resetLibrary(libraryInput);
 
         String inputPath = "input/" + filePathInput;
-        if (inputPath.contains("test00")) {
+        if (inputPath.contains("test00")/* || inputPath.contains("test01")*/) {
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();
 

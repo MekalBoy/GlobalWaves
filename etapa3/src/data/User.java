@@ -2,6 +2,9 @@ package data;
 
 import fileio.input.UserInput;
 import functionality.*;
+import functionality.wrapped.WrappedArtist;
+import functionality.wrapped.WrappedHost;
+import functionality.wrapped.WrappedUser;
 import lombok.Getter;
 import lombok.Setter;
 

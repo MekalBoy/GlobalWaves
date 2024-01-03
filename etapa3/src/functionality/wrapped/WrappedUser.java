@@ -1,19 +1,19 @@
-package functionality;
+package functionality.wrapped;
 
 import data.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter @Setter
 public class WrappedUser extends Wrapped {
-    private Map<String, Integer> topArtists = new HashMap<String, Integer>();
-    private Map<String, Integer> topSongs = new HashMap<String, Integer>();
-    private Map<String, Integer> topGenres = new HashMap<String, Integer>();
-    private Map<String, Integer> topAlbums = new HashMap<String, Integer>();
-    private Map<String, Integer> topEpisodes = new HashMap<String, Integer>();
+    private Map<String, Integer> topArtists = new LinkedHashMap<String, Integer>();
+    private Map<String, Integer> topGenres = new LinkedHashMap<String, Integer>();
+    private Map<String, Integer> topSongs = new LinkedHashMap<String, Integer>();
+    private Map<String, Integer> topAlbums = new LinkedHashMap<String, Integer>();
+    private Map<String, Integer> topEpisodes = new LinkedHashMap<String, Integer>();
 
     public final void incrementTop(final ISelectable selected, final User user) {
         switch (selected.getType()) {

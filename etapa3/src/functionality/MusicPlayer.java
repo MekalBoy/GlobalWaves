@@ -1,6 +1,7 @@
 package functionality;
 
 import data.*;
+import functionality.wrapped.Wrapped;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -191,16 +192,18 @@ public class MusicPlayer {
                         }
 
                         leftover -= nextThing.getDuration();
-                        while (leftover > 0) {
+
+                        while (leftover >= 0) {
+                            incrementListen(nextThing);
                             nextThing = shuffle
                                     ? getNextShuffled((Song) nextThing)
                                     : currentlyLoaded.getNextAfter(nextThing);
+
                             if (nextThing == null) {
                                 flushPlayer();
                                 return;
                             }
                             leftover -= nextThing.getDuration();
-                            incrementListen(nextThing);
                         }
 
                         audioPlaying = nextThing;

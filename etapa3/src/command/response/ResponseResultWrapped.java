@@ -1,15 +1,16 @@
 package command.response;
 
 import command.Command;
-import functionality.Wrapped;
+import data.WrappedData;
+import functionality.wrapped.Wrapped;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class ResponseResultWrapped extends Response {
-    private Wrapped result;
+    private WrappedData result;
 
-    public ResponseResultWrapped(final Command command, final Wrapped result) {
+    public ResponseResultWrapped(final Command command, final WrappedData result) {
         super(command);
         this.result = result;
     }

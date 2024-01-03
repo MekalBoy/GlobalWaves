@@ -1,4 +1,4 @@
-package functionality;
+package functionality.wrapped;
 
 import data.ISelectable;
 import data.User;

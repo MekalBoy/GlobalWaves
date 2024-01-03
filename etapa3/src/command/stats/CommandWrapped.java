@@ -4,15 +4,21 @@ import command.Command;
 import command.response.ResponseResultWrapped;
 import data.Library;
 import data.User;
-import functionality.Wrapped;
+import data.WrappedData;
+import functionality.wrapped.FactoryWrapped;
+import functionality.wrapped.Wrapped;
+import org.apache.commons.collections.Factory;
 
 public class CommandWrapped extends Command {
     @Override
     public final ResponseResultWrapped processCommand() {
-        Wrapped result;
+        WrappedData result;
 
         User user = Library.getInstance().seekUser(username);
-        result = user.getPlayer().getWrappedStats();
+        if (library.seekUser(this.username).isOnline()) {
+            user.getPlayer().updatePlaying(timestamp);
+        }
+        result = FactoryWrapped.createWrapped(user);
 
         return new ResponseResultWrapped(this, result);
     }
