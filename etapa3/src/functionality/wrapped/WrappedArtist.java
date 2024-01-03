@@ -6,7 +6,8 @@ import data.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 @Getter @Setter
 public class WrappedArtist extends Wrapped {
@@ -15,7 +16,7 @@ public class WrappedArtist extends Wrapped {
     private Map<String, Integer> topFans = new LinkedHashMap<String, Integer>();
 
     @Override
-    public final void incrementTop(ISelectable selected, User user) {
+    public final void incrementTop(final ISelectable selected, final User user) {
         Song song = (Song) selected;
         incrementMap(song.getName(), topSongs);
         incrementMap(song.getAlbum(), topAlbums);

@@ -1,6 +1,9 @@
 package functionality.wrapped;
 
-import data.*;
+import data.User;
+import data.ISelectable;
+import data.Song;
+import data.Library;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +18,7 @@ public class WrappedUser extends Wrapped {
     private Map<String, Integer> topAlbums = new LinkedHashMap<String, Integer>();
     private Map<String, Integer> topEpisodes = new LinkedHashMap<String, Integer>();
 
+    @Override
     public final void incrementTop(final ISelectable selected, final User user) {
         switch (selected.getType()) {
             case SONG:

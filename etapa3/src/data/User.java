@@ -51,6 +51,7 @@ public class User implements ISelectable {
             case USER -> player.setWrappedStats(new WrappedUser());
             case ARTIST -> player.setWrappedStats(new WrappedArtist());
             case HOST -> player.setWrappedStats(new WrappedHost());
+            default -> throw new IllegalArgumentException("Invalid userType");
         }
         player.setOwner(this);
     }
@@ -64,6 +65,7 @@ public class User implements ISelectable {
             case USER -> player.setWrappedStats(new WrappedUser());
             case ARTIST -> player.setWrappedStats(new WrappedArtist());
             case HOST -> player.setWrappedStats(new WrappedHost());
+            default -> throw new IllegalArgumentException("Invalid userType");
         }
         player.setOwner(this);
     }

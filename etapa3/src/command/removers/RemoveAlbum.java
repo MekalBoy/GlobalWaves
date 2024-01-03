@@ -2,7 +2,11 @@ package command.removers;
 
 import command.Command;
 import command.response.ResponseMsg;
-import data.*;
+import data.User;
+import data.Album;
+import data.ISelectable;
+import data.Playlist;
+import data.Song;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,7 +2,6 @@ package command.response;
 
 import command.Command;
 import data.WrappedData;
-import functionality.wrapped.Wrapped;
 import lombok.Getter;
 import lombok.Setter;
 

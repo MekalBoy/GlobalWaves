@@ -142,7 +142,7 @@ public class MusicPlayer {
         incrementListen(audioFile);
     }
 
-    public void incrementListen(final AudioFile audioFile) {
+    private void incrementListen(final AudioFile audioFile) {
         wrappedStats.incrementTop(audioFile, this.owner);
     }
 

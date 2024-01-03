@@ -73,7 +73,8 @@ public final class Main {
     public static void action(final String filePathInput,
                               final String filePathOutput) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        LibraryInput libraryInput = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
+        LibraryInput libraryInput =
+                objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 
         ArrayNode outputs = objectMapper.createArrayNode();
 

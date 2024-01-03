@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class WrappedData {
+public final class WrappedData {
     // User
     private Map<String, Integer> topArtists, topGenres;
     // User and Artist
@@ -23,7 +23,7 @@ public class WrappedData {
     // Artist and Host
     private Integer listeners;
 
-    public static class Builder {
+    public static final class Builder {
         private Map<String, Integer> topArtists, topGenres, topSongs, topAlbums, topEpisodes;
         private List<String> topFans;
         private Integer listeners;
@@ -37,7 +37,8 @@ public class WrappedData {
             return unsortedMap.entrySet()
                     .stream()
                     .sorted(Comparator.comparing(Map.Entry<String, Integer>::getKey))
-                    .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue, Comparator.reverseOrder()))
+                    .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue,
+                            Comparator.reverseOrder()))
                     .limit(mapLimit)
                     .collect(Collectors.toMap(
                             Map.Entry::getKey,
@@ -47,41 +48,71 @@ public class WrappedData {
                     ));
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topArtists(final Map<String, Integer> unsortedArtists) {
             this.topArtists = sortAndLimit(unsortedArtists);
             return this;
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topGenres(final Map<String, Integer> unsortedGenres) {
             this.topGenres = sortAndLimit(unsortedGenres);
             return this;
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topAlbums(final Map<String, Integer> unsortedAlbums) {
             this.topAlbums = sortAndLimit(unsortedAlbums);
             return this;
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topSongs(final Map<String, Integer> unsortedSongs) {
             this.topSongs = sortAndLimit(unsortedSongs);
             return this;
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topEpisodes(final Map<String, Integer> unsortedEpisodes) {
             this.topEpisodes = sortAndLimit(unsortedEpisodes);
             return this;
         }
 
+        /**
+         * Sorts the dictionary alphabetically, then (descending) by values
+         * and limits the results to 5 before assigning the sorted map.
+         */
         public Builder topFans(final Map<String, Integer> topFansMap) {
             this.topFans = sortAndLimit(topFansMap).keySet().stream().toList();
             return this;
         }
 
+        /**
+         * Sets the listeners to the number of keys there are.
+         */
         public Builder listeners(final Map<String, Integer> topFansMap) {
             this.listeners = topFansMap.keySet().size();
             return this;
         }
 
+        /**
+         * Builds the WrappedData per se after the builder's properly set up.
+         */
         public WrappedData build() {
             return new WrappedData(this);
         }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class Library {
+public final class Library {
     private List<User> users;
     private List<Song> songs;
     private List<Playlist> playlists;
@@ -40,49 +40,49 @@ public class Library {
     /**
      * Adds the song to the library's database.
      */
-    public final void addSong(final Song song) {
+    public void addSong(final Song song) {
         songs.add(song);
     }
 
     /**
      * Adds the playlist to the library's database.
      */
-    public final void addPlaylist(final Playlist playlist) {
+    public void addPlaylist(final Playlist playlist) {
         this.playlists.add(playlist);
     }
 
     /**
      * Removes the playlist from the library's database.
      */
-    public final void removePlaylist(final Playlist playlist) {
+    public void removePlaylist(final Playlist playlist) {
         playlists.remove(playlist);
     }
 
     /**
      * Adds the podcast to the library's database.
      */
-    public final void addPodcast(final Podcast podcast) {
+    public void addPodcast(final Podcast podcast) {
         podcasts.add(podcast);
     }
 
     /**
      * Removes the podcast from the library's database.
      */
-    public final void removePodcast(final Podcast podcast) {
+    public void removePodcast(final Podcast podcast) {
         podcasts.remove(podcast);
     }
 
     /**
      * Adds the album to the library's database.
      */
-    public final void addAlbum(final Album album) {
+    public void addAlbum(final Album album) {
         albums.add(album);
     }
 
     /**
      * Removes the album (and songs) from the library's database.
      */
-    public final void removeAlbum(final Album album) {
+    public void removeAlbum(final Album album) {
         songs.removeAll(album.getSongList().stream().toList());
         albums.remove(album);
 
@@ -110,14 +110,14 @@ public class Library {
     /**
      * Adds the user to the library's database.
      */
-    public final void addUser(final User user) {
+    public void addUser(final User user) {
         users.add(user);
     }
 
     /**
      * Removes the user from the library's database.
      */
-    public final void removeUser(final User user) {
+    public void removeUser(final User user) {
         users.remove(user);
 
         switch (user.getUserType()) {
@@ -146,7 +146,7 @@ public class Library {
      * @param username username of the seeked user
      * @return User object or null
      */
-    public final User seekUser(final String username) {
+    public User seekUser(final String username) {
         for (User user : this.users) {
             if (user.getUsername().equals(username)) {
                 return user;
@@ -160,7 +160,7 @@ public class Library {
      * @param playlistName name of the seeked playlist
      * @return Playlist object or null
      */
-    public final Playlist seekPlaylist(final String playlistName) {
+    public Playlist seekPlaylist(final String playlistName) {
         for (Playlist playlist : this.playlists) {
             if (playlist.getName().equals(playlistName)) {
                 return playlist;
@@ -174,7 +174,7 @@ public class Library {
      * @param albumName name of the seeked album
      * @return Album object or null
      */
-    public final Album seekAlbum(final String albumName) {
+    public Album seekAlbum(final String albumName) {
         for (Album album : this.albums) {
             if (album.getName().equals(albumName)) {
                 return album;
@@ -188,7 +188,7 @@ public class Library {
      * @param podcastName name of the seeked podcast
      * @return Podcast object or null
      */
-    public final Podcast seekPodcast(final String podcastName) {
+    public Podcast seekPodcast(final String podcastName) {
         for (Podcast podcast : this.podcasts) {
             if (podcast.getName().equals(podcastName)) {
                 return podcast;

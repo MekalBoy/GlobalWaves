@@ -2,10 +2,14 @@ package functionality.wrapped;
 
 import data.User;
 import data.WrappedData;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class FactoryWrapped {
+public final class FactoryWrapped {
+    private FactoryWrapped() {
+    }
+
+    /**
+     * Creates WrappedData based on the user's type.
+     */
     public static WrappedData createWrapped(final User user) {
         switch (user.getUserType()) {
             case USER:
@@ -19,7 +23,7 @@ public class FactoryWrapped {
         }
     }
 
-    public static WrappedData buildWrapped(final WrappedUser userWrap) {
+    private static WrappedData buildWrapped(final WrappedUser userWrap) {
         return new WrappedData.Builder()
                 .topArtists(userWrap.getTopArtists())
                 .topGenres(userWrap.getTopGenres())
@@ -29,7 +33,7 @@ public class FactoryWrapped {
                 .build();
     }
 
-    public static WrappedData buildWrapped(final WrappedArtist artistWrap) {
+    private static WrappedData buildWrapped(final WrappedArtist artistWrap) {
         return new WrappedData.Builder()
                 .topAlbums(artistWrap.getTopAlbums())
                 .topSongs(artistWrap.getTopSongs())
@@ -38,7 +42,7 @@ public class FactoryWrapped {
                 .build();
     }
 
-    public static WrappedData buildWrapped(final WrappedHost hostWrap) {
+    private static WrappedData buildWrapped(final WrappedHost hostWrap) {
         return new WrappedData.Builder()
                 .topEpisodes(hostWrap.getTopEpisodes())
                 .listeners(hostWrap.getTopFans())
