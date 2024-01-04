@@ -5,12 +5,12 @@ import command.Command;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Getter @Setter
 public class Response {
     protected String command;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     protected String user;
-    protected int timestamp;
+    protected Integer timestamp;
 
     public Response(final String command, final String user, final int timestamp) {
         this.command = command;

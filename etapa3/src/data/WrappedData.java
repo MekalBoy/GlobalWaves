@@ -1,5 +1,6 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
@@ -23,10 +24,14 @@ public final class WrappedData {
     // Artist and Host
     private Integer listeners;
 
+    @JsonIgnore
+    private User.UserType wrappedType;
+
     public static final class Builder {
         private Map<String, Integer> topArtists, topGenres, topSongs, topAlbums, topEpisodes;
         private List<String> topFans;
         private Integer listeners;
+        private User.UserType wrappedType;
 
         public Builder() {
         }
@@ -111,6 +116,14 @@ public final class WrappedData {
         }
 
         /**
+         * Sets the wrapped user type for metadata purposes.
+         */
+        public Builder wrappedType(final User.UserType type) {
+            wrappedType = type;
+            return this;
+        }
+
+        /**
          * Builds the WrappedData per se after the builder's properly set up.
          */
         public WrappedData build() {
@@ -126,5 +139,19 @@ public final class WrappedData {
         this.topEpisodes = builder.topEpisodes;
         this.topFans = builder.topFans;
         this.listeners = builder.listeners;
+        this.wrappedType = builder.wrappedType;
+    }
+
+    /**
+     * @return true if all fields are empty; false otherwise
+     */
+    public boolean noData() {
+        return switch (wrappedType) {
+            case USER -> topArtists.isEmpty() && topGenres.isEmpty() && topAlbums.isEmpty()
+                    && topSongs.isEmpty() && topEpisodes.isEmpty();
+            case ARTIST -> topSongs.isEmpty() && topAlbums.isEmpty();
+            case HOST -> topEpisodes.isEmpty();
+            default -> throw new IllegalArgumentException("Invalid wrappedType");
+        };
     }
 }

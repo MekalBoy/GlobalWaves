@@ -60,13 +60,9 @@ public class User implements ISelectable {
         this.username = input.getUsername();
         this.city = input.getCity();
         this.age = input.getAge();
+        // hardcoded because all og inputs are users
         this.userType = UserType.USER;
-        switch (userType) {
-            case USER -> player.setWrappedStats(new WrappedUser());
-            case ARTIST -> player.setWrappedStats(new WrappedArtist());
-            case HOST -> player.setWrappedStats(new WrappedHost());
-            default -> throw new IllegalArgumentException("Invalid userType");
-        }
+        player.setWrappedStats(new WrappedUser());
         player.setOwner(this);
     }
 

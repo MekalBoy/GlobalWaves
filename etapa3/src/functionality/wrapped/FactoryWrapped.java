@@ -30,6 +30,7 @@ public final class FactoryWrapped {
                 .topSongs(userWrap.getTopSongs())
                 .topAlbums(userWrap.getTopAlbums())
                 .topEpisodes(userWrap.getTopEpisodes())
+                .wrappedType(User.UserType.USER)
                 .build();
     }
 
@@ -39,6 +40,7 @@ public final class FactoryWrapped {
                 .topSongs(artistWrap.getTopSongs())
                 .topFans(artistWrap.getTopFans())
                 .listeners(artistWrap.getTopFans())
+                .wrappedType(User.UserType.ARTIST)
                 .build();
     }
 
@@ -46,6 +48,7 @@ public final class FactoryWrapped {
         return new WrappedData.Builder()
                 .topEpisodes(hostWrap.getTopEpisodes())
                 .listeners(hostWrap.getTopFans())
+                .wrappedType(User.UserType.HOST)
                 .build();
     }
 }

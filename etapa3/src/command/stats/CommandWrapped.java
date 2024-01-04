@@ -10,14 +10,23 @@ import functionality.wrapped.FactoryWrapped;
 public class CommandWrapped extends Command {
     @Override
     public final ResponseResultWrapped processCommand() {
-        WrappedData result;
+        WrappedData result = null;
+        String message = null;
 
         User user = Library.getInstance().seekUser(username);
-        if (library.seekUser(this.username).isOnline()) {
-            user.getPlayer().updatePlaying(timestamp);
+        for (User normalUser : library.getUsers()) {
+            if (normalUser.getUserType() != User.UserType.USER || !normalUser.isOnline()) {
+                continue;
+            }
+            normalUser.getPlayer().updatePlaying(timestamp);
         }
-        result = FactoryWrapped.createWrapped(user);
 
-        return new ResponseResultWrapped(this, result);
+        result = FactoryWrapped.createWrapped(user);
+        if (result.noData()) {
+            result = null;
+            message = "No data to show for user " + username + ".";
+        }
+
+        return new ResponseResultWrapped(this, result, message);
     }
 }

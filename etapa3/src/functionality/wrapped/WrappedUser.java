@@ -4,6 +4,7 @@ import data.User;
 import data.ISelectable;
 import data.Song;
 import data.Library;
+import functionality.money.MoneyManager;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +31,8 @@ public class WrappedUser extends Wrapped {
 
                 User artist = Library.getInstance().seekUser(song.getArtist());
                 artist.getPlayer().getWrappedStats().incrementTop(selected, user);
+
+                MoneyManager.getInstance().tryAddToList(song);
                 break;
             case PLAYLIST:
             case ALBUM:

@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import command.Command;
+import command.stats.EndProgram;
 import data.Library;
 import fileio.input.LibraryInput;
+import functionality.money.MoneyManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,15 +82,22 @@ public final class Main {
 
         // each test expects a fresh library
         Library.resetLibrary(libraryInput);
+        MoneyManager.resetMonetization();
 
         String inputPath = "input/" + filePathInput;
-        if (inputPath.contains("test00")/* || inputPath.contains("test01")*/) {
+        if (inputPath.contains("test00") || inputPath.contains("test01")
+            || inputPath.contains("test02") || inputPath.contains("test03")) {
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
             List<Command> commandsList = Arrays.stream(commands).toList();
 
             for (Command com : commands) {
                 outputs.add(objectMapper.valueToTree(com.processCommand()));
             }
+
+            // End of the file monetization statistics
+            // this breaks backwards compatibility with previous stages
+            Command endProgram = new EndProgram();
+            outputs.add(objectMapper.valueToTree(endProgram.processCommand()));
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

@@ -1,9 +1,6 @@
 package command;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import command.adders.*;
 import command.removers.*;
 import command.response.Response;
@@ -71,7 +68,7 @@ public abstract class Command {
     @JsonProperty("command")
     protected String command;
     @JsonProperty("timestamp")
-    protected int timestamp;
+    protected Integer timestamp;
     @JsonProperty("username")
     protected String username = null;
 

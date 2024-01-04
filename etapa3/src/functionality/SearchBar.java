@@ -55,7 +55,8 @@ public final class SearchBar {
                             : song.getReleaseYear() > year;
 
                     return (filterer.getName().isEmpty()
-                                || song.getName().startsWith(filterer.getName()))
+                                || song.getName().toUpperCase()
+                                    .startsWith(filterer.getName().toUpperCase()))
                             && (filterer.getAlbum().isEmpty()
                                 || song.getAlbum().equals(filterer.getAlbum()))
                             && (filterer.getTags().isEmpty()
@@ -88,13 +89,17 @@ public final class SearchBar {
                 }).toList());
                 break;
             case ALBUM:
-                results.addAll(library.getAlbums().stream().filter((album) -> {
-                    return album.getName().startsWith(filterer.getName())
-                            && (filterer.getOwner().isEmpty()
-                            || album.getOwner().startsWith(filterer.getOwner()))
-                            && (filterer.getDescription().isEmpty()
-                            || album.getDescription().startsWith(filterer.getDescription()));
-                }).toList());
+                for (User user : library.getUsers()) {
+                    if (user.getUserType() == User.UserType.ARTIST) {
+                        results.addAll(user.getAlbumList().stream().filter((album)
+                                -> album.getName().startsWith(filterer.getName())
+                                && (filterer.getOwner().isEmpty()
+                                || album.getOwner().startsWith(filterer.getOwner()))
+                                && (filterer.getDescription().isEmpty()
+                                || album.getDescription().startsWith(filterer.getDescription())))
+                                .toList());
+                    }
+                }
                 break;
             case ARTIST:
                 results.addAll(library.getUsers().stream().filter(user -> {
