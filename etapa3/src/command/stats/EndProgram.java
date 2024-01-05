@@ -12,6 +12,6 @@ public class EndProgram extends Command {
 
     @Override
     public final ResponseResultMoney processCommand() {
-        return new ResponseResultMoney(this, MoneyManager.getInstance().getDatabase());
+        return new ResponseResultMoney(this, MoneyManager.getInstance().getArtistDatabase());
     }
 }

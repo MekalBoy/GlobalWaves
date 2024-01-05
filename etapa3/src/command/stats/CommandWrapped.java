@@ -24,7 +24,11 @@ public class CommandWrapped extends Command {
         result = FactoryWrapped.createWrapped(user);
         if (result.noData()) {
             result = null;
-            message = "No data to show for user " + username + ".";
+            message = "No data to show for "
+                    + user.getUserType().name().toLowerCase()
+                    + " "
+                    + username
+                    + ".";
         }
 
         return new ResponseResultWrapped(this, result, message);

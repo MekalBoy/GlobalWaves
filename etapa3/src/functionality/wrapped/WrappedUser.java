@@ -32,7 +32,7 @@ public class WrappedUser extends Wrapped {
                 User artist = Library.getInstance().seekUser(song.getArtist());
                 artist.getPlayer().getWrappedStats().incrementTop(selected, user);
 
-                MoneyManager.getInstance().tryAddToList(song);
+                MoneyManager.getInstance().tryAddArtist(song);
                 break;
             case PLAYLIST:
             case ALBUM:

@@ -61,7 +61,9 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = SwitchConnectionStatus.class, name = "switchConnectionStatus"),
         // etapa3
         @JsonSubTypes.Type(value = CommandWrapped.class, name = "wrapped"),
-        @JsonSubTypes.Type(value = EndProgram.class, name = "endProgram")
+        @JsonSubTypes.Type(value = EndProgram.class, name = "endProgram"),
+        @JsonSubTypes.Type(value = BuyPremium.class, name = "buyPremium"),
+        @JsonSubTypes.Type(value = CancelPremium.class, name = "cancelPremium")
 })
 @Getter @Setter
 public abstract class Command {
