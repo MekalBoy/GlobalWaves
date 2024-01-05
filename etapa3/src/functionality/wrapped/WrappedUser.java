@@ -4,6 +4,7 @@ import data.User;
 import data.ISelectable;
 import data.Song;
 import data.Library;
+import data.Episode;
 import functionality.money.MoneyManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +41,16 @@ public class WrappedUser extends Wrapped {
                 incrementMap(selected.getName(), topAlbums);
                 break;
             case EPISODE:
+                Episode episode = (Episode) selected;
                 incrementMap(selected.getName(), topEpisodes);
+
+                User host = Library.getInstance().seekUser(episode.getOwner());
+                // this weird check is because while there are no cases
+                // where the artist cannot exist as an user and have a wrapped
+                // there is such a case in test10
+                if (host != null) {
+                    host.getPlayer().getWrappedStats().incrementTop(selected, user);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid increment type");

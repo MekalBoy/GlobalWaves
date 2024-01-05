@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -87,9 +85,8 @@ public final class Main {
         String inputPath = "input/" + filePathInput;
         if (inputPath.contains("test00") || inputPath.contains("test01")
             || inputPath.contains("test02") || inputPath.contains("test03")
-            || inputPath.contains("test04")) {
+            || inputPath.contains("test04") || inputPath.contains("test10")) {
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
-            List<Command> commandsList = Arrays.stream(commands).toList();
 
             for (Command com : commands) {
                 outputs.add(objectMapper.valueToTree(com.processCommand()));

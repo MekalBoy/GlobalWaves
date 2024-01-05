@@ -1,11 +1,9 @@
 package command.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import command.Command;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Getter @Setter
 public class Response {
     protected String command;

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class Episode extends AudioFile {
     private String description;
+    private String owner;
 
     public Episode() {
     }
@@ -20,6 +21,11 @@ public class Episode extends AudioFile {
         this.name = input.getName();
         this.duration = input.getDuration();
         this.description = input.getDescription();
+    }
+
+    public Episode(final EpisodeInput input, final String owner) {
+        this(input);
+        this.owner = owner;
     }
 
     @Override

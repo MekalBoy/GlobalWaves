@@ -24,7 +24,7 @@ public class Podcast implements ISelectable {
         this.owner = input.getOwner();
         this.episodes = new ArrayList<Episode>();
         for (EpisodeInput episodeInput : input.getEpisodes()) {
-            this.episodes.add(new Episode(episodeInput));
+            this.episodes.add(new Episode(episodeInput, owner));
         }
     }
 
