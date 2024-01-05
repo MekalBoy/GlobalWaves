@@ -12,6 +12,7 @@ public class EndProgram extends Command {
 
     @Override
     public final ResponseResultMoney processCommand() {
+        MoneyManager.getInstance().cleanupMoney();
         return new ResponseResultMoney(this, MoneyManager.getInstance().getArtistDatabase());
     }
 }

@@ -1,7 +1,8 @@
 package data;
 
 import fileio.input.UserInput;
-import functionality.*;
+import functionality.MusicPlayer;
+import functionality.Page;
 import functionality.wrapped.WrappedArtist;
 import functionality.wrapped.WrappedHost;
 import functionality.wrapped.WrappedUser;

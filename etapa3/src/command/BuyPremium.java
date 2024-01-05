@@ -12,7 +12,7 @@ import lombok.Setter;
 public class BuyPremium extends Command {
     @Override
     public final ResponseMsg processCommand() {
-        String message = null;
+        String message;
 
         User user = Library.getInstance().seekUser(username);
 
@@ -23,6 +23,7 @@ public class BuyPremium extends Command {
             message = username + " is already a premium user.";
         } else {
             // do something to toggle premium on
+            MoneyManager.getInstance().enablePremium(user);
 
             message = username + " bought the subscription successfully.";
         }
