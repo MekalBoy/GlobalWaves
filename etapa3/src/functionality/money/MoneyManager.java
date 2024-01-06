@@ -70,12 +70,12 @@ public final class MoneyManager {
 
         UserMoney userMoney = userDatabase.get(user.getUsername());
 
-        // Return if the user is not premium, no need to add?
+        // Return if the user is not premium, add to advertisement queue
         if (!userMoney.isPremium()) {
-            return;
+            userMoney.addToFreeSongs(song);
+        } else {
+            userMoney.addToPremiumSongs(song);
         }
-
-        userMoney.addToPremiumSongs(song);
     }
 
     /**
@@ -110,6 +110,23 @@ public final class MoneyManager {
 
         userMoney.clearPremiumSongs();
         userMoney.setPremium(false);
+    }
+
+    /**
+     * Pay specified ad money to all artists whose songs
+     * have been listened to in the free tier.
+     */
+    public void payAdverts(final User user, final int price) {
+        UserMoney userMoney = userDatabase.get(user.getUsername());
+
+        double totalSongs = userMoney.getFreeSongs().size();
+        double songValue = ((double) price) / totalSongs;
+
+        for (Song song : userMoney.getFreeSongs()) {
+            artistDatabase.get(song.getArtist()).addSongRevenue(song, songValue);
+        }
+
+        userMoney.clearFreeSongs();
     }
 
     /**

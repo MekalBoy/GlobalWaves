@@ -46,12 +46,18 @@ public class ArtistMoney {
             return; // or throw an exception, depending on your requirements
         }
 
-        Map.Entry<String, Double> maxEntry = null;
-        for (Map.Entry<String, Double> entry : songMap.entrySet()) {
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-                maxEntry = entry;
-            }
-        }
+        // If revenues are equal, sort alphabetically by song name
+        Map.Entry<String, Double> maxEntry = songMap.entrySet().stream().min((entry1, entry2) -> {
+                    int revenueComparison = entry2.getValue().compareTo(entry1.getValue());
+
+                    if (revenueComparison == 0) {
+                        // If revenues are equal, sort alphabetically by song name
+                        return entry1.getKey().compareTo(entry2.getKey());
+                    } else {
+                        return revenueComparison;
+                    }
+                })
+                .orElse(null);
 
         mostProfitableSong = maxEntry.getKey();
     }

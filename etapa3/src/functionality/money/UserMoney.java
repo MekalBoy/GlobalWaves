@@ -12,6 +12,7 @@ public final class UserMoney {
     private boolean isPremium = false;
     // LinkedList allows duplicates
     private List<Song> premiumSongs = new LinkedList<Song>();
+    private List<Song> freeSongs = new LinkedList<Song>();
 
     /**
      * Toggles premium status on and off.
@@ -35,5 +36,20 @@ public final class UserMoney {
      */
     public void clearPremiumSongs() {
         premiumSongs.clear();
+    }
+
+    /**
+     * Adds the song to the list of listened songs while free.
+     * @param song Song object to add
+     */
+    public void addToFreeSongs(final Song song) {
+        freeSongs.add(song);
+    }
+
+    /**
+     * Clears the free songs list.
+     */
+    public void clearFreeSongs() {
+        freeSongs.clear();
     }
 }

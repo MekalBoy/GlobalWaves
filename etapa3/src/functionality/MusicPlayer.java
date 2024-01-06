@@ -1,6 +1,7 @@
 package functionality;
 
 import data.*;
+import functionality.money.MoneyManager;
 import functionality.wrapped.Wrapped;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,11 @@ public class MusicPlayer {
 
     private final int windingSpeed = 90; // used for forward/backward
 
+    // used for ad
+    private boolean hasAd = false;
+    private int payTimestamp; // when timestamp is reached, payment is given
+    private int payAmount; // the amount paid to the artists
+
     private Wrapped wrappedStats;
     private User owner;
 
@@ -67,6 +73,7 @@ public class MusicPlayer {
         remainedTime = 0;
         repeatType = RepeatType.NO;
         shuffle = false;
+        hasAd = false;
     }
 
     private void updatePodcasts() {
@@ -168,6 +175,7 @@ public class MusicPlayer {
 
         if (remainedTime <= 0) {
             int leftover = -remainedTime;
+            tryPayAd();
 
             if (!currentlyLoaded.isCollection()) { // It was a single song, check for repeat type
                 switch (repeatType) {
@@ -471,6 +479,31 @@ public class MusicPlayer {
         }
 
         playAudio(prevFile);
+    }
+
+    /**
+     * Inserts an ad into the play queue.
+     */
+    public void insertAd(final int price, final int timestamp) {
+        final int adDuration = 10;
+        // this is a hack, don't do this in production
+        remainedTime += adDuration;
+
+        this.payAmount = price;
+        this.payTimestamp = timestamp + adDuration;
+        hasAd = true;
+    }
+
+    /**
+     * Pays the ad's bounty to the artists.
+     */
+    public void tryPayAd() {
+        if (!hasAd || payTimestamp > lastUpdateTime) {
+            return;
+        }
+
+        MoneyManager.getInstance().payAdverts(owner, payAmount);
+        hasAd = false;
     }
 
     /**
