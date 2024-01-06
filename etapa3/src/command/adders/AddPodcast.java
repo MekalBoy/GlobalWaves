@@ -2,6 +2,7 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
+import data.CreatorNotification;
 import data.Episode;
 import data.Podcast;
 import data.User;
@@ -35,6 +36,10 @@ public class AddPodcast extends Command {
             library.addPodcast(podcast);
             user.addPodcast(podcast);
             message = this.username + " has added new podcast successfully.";
+
+            // notify subscribers
+            user.notifyAllSubs(new CreatorNotification("New Podcast",
+                    "New Podcast from " + user.getUsername() + "."));
         }
 
         return new ResponseMsg(this, message);

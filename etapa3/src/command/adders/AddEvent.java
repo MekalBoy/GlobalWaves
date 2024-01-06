@@ -3,6 +3,7 @@ package command.adders;
 import command.Command;
 import command.response.ResponseMsg;
 import data.ArtistEvent;
+import data.CreatorNotification;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,10 @@ public class AddEvent extends Command {
             ArtistEvent event = new ArtistEvent(name, description, date);
             user.addArtistEvent(event);
             message = username + " has added new event successfully.";
+
+            // notify subscribers
+            user.notifyAllSubs(new CreatorNotification("New Event",
+                    "New Event from " + user.getUsername() + "."));
         }
 
         return new ResponseMsg(this, message);

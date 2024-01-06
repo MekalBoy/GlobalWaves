@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter @Setter
@@ -39,6 +40,12 @@ public class User implements ISelectable {
     // Host only
     private List<Podcast> podcastList = new ArrayList<Podcast>();
     private List<Announcement> announcementList = new ArrayList<Announcement>();
+
+    // Users subscribed to this person's notifications
+    private List<User> subscriberList = new ArrayList<User>();
+    // Unread notifications list
+    private List<CreatorNotification> notificationList =
+            new LinkedList<CreatorNotification>();
 
     public User() {
     }
@@ -164,6 +171,43 @@ public class User implements ISelectable {
     public void removeAnnouncement(final String announcementName) {
         announcementList.removeIf(announcement
                 -> announcement.getName().equals(announcementName));
+    }
+
+    /**
+     * Adds or removes the user in the creator's subscriber list.
+     * @return true if the user is now in; false if the user has been removed
+     */
+    public boolean subscribeUnsubscribe(final User user) {
+        if (subscriberList.contains(user)) {
+            subscriberList.remove(user);
+            return false;
+        } else {
+            subscriberList.add(user);
+            return true;
+        }
+    }
+
+    /**
+     * Notifies every subscriber of the latest notification.
+     */
+    public void notifyAllSubs(final CreatorNotification notification) {
+        for (User user : subscriberList) {
+            user.addNotification(notification);
+        }
+    }
+
+    /**
+     * Adds a notification to a user's notifications list.
+     */
+    public void addNotification(final CreatorNotification notification) {
+        notificationList.add(notification);
+    }
+
+    /**
+     * Clears the notifications list.
+     */
+    public void clearNotifications() {
+        notificationList.clear();
     }
 
     /**

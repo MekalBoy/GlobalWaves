@@ -3,6 +3,7 @@ package command.adders;
 import command.Command;
 import command.response.ResponseMsg;
 import data.Announcement;
+import data.CreatorNotification;
 import data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,10 @@ public class AddAnnouncement extends Command {
         } else {
             user.addAnnouncement(new Announcement(name, description));
             message = this.username + " has successfully added new announcement.";
+
+            // notify subscribers
+            user.notifyAllSubs(new CreatorNotification("New Announcement",
+                    "New Announcement from " + user.getUsername() + "."));
         }
 
         return new ResponseMsg(this, message);

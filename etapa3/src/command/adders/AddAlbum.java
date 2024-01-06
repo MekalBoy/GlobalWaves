@@ -3,6 +3,7 @@ package command.adders;
 import command.Command;
 import command.response.ResponseMsg;
 import data.Album;
+import data.CreatorNotification;
 import data.Song;
 import data.User;
 import lombok.Getter;
@@ -44,6 +45,10 @@ public class AddAlbum extends Command {
             );
             user.addAlbum(album);
             message = this.username + " has added new album successfully.";
+
+            // notify subscribers
+            user.notifyAllSubs(new CreatorNotification("New Album",
+                    "New Album from " + user.getUsername() + "."));
         }
 
         return new ResponseMsg(this, message);

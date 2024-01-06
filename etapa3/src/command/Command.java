@@ -70,7 +70,9 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = CancelPremium.class, name = "cancelPremium"),
         @JsonSubTypes.Type(value = AdBreak.class, name = "adBreak"),
         @JsonSubTypes.Type(value = BuyMerch.class, name = "buyMerch"),
-        @JsonSubTypes.Type(value = SeeMerch.class, name = "seeMerch")
+        @JsonSubTypes.Type(value = SeeMerch.class, name = "seeMerch"),
+        @JsonSubTypes.Type(value = CommandSubscribe.class, name = "subscribe"),
+        @JsonSubTypes.Type(value = GetNotifications.class, name = "getNotifications")
 })
 @Getter @Setter
 public abstract class Command {

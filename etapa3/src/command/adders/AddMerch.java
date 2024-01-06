@@ -2,6 +2,7 @@ package command.adders;
 
 import command.Command;
 import command.response.ResponseMsg;
+import data.CreatorNotification;
 import data.Merch;
 import data.User;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class AddMerch extends Command {
         } else {
             user.addMerch(new Merch(name, price, description));
             message = username + " has added new merchandise successfully.";
+
+            // notify subscribers
+            user.notifyAllSubs(new CreatorNotification("New Merchandise",
+                    "New Merchandise from " + user.getUsername() + "."));
         }
 
         return new ResponseMsg(this, message);
