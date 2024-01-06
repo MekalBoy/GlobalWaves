@@ -161,12 +161,16 @@ public final class MoneyManager {
 
     /**
      * Update the artist rankings based on songRevenue and merchRevenue.
+     * <p>
+     * # Generative AI has been used here.
      */
     private void updateRankings() {
         List<Map.Entry<String, ArtistMoney>> sortedArtists = artistDatabase.entrySet().stream()
                 .sorted((entry1, entry2) -> {
-                    double totalRevenue1 = entry1.getValue().getSongRevenue() + entry1.getValue().getMerchRevenue();
-                    double totalRevenue2 = entry2.getValue().getSongRevenue() + entry2.getValue().getMerchRevenue();
+                    double totalRevenue1 = entry1.getValue().getSongRevenue()
+                            + entry1.getValue().getMerchRevenue();
+                    double totalRevenue2 = entry2.getValue().getSongRevenue()
+                            + entry2.getValue().getMerchRevenue();
 
                     int totalRevenueComparison = Double.compare(totalRevenue2, totalRevenue1);
 

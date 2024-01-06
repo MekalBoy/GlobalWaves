@@ -1,5 +1,6 @@
-package command;
+package command.stats;
 
+import command.Command;
 import command.response.Response;
 import command.response.ResponseMsg;
 import command.response.ResponseResultString;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class SeeMerch extends Command {
     @Override
-    public Response processCommand() {
+    public final Response processCommand() {
         String message = null;
         List<String> result = new ArrayList<String>();
 

@@ -1,5 +1,6 @@
-package command;
+package command.monetization;
 
+import command.Command;
 import command.response.ResponseMsg;
 import data.Library;
 import data.User;
@@ -27,12 +28,14 @@ public class BuyMerch extends Command {
             message = "The merch " + name + " doesn't exist.";
         } else {
             MoneyManager manager = MoneyManager.getInstance();
-            // buy merch
+
+            // pay artist
             User artist = user.getPage().getCreator();
-            MoneyManager.getInstance().getArtistDatabase().putIfAbsent(artist.getUsername(), new ArtistMoney());
+            manager.getArtistDatabase().putIfAbsent(artist.getUsername(), new ArtistMoney());
             ArtistMoney artistMoney = manager.getArtistDatabase().get(artist.getUsername());
             artistMoney.addMerchRevenue(artist.seekMerch(name));
 
+            // buy merch
             manager.getUserDatabase().putIfAbsent(username, new UserMoney());
             UserMoney userMoney = manager.getUserDatabase().get(username);
             userMoney.addToMerchList(artist.seekMerch(name));

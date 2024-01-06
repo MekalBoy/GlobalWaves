@@ -2,6 +2,10 @@ package command;
 
 import com.fasterxml.jackson.annotation.*;
 import command.adders.*;
+import command.monetization.AdBreak;
+import command.monetization.BuyMerch;
+import command.monetization.BuyPremium;
+import command.monetization.CancelPremium;
 import command.removers.*;
 import command.response.Response;
 import command.stats.*;

@@ -1,5 +1,6 @@
-package command;
+package command.monetization;
 
+import command.Command;
 import command.response.ResponseMsg;
 import data.Library;
 import data.User;
