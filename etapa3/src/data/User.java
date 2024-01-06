@@ -109,6 +109,20 @@ public class User implements ISelectable {
     }
 
     /**
+     * Returns a merch by its name.
+     * @return Merch object if found; null otherwise
+     */
+    public Merch seekMerch(final String name) {
+        for (Merch merch : merchList) {
+            if (merch.getName().equals(name)) {
+                return merch;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Adds a new event to the artist's list.
      */
     public void addArtistEvent(final ArtistEvent artistEvent) {

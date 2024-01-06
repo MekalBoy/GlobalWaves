@@ -1,9 +1,11 @@
 package functionality.money;
 
+import data.Merch;
 import data.Song;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public final class UserMoney {
     // LinkedList allows duplicates
     private List<Song> premiumSongs = new LinkedList<Song>();
     private List<Song> freeSongs = new LinkedList<Song>();
+    private List<Merch> boughtMerch = new ArrayList<Merch>();
 
     /**
      * Toggles premium status on and off.
@@ -51,5 +54,12 @@ public final class UserMoney {
      */
     public void clearFreeSongs() {
         freeSongs.clear();
+    }
+
+    /**
+     * Adds the merch to the list of bought stuff.
+     */
+    public void addToMerchList(final Merch merch) {
+        boughtMerch.add(merch);
     }
 }

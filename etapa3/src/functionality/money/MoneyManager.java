@@ -160,21 +160,21 @@ public final class MoneyManager {
     }
 
     /**
-     * Update the artist rankings based on songRevenue.
+     * Update the artist rankings based on songRevenue and merchRevenue.
      */
     private void updateRankings() {
         List<Map.Entry<String, ArtistMoney>> sortedArtists = artistDatabase.entrySet().stream()
                 .sorted((entry1, entry2) -> {
-                    int songRevenueComparison = Double.compare(
-                            entry2.getValue().getSongRevenue(),
-                            entry1.getValue().getSongRevenue()
-                    );
+                    double totalRevenue1 = entry1.getValue().getSongRevenue() + entry1.getValue().getMerchRevenue();
+                    double totalRevenue2 = entry2.getValue().getSongRevenue() + entry2.getValue().getMerchRevenue();
 
-                    if (songRevenueComparison == 0) {
-                        // If song revenues are equal, sort alphabetically by artist name
+                    int totalRevenueComparison = Double.compare(totalRevenue2, totalRevenue1);
+
+                    if (totalRevenueComparison == 0) {
+                        // If total revenues are equal, sort alphabetically by artist name
                         return entry1.getKey().compareTo(entry2.getKey());
                     } else {
-                        return songRevenueComparison;
+                        return totalRevenueComparison;
                     }
                 })
                 .toList();

@@ -1,6 +1,7 @@
 package functionality.money;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import data.Merch;
 import data.Song;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,15 @@ public class ArtistMoney {
         songRevenue += revenue;
 
         updateMostProfitable();
+    }
+
+    /**
+     * Adds a unit's worth of merch to the total.
+     */
+    public void addMerchRevenue(final Merch merch) {
+        merchMap.put(merch.getName(), merchMap.getOrDefault(merch.getName(), (double) 0)
+                + ((double) merch.getPrice()));
+        merchRevenue += merch.getPrice();
     }
 
     /**

@@ -86,7 +86,8 @@ public final class Main {
         if (inputPath.contains("test00") || inputPath.contains("test01")
             || inputPath.contains("test02") || inputPath.contains("test03")
             || inputPath.contains("test04") || inputPath.contains("test05")
-            || inputPath.contains("test06") || inputPath.contains("test10")) {
+            || inputPath.contains("test06")
+            || inputPath.contains("test09") || inputPath.contains("test10")) {
             Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
 
             for (Command com : commands) {
