@@ -235,14 +235,4 @@ public class User implements ISelectable {
     public final boolean isCollection() {
         return false;
     }
-
-    @Override
-    public final AudioFile getNextAfter(final AudioFile file) {
-        return null;
-    }
-
-    @Override
-    public final AudioFile getPrevBefore(final AudioFile file) {
-        return null;
-    }
 }

@@ -3,7 +3,7 @@ package data;
 public interface ISelectable {
 
     /**
-     * Method should return SONG, PLAYLIST, PODCAST or null.
+     * @return The object's type. See ISelectable.SearchType
      */
     SearchType getType();
 
@@ -22,13 +22,17 @@ public interface ISelectable {
      * @param file AudioFile present in the collection
      * @return The next audio file if there's still other audio in the collection, or null.
      */
-    AudioFile getNextAfter(AudioFile file);
+    default AudioFile getNextAfter(AudioFile file) {
+        return null;
+    }
 
     /**
      * @param file AudioFile present in the collection
      * @return The previous audio file if the provided one isn't the first, or null.
      */
-    AudioFile getPrevBefore(AudioFile file);
+    default AudioFile getPrevBefore(AudioFile file) {
+        return null;
+    }
 
     enum SearchType {
         SONG,
