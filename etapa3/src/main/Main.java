@@ -83,23 +83,16 @@ public final class Main {
         MoneyManager.resetMonetization();
 
         String inputPath = "input/" + filePathInput;
-        if (inputPath.contains("test00") || inputPath.contains("test01")
-            || inputPath.contains("test02") || inputPath.contains("test03")
-            || inputPath.contains("test04") || inputPath.contains("test05")
-            || inputPath.contains("test06") || inputPath.contains("test07")
-            || inputPath.contains("test08") || inputPath.contains("test09")
-            || inputPath.contains("test10")) {
-            Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
+        Command[] commands = objectMapper.readValue(new File(inputPath), Command[].class);
 
-            for (Command com : commands) {
-                outputs.add(objectMapper.valueToTree(com.processCommand()));
-            }
-
-            // End of the file monetization statistics
-            // this breaks backwards compatibility with previous stages
-            Command endProgram = new EndProgram();
-            outputs.add(objectMapper.valueToTree(endProgram.processCommand()));
+        for (Command com : commands) {
+            outputs.add(objectMapper.valueToTree(com.processCommand()));
         }
+
+        // End of the file monetization statistics
+        // this breaks backwards compatibility with previous stages
+        Command endProgram = new EndProgram();
+        outputs.add(objectMapper.valueToTree(endProgram.processCommand()));
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

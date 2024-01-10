@@ -1,14 +1,28 @@
 package command;
 
 import com.fasterxml.jackson.annotation.*;
-import command.adders.*;
+import command.adders.AddAlbum;
+import command.adders.AddAnnouncement;
+import command.adders.AddEvent;
+import command.adders.AddMerch;
+import command.adders.AddPodcast;
+import command.adders.AddUser;
+import command.adders.CreatePlaylist;
 import command.monetization.AdBreak;
 import command.monetization.BuyMerch;
 import command.monetization.BuyPremium;
 import command.monetization.CancelPremium;
-import command.removers.*;
+import command.removers.DeleteUser;
+import command.removers.RemoveAlbum;
+import command.removers.RemoveAnnouncement;
+import command.removers.RemoveEvent;
+import command.removers.RemovePodcast;
 import command.response.Response;
 import command.stats.*;
+import command.unimplemented.LoadRecommendations;
+import command.unimplemented.NextPage;
+import command.unimplemented.PreviousPage;
+import command.unimplemented.UpdateRecommendations;
 import data.Library;
 import lombok.Getter;
 import lombok.Setter;
@@ -72,7 +86,12 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = BuyMerch.class, name = "buyMerch"),
         @JsonSubTypes.Type(value = SeeMerch.class, name = "seeMerch"),
         @JsonSubTypes.Type(value = CommandSubscribe.class, name = "subscribe"),
-        @JsonSubTypes.Type(value = GetNotifications.class, name = "getNotifications")
+        @JsonSubTypes.Type(value = GetNotifications.class, name = "getNotifications"),
+        // unimplemented
+        @JsonSubTypes.Type(value = UpdateRecommendations.class, name = "updateRecommendations"),
+        @JsonSubTypes.Type(value = LoadRecommendations.class, name = "loadRecommendations"),
+        @JsonSubTypes.Type(value = PreviousPage.class, name = "previousPage"),
+        @JsonSubTypes.Type(value = NextPage.class, name = "nextPage")
 })
 @Getter @Setter
 public abstract class Command {
